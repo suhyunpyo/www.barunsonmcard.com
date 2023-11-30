@@ -1,0 +1,393 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="./lib/jcrop/dist/jcrop.css" />
+    <link rel="stylesheet" href="./lib/jcrop/edit/jcrop_edit.css" />
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap-reboot.min.css" />
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap-grid.min.css" />
+    <link rel="stylesheet" href="./lib/jquery-ui-rotatable/jquery.ui.rotatable.css" />
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./lib/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="./css/site.css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="./lib/jquery-ui-rotatable/jquery.ui.rotatable.min.js"></script>
+    <script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <style>
+        #item-section {
+            float: left;
+        }
+
+        #tool-section {
+            float: left;
+        }
+
+        #edit-section {
+            float: left;
+        }
+
+        .item-area {
+            width: 40px;
+            min-height: 800px;
+            background-color: #ccc;
+        }
+
+        ul.item-type {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            ul.item-type li {
+                margin: 2px;
+                border: 0px solid;
+            }
+
+        .tool-area {
+            width: 300px;
+            min-height: 800px;
+            background-color: #888;
+        }
+
+        .edit-area {
+            min-width: 800px;
+            width: 100%;
+            min-height: 800px;
+            background-color: #ddd;
+        }
+
+        .object {
+            position: absolute;
+        }
+    </style>
+    <script>
+
+        var objects = [];
+        var item = function () {
+            return {
+                id: '',
+                zindex: 0,
+                type: 'square',
+                font: {
+                    family: '',
+                    size: '',
+                    style: ''
+                }
+            };
+        }
+
+        $(document).ready(function () {
+
+            $('.object').each(function (e) {
+                var obj = new item();
+                obj.id = $(this).attr('id');
+                obj.zindex = $(this).css('z-index');
+
+                objects.push(obj);
+            });
+
+            objectSort();
+
+            $('.item').on('click', function (e) {
+                var itemType = $(this).data('type');
+
+                if (itemType == 'text') {
+                    // 텍스트 추가
+
+                }
+                else if (itemType == 'image') {
+                    // 이미지 추가
+                    $('#uploadimage').click();
+
+                }
+
+            });
+
+            $('.object').click(function (e) {
+                selectObject($(this), e);
+            });
+
+            $('.object').dblclick(function (e) {
+                //selectObject($(this), e);
+
+                // 에디트모드 등록
+                var dataHtml = $(this).html();
+
+                $(this).html('');
+                $(this).addClass('edit');
+
+                // iframe 형태
+                var ef = document.createElement('iframe');
+                ef.name = 'editframe'
+                $(ef).addClass('editable');
+                $(this)[0].appendChild(ef);
+                editframe.document.designMode = "On"
+                editframe.document.body.innerHTML = dataHtml;
+                editframe.document.body.style = 'margin:0; overflow:hidden;word-break:break-all;'
+                
+            });
+
+            $('body').click(function (e) {
+                destoryEvent();
+            });
+
+            $('.tool-area').click(function (e) {
+                e.stopPropagation();
+            });
+
+            $('#uploadimage').on('change', function (e) {
+                if ($(this).val().length() > 0) {
+                }
+            });
+
+            $(document).keydown(function (event) {
+                if (event.keyCode == 46) {
+                    $('div[class~="ui-resizable"]').remove();
+                }
+            });
+
+            $('#textfont').change(function (e) {
+                $('.object').each(function (e) {
+                    if ($(this).hasClass('ui-resizable')) {
+                        $(this).css('font-family', "Nanum Myeongjo, serif");
+                    }
+                });
+            });
+
+            $('.arrange').click(function (e) {
+                if ($(this).hasClass('btn_forward')) {
+                    var selected = $('div[class~="ui-resizable"]');
+                    for (var a = 0; a < objects.length; a++) {
+                        if (a < objects.length - 1) {
+                            if (objects[a].id == selected.attr('id')) {
+                                var curZindex = objects[a].zindex;
+                                var nextZindex = objects[a + 1].zindex;
+
+                                selected.css('z-index', nextZindex);
+                                $('#' + objects[a + 1].id).css('z-index', curZindex);
+
+                                objects[a].zindex = nextZindex;
+                                objects[a + 1].zindex = curZindex;
+
+                                break;
+                            }
+                        }
+                    }
+                }
+                else if ($(this).hasClass('btn_front')) {
+                    var selected = $('div[class~="ui-resizable"]');
+                    var checked = false;
+                    var curZindex = 0;
+                    var lastZindex = 0;
+                    for (var a = 0; a < objects.length; a++) {
+                        if (a < objects.length - 1) {
+                            if (objects[a].id == selected.attr('id')) {
+                                checked = true;
+                                lastZindex = objects[objects.length - 1].zindex;
+                                curZindex = objects[a].zindex;
+
+                                selected.css('z-index', lastZindex);
+                                objects[a].zindex = lastZindex;
+                            }
+                        }
+                        if (checked) {
+                            if (a + 1 < objects.length) {
+                                var tmpZindex = objects[a + 1].zindex;
+                                $('#' + objects[a + 1].id).css('z-index', curZindex);
+                                objects[a + 1].zindex = curZindex;
+                                curZindex = tmpZindex;
+                            }
+                        }
+                    }
+                }
+                else if ($(this).hasClass('btn_backward')) {
+                    var selected = $('div[class~="ui-resizable"]');
+                    for (var a = objects.length - 1; a >= 0; a--) {
+                        if (a > 0) {
+                            if (objects[a].id == selected.attr('id')) {
+                                var curZindex = objects[a].zindex;
+                                var prevZindex = objects[a - 1].zindex;
+
+                                selected.css('z-index', prevZindex);
+                                $('#' + objects[a - 1].id).css('z-index', curZindex);
+
+                                objects[a].zindex = prevZindex;
+                                objects[a - 1].zindex = curZindex;
+
+                                break;
+                            }
+                        }
+                    }
+                }
+                else if ($(this).hasClass('btn_back')) {
+                    var selected = $('div[class~="ui-resizable"]');
+                    var checked = false;
+                    var curZindex = 0;
+                    var firstZindex = 0;
+                    for (var a = objects.length - 1; a >= 0; a--) {
+                        if (a > 0) {
+                            if (objects[a].id == selected.attr('id')) {
+                                checked = true;
+                                firstZindex = objects[0].zindex;
+                                curZindex = objects[a].zindex;
+
+                                selected.css('z-index', firstZindex);
+                                objects[a].zindex = firstZindex;
+                            }
+                        }
+                        if (checked) {
+                            if (a - 1 >= 0) {
+                                var tmpZindex = objects[a - 1].zindex;
+                                $('#' + objects[a - 1].id).css('z-index', curZindex);
+                                objects[a - 1].zindex = curZindex;
+                                curZindex = tmpZindex;
+                            }
+                        }
+                    }
+                }
+
+                objectSort();
+                e.stopPropagation();
+            });
+        });
+
+        function destoryEvent() {
+            $('.object').each(function (e) {
+                if ($(this).hasClass('ui-resizable')) {
+                    
+                    $(this).removeClass('edit');
+                    $(this).resizable('destroy');
+                    $(this).draggable('destroy');
+
+
+                    // iframe 형태
+                    if ($(this).find('iframe').length > 0) {
+                        var htmlData = editframe.document.body.innerHTML;
+
+                        $(this).html(htmlData);
+                    }
+
+                    $(this).find('iframe').remove();
+                }
+            });
+
+            $('.object').removeClass('edit-widget active')
+            $('.object').find('div[class~="edit-handle"]').remove();
+        }
+
+        function objectSort() {
+            objects.sort(function (a, b) {
+                return a.zindex < b.zindex ? -1 : a.zindex > b.zindex ? 1 : 0;
+            });
+        }
+
+        function selectObject(jobj, event) {
+            destoryEvent();
+
+            if (!jobj.hasClass('ui-resizable')) {
+
+                jobj.resizable({
+                    containment: "parent",
+                    handles: "all",
+                    resize: function (event, ui) {
+                        //
+                    }
+                });
+                jobj.draggable({ containment: "parent", disabled: false });
+
+                jobj.addClass('edit-widget active');
+
+                var direction = ['n', 'w', 's', 'e', 'sw', 'nw', 'ne', 'se'];
+
+                for (var a = 0; a < direction.length; a++) {
+                    var editHandle = document.createElement('div');
+                    editHandle.setAttribute('class', 'edit-handle ' + direction[a]);
+                    jobj[0].appendChild(editHandle);
+                }
+
+            }
+
+            event.stopPropagation();
+        }
+
+
+    </script>
+</head>
+<body>
+    <section id="item-section">
+        <div class="item-area">
+            <ul class="item-type">
+                <li><button type="button" class="item btn btn-sm btn-default" data-type="text"><span class="fa fa-font"> </span></button></li>
+                <li><button type="button" class="item btn btn-sm btn-default" data-type="image"><span class="fa fa-image"> </span></button></li>
+            </ul>
+        </div>
+    </section>
+    <section id="tool-section">
+        <div class="tool-area">
+            <select id="textfont">
+                <option value="1">나눔고딕</option>
+                <option value="2">나눔명조</option>
+            </select>
+            <button type="button" class="arrange btn_front" style="width:23px; height:23px; border:1px solid #ddd;"></button>
+            <button type="button" class="arrange btn_forward" style="width:23px; height:23px; border:1px solid #ddd;"></button>
+            <button type="button" class="arrange btn_backward" style="width:23px; height:23px; border:1px solid #ddd;"></button>
+            <button type="button" class="arrange btn_back" style="width:23px; height:23px; border:1px solid #ddd;"></button>
+        </div>
+    </section>
+    <section id="edit-section">
+        <div class="edit-area">
+            <div id="tool1" class="object" style="width:100px; height:100px; top:100px; background:red; z-index:3;"><div data-type="text">aaaaa김나와라 뚝딱</div></div>
+            <div id="tool2" class="object" style="width:100px; height:100px; top:200px; background:green; z-index:4;"></div>
+            <div id="tool3" class="object" style="width:100px; height:100px; top:300px; background:gray; z-index:2;"></div>
+            <div id="tool4" class="object" style="width:100px; height:100px; top:400px; background:black; z-index:1;"></div>
+            <div id="tool5" class="object" style="width:100px; height:100px; top:500px; background:blue; z-index:6;"></div>
+            <div id="tool6" class="object" style="width:100px; height:100px; top:600px; background:yellow; z-index:5;"></div>
+        </div>
+    </section>
+
+    <form id="frmUpload" action="/ImageUpload" method="post" enctype="multipart/form-data">
+        <input type="file" id="uploadimage" name="image" style="display:none;" />
+    </form>
+
+    <!--
+            <form name= form method=post action="test.php">
+                <A href="javascript:htmledit('cut');">자르기</A>
+                <A href="javascript:htmledit('copy');">복사</A>
+                <A href="javascript:htmledit('paste');">붙여넣기</A>
+                <A href="javascript:htmledit('justifyleft');">좌측정렬</A>
+                <A href="javascript:htmledit('justifycenter');">중심정렬</A>
+                <A href="javascript:htmledit('justifyright');">우측정렬</A>
+                <A href="javascript:htmledit('insertorderedlist');">점표시목록</A>
+                <A href="javascript:htmledit('insertunorderedlist');">숫자목록</A>
+                <A href="javascript:htmledit('outdent');">들여쓰기줄이기</A>
+                <A href="javascript:htmledit('indent');">들여쓰기늘이기</A>
+                <A href="javascript:htmledit('createlink');">링크</A><BR>
+                글꼴 &gt;
+                <A href="javascript:htmledit('fontname','굴림');">굴림</A>
+                <A href="javascript:htmledit('fontname','궁서');">궁서</A>
+                글크기 &gt;
+                <A href="javascript:htmledit('fontSize',2);">2</A>
+                <A href="javascript:htmledit('fontSize',3);">3</A>
+                <A href="javascript:htmledit('fontSize',4);">4</A>
+                <A href="javascript:htmledit('bold');">볼드</A>
+                <A href="javascript:htmledit('italic');">이탤릭</A>
+                <A href="javascript:htmledit('underline');">언더라인</A>
+                <A href="javascript:htmledit('fontname');">언더라인</A>
+                <P><IFRAME NAME=dhtmlframe></IFRAME>
+                <P><TEXTAREA NAME="comment" ROWS="3"></TEXTAREA></P>
+                <P>
+                    <input type="submit" value="확인" Onclick="datasubmit()">
+                    <SCRIPT LANGUAGE="JavaScript">
+                        dhtmlframe.document.designMode = "On"
+                    </SCRIPT>
+
+            </form>
+
+    -->
+</body>
+</html>

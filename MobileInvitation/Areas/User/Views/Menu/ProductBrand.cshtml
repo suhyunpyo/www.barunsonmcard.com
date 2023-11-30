@@ -1,0 +1,211 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/intro.css">
+<script>
+    $(function () {
+
+        var headerHeight = $('.header').outerHeight();
+
+        $('.intro01 a').click(function () {
+
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top - headerHeight
+            }, 500);
+            return false;
+        });
+    });
+</script>
+<!-- //header -->
+<section class="intro product_brand">
+    <!-- 배너 -->
+    <div class="banner_wrap">
+        <!-- pc 배너 -->
+        <div class="intro_pc">
+            <img src="/img/intro/productBrand/intro_banner.jpg" alt="진심을 가득 담은 특별한 초대, 바른 청첩장" />
+        </div>
+        <!-- mobile 배너 -->
+        <div class="intro_m">
+            <img src="/img/intro/productBrand/m_intro_banner.jpg" alt="진심을 가득 담은 특별한 초대, 바른 청첩장" />
+        </div>
+    </div>
+    <!-- //배너 -->
+    <!-- 브랜드 리스트 메뉴 -->
+    <div class="intro_con intro01">
+        <div class="area">
+            <ul>
+                <li>
+                    <a href="#brand01">
+                        <img src="/img/intro/productBrand/logo01.jpg" alt="바른손카드 로고" />
+                        <span>바른손카드</span>
+                    </a>
+                </li>
+                <!--
+                <li>
+                    <a href="#brand02">
+                        <img src="/img/intro/productBrand/logo03.jpg" alt="더카드 로고" />
+                        <span>더카드</span>
+                    </a>
+                </li>
+                -->
+                <li>
+                    <a href="#brand03">
+                        <img src="/img/intro/productBrand/logo02.jpg" alt="프리미어페이퍼 로고" />
+                        <span>프리미어페이퍼</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#brand04">
+                        <img src="/img/intro/productBrand/logo04.jpg" alt="디얼디어 로고" />
+                        <span>디얼디어</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- //브랜드 리스트 메뉴 -->
+    <!-- 브랜드 리스트 -->
+    <div class="intro_con intro02">
+        <div class="area">
+            <ul>
+                <li id="brand01">
+                    <div class="intro_pc">
+                        <a href="https://www.barunsoncard.com/" target="_blank"><img src="/img/intro/productBrand/img01_1.png" alt="바른손카드" /></a>
+                    </div>
+                    <div class="intro_m">
+                        <a href="https://m.barunsoncard.com/" target="_blank"><img src="/img/intro/productBrand/m_img01_1.png" alt="바른손카드" /></a>
+                    </div>
+                </li>
+                <!--
+                <li id="brand02">
+                    <div class="intro_pc">
+                        <a href="https://www.thecard.co.kr/default.asp" target="_blank"><img src="/img/intro/productBrand/img01_2.png" alt="더카드" /></a>
+                    </div>
+                    <div class="intro_m">
+                        <a href="https://m.thecard.co.kr/mobile/m/default.asp" target="_blank"><img src="/img/intro/productBrand/m_img01_2.png" alt="더카드" /></a>
+                    </div>
+                </li>
+                -->
+                <li id="brand03">
+                    <div class="intro_pc">
+                        <a href="https://www.premierpaper.co.kr/" target="_blank"><img src="/img/intro/productBrand/img01_3.png" alt="프리미어페이퍼" /></a>
+                    </div>
+                    <div class="intro_m">
+                        <a href="https://m.premierpaper.co.kr/mobile/m/default.asp?" target="_blank"><img src="/img/intro/productBrand/m_img01_3.png" alt="프리미어페이퍼" /></a>
+                    </div>
+                </li>
+                <li id="brand04">
+                    <div class="intro_pc">
+                        <a href="https://deardeer.kr" target="_blank"><img src="/img/intro/productBrand/img01_4.png" alt="디얼디어" /></a>
+                    </div>
+                    <div class="intro_m">
+                        <a href="https://deardeer.kr" target="_blank"><img src="/img/intro/productBrand/m_img01_4.png" alt="디얼디어" /></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- //브랜드 리스트 -->
+    <!-- 청첩장 준비 시 체크사항 -->
+    <div class="intro_con intro03 check_list">
+        <h2>
+            # CHECK POINT <br />
+            <strong>청첩장 준비 시 꼭 체크하세요</strong>
+        </h2>
+        <div class="area">
+            <ul>
+                <li>
+                    <div>
+                        <h3>예상 수량 정하기</h3>
+                        <p class="info_text">
+                            평균적으로 300매 정도 구매하시는 편이고, 그 외 30% 추가 구매가 이뤄집니다. <br/>
+                            <strong>구매 전 여유수량을 반드시 확인</strong>하셔야 합니다.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>초대 인사말</h3>
+                        <p class="info_text">
+                            청첩장 제작하는 과정에서 초대 인사말은 제일 고민이 많이 되는 부분입니다.  <br />
+                            꼭! <strong>양가 부모님과 상의 후 결정하세요.</strong>
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>혼주 서열</h3>
+                        <p class="info_text">
+                            사이트 내 표기법을 참고하신 후 양가 <strong>부모님과 상의</strong>하셔서 결정해야 합니다.  <br />
+                            천주교의 경우, 세례명 표기에 대해 사전 확인은 필수입니다.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>예식장 약도</h3>
+                        <p class="info_text">
+                            약도는 미리 검색하셔서 현재 <strong>예식장 정보와 일치하는지 체크</strong>하세요.  <br />
+                            주변 건물 정보, 혹은 교통편 등이 변경될 수 있습니다.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- //청첩장 준비 시 체크사항 -->
+    <!-- 청첩장 제작방법 -->
+    <div class="intro_con intro04 step_list">
+        <h2>
+            # 결혼준비의 마침표 <br />
+            <strong>청첩장 제작방법</strong>
+        </h2>
+        <div class="area">
+            <ol>
+                <li>
+                    <div>
+                        <h3>STEP 1</h3>
+                        <p class="info_text">
+                            사이트 내 다양한 청첩장 중 마음에 드는 <br />
+                            청첩장을 골라 <strong>샘플신청</strong>을 하세요.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>STEP 2</h3>
+                        <p class="info_text">
+                            직접 받아보신 다양한 샘플 중 <br />
+                            가장 마음에 드는 <strong>청첩장을 결정</strong>하세요.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>STEP 3</h3>
+                        <p class="info_text">
+                            신랑,신부님 그리고 부모님과 상의하여 <br />
+                            <strong>필요한 내용을 기입</strong> 하신 후 <strong>제작을 완료</strong>하세요.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>STEP 4</h3>
+                        <p class="info_text">
+                            주문하신 청첩장을 수령하시면 봉투에 <br />
+                            잘 담으신 후 <strong>소중한 분들께 전달</strong>해주세요.
+                        </p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- //청첩장 제작방법 -->
+
+</section>

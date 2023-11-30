@@ -1,0 +1,45 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@model OrderPayFinalModel;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "User_Layout_m";
+}
+<link rel="stylesheet" href="/css/m_order.css" asp-append-version="true">
+<script src="/js/complete/complete.js"></script>
+
+<!-- sub contents -->
+<section class="sub_contents order">
+    <div class="sub_con_wrap">
+        <div class="order_result">
+            <img src="/img/common/complete_icon.svg" alt="제작완료 체크 이미지"class="complete_img" />
+            <p class="result_text">
+                @Html.Raw(Model.Message)
+            </p>
+            <p class="order_number">
+                <strong> @Model.UserName 님의 주문번호</strong>
+                <span class="point03">@Model.OrderCode</span>
+            </p>
+            <div class="btn_wrap bottom type02 clear complete_bottom">
+                <a asp-action="Index" asp-controller="Main" class="btn type03_1">계속 쇼핑하기</a>
+                <a asp-action="Mypage" asp-controller="Member" class="btn type03">주문내역 확인</a>
+            </div>
+            <div class="complate_banner swiper-container">
+                <ul class="swiper-wrapper">
+                    <li class="swiper-slide">
+                        <a href="/event/minvitation" target="_blank"><img src="/img/order/m_order_banner_01.png" alt="제작완료 배너이미지"></a>
+                    </li>
+                    <li class="swiper-slide">
+                        <a href="https://barunsongshop.com" target="_blank"><img src="/img/order/m_order_banner_02.png" alt="제작완료 배너이미지"></a>
+                    </li>
+                </ul>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    
+}
+<!-- //sub contents -->

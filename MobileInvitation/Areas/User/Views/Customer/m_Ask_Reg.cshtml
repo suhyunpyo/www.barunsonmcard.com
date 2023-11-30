@@ -1,0 +1,396 @@
+﻿@using MobileInvitation.FunctionHelper;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "User_Layout_m";
+}
+<link rel="stylesheet" href="/css/m_customer.css">
+<style type="text/css">
+    .trSize {
+        height: 58px;
+    }
+
+    .tdSize {
+        width: 8.5%;
+        background: #f8f8f8
+    }
+
+
+    .tdRight {
+        text-align: right;
+    }
+
+    .tdLeft {
+        text-align: left;
+    }
+
+    .tdCenter {
+        text-align: center;
+    }
+
+    #formFileCollection {
+        display: none;
+    }
+</style>
+<!-- sub contents -->
+<section class="customer ask">
+    <div class="sub_con_wrap mypage_service">
+        <div class="sub_title_box">
+            <div class="area">
+                <h2><a href="./m_customer_index.html">1:1 문의</a></h2>
+            </div>
+        </div>
+        <!-- contents -->
+        <div class="mypage_con">
+            <!-- 1:1 문의 작성하기 -->
+
+            @using (Html.BeginForm("Ask_Save", "Customer", FormMethod.Post, new { id = "Save", enctype = "multipart/form-data", name = "Save" }))
+            {
+                @Html.Hidden("COMPANY_SEQ", 8070);
+                @Html.Hidden("SALES_GUBUN", "BM");
+
+                @Html.Hidden("Gubun", "");
+                @Html.Hidden("QNA_ID", ViewData["Qna_Id"]);
+            
+            <div class="table_wrap cs_table_wrap area">
+
+                @{
+                    int QNA_ID = ViewBag.Qna_Reg_View.QNA_ID;
+                    string NAME = ViewBag.Qna_Reg_View.NAME;
+                    string Title = ViewBag.Qna_Reg_View.TITLE;
+                    string Content = ViewBag.Qna_Reg_View.CONTENT;
+                    string ORDER_ID = ViewBag.Qna_Reg_View.ORDER_ID != null ? "M" + ViewBag.Qna_Reg_View.ORDER_ID.ToString() : "";
+                    string UPFILE_1 = !string.IsNullOrEmpty(ViewBag.Qna_Reg_View.UPFILE_1) ? ViewBag.Qna_Reg_View.UPFILE_1.Substring(ViewBag.Qna_Reg_View.UPFILE_1.LastIndexOf("/") + 1) : "";
+                    string UPFILE_2 = !string.IsNullOrEmpty(ViewBag.Qna_Reg_View.UPFILE_2) ? ViewBag.Qna_Reg_View.UPFILE_2.Substring(ViewBag.Qna_Reg_View.UPFILE_2.LastIndexOf("/") + 1) : "";
+                    string Order_Code = ViewBag.Qna_Reg_View.ORDER_CODE;
+                    string Q_KIND = ViewBag.Qna_Reg_View.Q_KIND;
+                }
+
+                <table class="table type01 ask_reg">
+                    <caption>1:1 문의 작성하기</caption>
+                    <tr>
+                        <th class="impt">문의유형</th>
+                        <td>
+                            <div class="select_grid_box">
+                                <div class="select_wrap consult_select01 type01">
+                                    <select name="" id="" class="select consult_select wp100">                                        
+                                        <option value="">모바일초대장</option>
+                                    </select>
+                                </div>
+                                <div class="select_wrap consult_select02 type01" style="display:inline-block">
+                                   <select asp-for="@Q_KIND" asp-items="ViewBag.Qna_Reg_View.Q_KIND_LIST" class="select consult_select wp100"></select>                                  
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="impt">제목</th>
+                        <td>
+                           <input type="text" asp-for="@Title" class="inp type02 wp100" />                                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="impt">
+                            주문번호
+                            <span class="check_box fr">
+                                <input type="checkbox" id="Order_Chk">
+                                <label for="Order_Chk">주문번호 없이 문의</label>
+                            </span>
+                        </th>
+                        <td>
+                            <div class="grid_box">
+                                <input type="text" asp-for="@Order_Code" class="inp type02 wp100" readonly />
+                                <input type="hidden" asp-for="@ORDER_ID" />                                
+                                <span class="btn_wrap type03">
+                                    <a href="#none"  id="Order_Search_pop" onclick="Order_Search_pop(0);" class="btn type03 wp100">검색</a>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>파일 첨부</th>
+                        <td>
+                            <div class="grid_box upfile_grid_box">
+                                <div class="upfile_input_box">
+                                    <input type="text" asp-for="@UPFILE_1" class="inp type02 ellipsis wp100 UPFILE_1" readonly />                                    
+                                    <button type="button" class="upfile_delete" onclick="fileDelete('UPFILE_1')"><i class="ico">파일 삭제</i></button>
+                                </div>
+                                <span class="btn_wrap type03">
+                                    <a name="Upload" href="#none" class="btn type03 w74">파일찾기</a>
+                                    <input type="file" id="formFileCollection" name="formFileCollection" @*accept="file_extension|audio/*|video/*|image/*|media_type"*@>
+                                </span>
+                            </div>
+                            <div class="grid_box upfile_grid_box">
+                                <div class="upfile_input_box">
+                                    <input type="text" asp-for="@UPFILE_2" class="inp type02 ellipsis wp100 UPFILE_2" readonly />                                    
+                                    <button type="button" class="upfile_delete" onclick="fileDelete('UPFILE_2')"><i class="ico">파일 삭제</i></button>
+                                </div>
+                                <span class="btn_wrap type03">
+                                    <a name="Upload" href="#none" class="btn type03 w74">파일찾기</a>
+                                    <input type="file" id="formFileCollection" name="formFileCollection" @*accept="file_extension|audio/*|video/*|image/*|media_type"*@>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>문의 내용</th>
+                        <td>
+                            <div class="text_area_wrap">
+                                <textarea name="Content" id="Content" cols="30" rows="10">@Content</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="btn_wrap bottom type01">
+                    <a href="javascript:;" class="btn type03">문의하기</a>
+                </div>
+                <!-- 주문번호 조회 팝업-->
+                <div class="pop_wrap on_search">
+                    <div class="layer_pop">
+                        <h3 class="tl">주문번호 조회</h3>
+                        <div class="on_search_con">
+                            <ol>
+    
+                            </ol>
+                        </div>
+                        <div class="btn_wrap pop_bottom type02">
+                            <a href="javascript:;" class="btn type03_1" onclick="popClose()">취소</a>
+                            <a href="javascript:;" class="btn type03">선택하기</a>
+                        </div>
+                    </div>
+                    <div class="pop_mask"></div>
+                </div>
+
+
+
+
+                <!-- //주문번호 조회 팝업-->
+            </div>
+
+
+            <!-- //1:1 문의 작성하기 -->
+            }
+        </div>
+        <!-- //contents -->
+    </div>
+</section>
+<!-- //sub contents -->
+@section Scripts
+{
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.js"></script>
+    <script src="/js/customer/customer.js"></script>
+
+    <script>
+
+        //문의유형 선택
+        $('.consult_select').on('change', function() {
+        
+            if( $('.consult_select01').find("option[value='none']").prop('selected') == true ){
+                $('.consult_select02').hide();
+                $(".consult_select02 option[value='none']").attr('selected','selected');
+            } else{ 
+
+                $('.consult_select02').css('display','inline-block');
+            }
+        });
+        
+        $("input:checkbox").on('click', function () {
+            if ($(this).prop('checked')) {
+                $("#Order_Code, #ORDER_ID").val("");
+            }
+        });
+
+        //파일 업로드
+        var fileTarget = $('[name=formFileCollection]');
+
+        $(".upfile_grid_box").each(function(){
+            var idx = $(this).index()+1;
+
+            $(this).find(fileTarget).on('change', function(){
+                var filename = "";
+
+                if (window.FileReader) {  // modern browser
+                    filename = $(this)[0].files[0].name;
+                    imgObj = $(this)[0].files[0];
+                } else {  // old IE
+                    filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
+                    imgObj = $(this);
+                }
+
+                var fileSize = $(this)[0].files[0];
+                var sizeInMb = fileSize.size / 1024;
+                var sizeLimit = 1024 * 10;
+
+                $('[name=UPFILE_'+idx+']').val(filename);
+                fileValue(idx);
+
+            });
+
+        });
+
+
+        // a 태그를 선택시 파일 컨트롤 click이벤트를 호출
+        $(document).on("click", "[name=Upload]", function () {
+            event.preventDefault();
+            $(this).next("input").click();
+        });
+
+        $(".table_wrap  .bottom   a").on("click", function () {
+
+            if ($("#q_category1").val() == "none") {
+                alert("문의유형을 선택하세요."); 
+                $("#q_category1").focus();
+                return;
+            }
+
+            if ($("#Q_KIND").val() == "none") {
+                alert("문의유형을 선택하세요."); 
+                $("#Q_KIND").focus();
+                return;
+            }
+
+            if (isEmpty($("[name=Title]").val())) {
+                alert("제목을 입력하세요.");
+                $("#Title").focus();
+                return;
+            }
+        
+
+            if ($("input:checkbox[id=Order_Chk]").is(":checked") == false && (isEmpty($("[name=Order_Code]").val()) || $("[name=ORDER_ID]").val() == "0")) {
+                alert("주문번호를 검색해주세요");
+                $("#Order_Code").focus();
+                return;
+            }
+            if (isEmpty($("[name=Content]").val())) {
+                alert("문의내용을 입력하세요.");
+                $("#Content").focus();
+                return;
+            }
+
+            //버블링 관련
+            $(this).hide();
+
+            $("#Save").submit();
+        });
+
+
+        function Order_Search_pop(popNum) {
+
+            $.ajax({
+                type: "POST",
+                url: "/Customer/Order_List/" + $("#Order_Code").val(),
+                dataType: "json",
+                async: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (result) {
+
+                    var ReturnStr = "";
+                    //  var aa = "1000";
+                    //aa = aa.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    //alert(aa);
+                   // console.log(result.order_list);
+
+                    $(result.order_list).each(function (index, list) {
+
+                        var Price = list.Order_Price;//"3000";
+                        //alert(Price)
+                        //alert(Price.replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                        //Order_Price = Price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                        // alert(list.Order_Id )
+
+                        ReturnStr += "<li id=\"" + list.Order_Id + "\">";
+                        ReturnStr += "    <div class=\"radio_box\">";
+                        ReturnStr += "          <input type=\"radio\" id=\"radio_" + list.Order_Id + "\" name=\"radio\" value=\"" + list.Order_Code + "^" + list.Order_Id + "\">";
+                        ReturnStr += "          <label for=\"radio_" + list.Order_Id + "\">"
+                        ReturnStr += "                <dl>";
+                        ReturnStr += "                    <dt>" + list.Order_Code + "</dt>";
+                        ReturnStr += "                    <dd>" + list.Product_Code + "/" + list.Product_Name + "</dd>";
+                        ReturnStr += "                    <dd>" + list.Regist_Datetime + "</dd>";
+                        ReturnStr += "                    <dd>" + Price + "원</dd>";
+                        ReturnStr += "                </dl>";
+                        ReturnStr += "            </label>";
+                        ReturnStr += "               </div>";
+                        ReturnStr += "           </li>";
+
+                    });
+                    if (result.order_list.length == 0) {
+                        ReturnStr = "<li>주문리스트가 없습니다</li>";
+                    }
+
+                    $(".on_search .layer_pop .on_search_con ol").html(ReturnStr);
+
+                }
+            });
+
+
+
+            var $popWrap = $('.pop_wrap').eq(popNum);
+            $popWrap.show();
+        }
+
+        // 주문팝업에서 클릭
+        $(".pop_wrap .btn_wrap a").eq(1).click(function () {
+
+            if ($(':radio[name="radio"]:checked').length < 1) {
+                alert('주문번호를 선택해주세요!');
+                event.preventDefault();
+                return;
+
+            }
+
+            var Order_Code = $("[name=radio]:checked").val();
+
+            $("#Order_Code").val(Order_Code.split("^")[0]);
+            $("#ORDER_ID").val(Order_Code.split("^")[1]);
+            popClose();
+
+
+        });
+
+
+    //파일 삭제
+    function fileDelete(deleteName) {
+
+        $('.'+deleteName).next('.upfile_delete').hide();
+        $('.'+deleteName).val('');
+
+    }
+
+    //파일 유무
+    function fileValue(num){
+        var fileVal = $('.UPFILE_'+num).val();
+
+        if( fileVal == "" ){
+            $('.UPFILE_'+num).next('.upfile_delete').hide();
+        } else {
+            $('.UPFILE_'+num).next('.upfile_delete').show();
+        }
+    }
+
+  
+
+    $("input:checkbox").on('click', function () {
+        if ($(this).prop('checked'))
+        {
+            $("#Order_Code").val("").attr("disabled", true);
+            $("#Order_Id").val("");
+            $('#Order_Search_pop').attr("onclick", "return");
+
+        }
+        else {
+            $("#Order_Code").attr("disabled", false);
+            $('#Order_Search_pop').attr("onclick", "Order_Search_pop(0)");
+        }
+    });
+
+      $(document).ready(function () {
+        fileValue(1);
+        fileValue(2);
+    });
+
+    </script>
+}

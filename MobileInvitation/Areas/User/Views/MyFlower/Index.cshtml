@@ -1,0 +1,169 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyFlowerViewModel
+@{
+	Layout = "Simple_Layout";
+	ViewBag.Title = Model.Title;
+}
+<div id="wrap" class="sub">
+	<section class="manage wreath">
+		<!-- 관리 페이지 타이틀 -->
+		<div class="title_box top">
+			<div class="area">
+				<h1>@ViewBag.Title</h1>
+
+			</div>
+		</div>
+		<!-- //관리 페이지 타이틀 -->
+		<!-- 관리 페이지 컨텐츠 -->
+		<div class="manage_contents">
+	
+	<div class="manage_banner tc mb40">
+		<!-- Slider main container -->
+		<div class="swiper-container banner_slide">
+			<!-- Additional required wrapper -->
+			<div class="swiper-wrapper">
+				<!-- Slides -->
+				@foreach (BannerViewModel banner in Model.Banners)
+				{
+					<div class="swiper-slide">
+						<div class="slide_con">
+							<a href="@banner.LinkUrl" target="@((banner.IsNewWindow) ? "_blank" : "_self")">
+								<img src="@banner.ImageUrl" alt="@banner.MainDescription">
+							</a>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+	<!-- //admin 연동 배너 -->
+	<div class="area">
+		<!-- 신청 가능금액 -->
+		<div class="manage_content">
+			<div class="application_box">
+				<div class="title_box">
+					<h2><span>@(Model.Count.ToString("#,##0"))</span>건의 받은 내역이 있습니다.</h2>
+				</div>
+			</div>
+		</div>
+		<!-- //신청 가능금액 -->
+		<!-- 받은 내역 -->
+		<div class="manage_content manage_detail">
+			<div class="title_box">
+				<h3>받은 내역</h3>
+				<div class="title_btn_wrap">
+					<a asp-action="Excel" asp-controller="MyFlower" asp-route-orderid="@Model.OrderId" class="excel_btn">
+						엑셀 다운로드
+						<span class="ico download_w">다운로드 아이콘</span>
+					</a>
+				</div>
+			</div>
+			<div class="table_wrap">
+				<table class="table list">
+					<caption>받은 내역 테이블</caption>
+					<colgroup>
+						<col style="width: 60px;">
+						<col style="width: 120px;">
+						<col style="width: 300px;">
+						<col style="width: 100px;">
+						<col style="width: 120px;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>구분</th>
+							<th>보낸 사람</th>
+							<th>상품명</th>
+							<th>수령일</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (Model.DataModel.Count == 0)
+						{
+							<!-- 받은 내역이 없을 때 노출 -->
+							<tr>
+								<td colspan="5">받은 내역이 없습니다.</td>
+							</tr>
+							<!-- //받은 내역이 없을 때 노출 -->
+						}
+						else
+						{
+							foreach(var item in Model.DataModel)
+							{
+								<tr>
+									<td>@item.No</td>
+									<td>@item.OrderTitle</td>
+									<td class ="sender_name">@item.OrderName</td>
+									<td>@item.ProductName</td>
+									<td>@item.WeddingDate?.ToString("yyyy.MM.dd")</td>
+								</tr>
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+			<!--
+				페이징
+				1. 페이지당 5개 리스트 노출
+				2. 초과 시 다음 페이지 생성
+				3. 리스트 5개 미만일 때 페이징 숨김처리
+			-->
+			@if (Model.Count > 0)
+			{
+
+				<!-- 페이징 추가 -->
+				await Html.RenderPartialAsync("_PaginationPartial", Model);
+			}
+			<!-- //페이징 -->
+			<div class="btn_wrap account_bottom tc">
+				<a href="javascript:window.close();" class="btn type03">닫기</a>
+			</div>
+		</div>
+		<!-- //받은 내역 -->
+		<!-- 유의사항 -->
+		<div class="manage_notice">
+			<div class="area">
+				<h3>꼭 확인해주세요</h3>
+				<div class="notice_con">
+					<p class="notice_text">선물 받으신 화환의 배송상태가 배송완료인 경우 받은 내역에서 확인하실 수 있습니다.</p>
+				</div>
+			</div>
+		</div>
+		<!-- //유의사항 -->
+	</div>
+</div>
+		<!-- //관리 페이지 컨텐츠 -->
+	</section>
+</div>
+@section Scripts
+{
+	<script type="text/javascript">
+		$(document).ready(function (e) {
+
+			var banners = $("div.banner_slide div.swiper-slide");
+			if (banners.length > 1) {
+				new Swiper(".banner_slide", {
+					cssWidthAndHeight: true,
+					slidesPerView: 'auto',
+					visibilityFullFit: true,
+					autoResize: false,
+					observer: true,
+					observeParents: true,
+					spaceBetween: 0,
+					loop: true,
+					autoplay: {
+						delay: 2000,
+						disableOnInteraction: false,
+					},
+					speed: 2000
+				});
+			}
+
+			textEllipsis('.sender_name', 20);
+		});
+
+
+	</script>
+}

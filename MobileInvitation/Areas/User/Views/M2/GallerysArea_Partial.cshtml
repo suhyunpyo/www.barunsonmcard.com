@@ -1,0 +1,121 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model M2GalleryViewModel
+
+<section>
+    <!-- 갤러리 타이틀 이미지 -->
+    @if (Model.GalleryTitleArea != null)
+    {
+        var bgColor = (Model.GalleryTitleArea.Color == null) ? "" : $"background-color: {Model.GalleryTitleArea.Color};";
+        <div id="area5" idx="5" class="templatearea bindarea" style="height:@(Model.GalleryTitleArea.Height)px; @(bgColor)">
+            @foreach (var item in Model.GalleryTitleArea.Items)
+            {
+                <partial name="BaseAreaItem_Partial" model="item" />
+            }
+        </div>
+    }
+    <!-- 갤러리 -->
+    <div id="area6" idx="6">
+        <section class="gallery line" id="gallery">
+            <div class="area">
+                @if (Model.GalleryTypeCode == "GTC02")
+                {
+                    <!-- 갤러리 타입01 / 바둑판 썸네일 확대 -->
+                    <div class="gallery_type01">
+                        <div class="skin_gallery">
+                            @foreach (var gal in Model.GalleryItems)
+                            {
+                                var w = 800;
+                                var h = (float)(gal.Value.Height ?? 1080) * (800 / (float)(gal.Value.Width ?? 1080));
+                                <figure>
+                                    <a href="@(gal.Value.ImageUrl)" style="background: url(@(gal.Value.ImageUrl)) no-repeat center center" itemprop="contentUrl" data-size="@(w)x@(h)" class="setimgsize">
+                                        <img src="/img/skin/img_frame.png" class="img_frame" itemprop="thumbnail" alt="">
+                                    </a> 
+                                </figure>
+                            }
+                        </div>
+                        <!-- 갤러리 확대 -->
+                        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="pswp__bg"></div>
+                            <div class="pswp__scroll-wrap">
+                                <div class="pswp__container">
+                                    <div class="pswp__item"></div>
+                                    <div class="pswp__item"></div>
+                                    <div class="pswp__item"></div>
+                                </div>
+                                <div class="pswp__ui pswp__ui--hidden">
+                                    <div class="pswp__top-bar">
+                                        <div class="pswp__counter"></div>
+                                        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                                        <div class="pswp__preloader">
+                                            <div class="pswp__preloader__icn">
+                                                <div class="pswp__preloader__cut">
+                                                    <div class="pswp__preloader__donut"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                                        <div class="pswp__share-tooltip"></div>
+                                    </div>
+                                    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"> </button>
+                                    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"> </button>
+                                    <div class="pswp__caption">
+                                        <div class="pswp__caption__center"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / 갤러리 확대 -->
+                    </div>
+                    <!-- //갤러리 타입01 / 바둑판 썸네일 확대 -->
+                }
+                else if (Model.GalleryTypeCode == "GTC03")
+                {
+                    <!-- 갤러리 타입02 / 리스트 -->
+                    <div class="gallery_type02">
+                        <ul>
+                            @foreach (var gal in Model.GalleryItems)
+                            {
+                                <li><img src="@(gal.Value.ImageUrl)" alt=""></li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else if (Model.GalleryTypeCode == "GTC01")
+                {
+                    <!-- //갤러리 타입02 / 리스트 형  -->
+                    <!-- 갤러리 타입03 / 썸네일 슬라이드 -->
+                    <div class="gallery_type03">
+                        <!-- Swiper -->
+                        <!-- 썸네일 슬라이드 노출111 -->
+                        <div class="swiper-container gallery-top">
+                            <div class="swiper-wrapper">
+                                @foreach (var gal in Model.GalleryItems)
+                                {
+                                    <div class="swiper-slide">
+                                        <img src="@(gal.Value.ImageUrl)" alt="">
+                                    </div>
+                                }
+                            </div>
+                            <!-- Add Arrows -->
+                            <div class="swiper-button-next swiper-button-white"></div>
+                            <div class="swiper-button-prev swiper-button-white"></div>
+                        </div>
+                        <!-- 썸네일 -->
+                        <div class="swiper-container gallery-thumbs">
+                            <div class="swiper-wrapper">
+                                @foreach (var gal in Model.GalleryItems)
+                                {
+                                    <div class="swiper-slide" style="background:url(@(gal.Value.ImageUrl)) no-repeat center; background-size:cover;"></div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //갤러리 타입03 / 썸네일 슬라이드 -->
+                }
+            </div>
+        </section>
+    </div>
+</section>

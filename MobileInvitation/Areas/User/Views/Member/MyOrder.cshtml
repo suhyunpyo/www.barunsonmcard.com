@@ -1,0 +1,42 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyPageOrderViewModel
+@{
+    Layout = null;
+}
+
+<div class="tab_wrap">
+    <!-- tab list -->
+    <ul class="tab_ul bd_none">
+        <li class="@((Model.TabId == 0) ? "active": "")">
+            <a asp-action="MyOrder" asp-controller="Member" asp-route-tabid="0" class="myorderstatus">제작 중</a>
+            <span class="point03">@Model.MakingCount</span>
+        </li>
+        <li class="@((Model.TabId == 1) ? "active": "")">
+            <a asp-action="MyOrder" asp-controller="Member" asp-route-tabid="1" class="myorderstatus">제작 완료</a>
+            <span class="point03">@Model.CompleteCount</span>
+        </li>
+        <li class="@((Model.TabId == 2) ? "active": "")">
+            <a asp-action="MyOrder" asp-controller="Member" asp-route-tabid="2" class="myorderstatus">취소/환불</a>
+            <span class="point03">@Model.CancelCount</span>
+        </li>
+    </ul>
+    <!-- //tab list -->
+    <!-- tab contents -->
+    <div class="tc_wrap">
+        @if (Model.TabId == 0)
+        {
+            @await Html.PartialAsync("MyOrderTab0Partial", Model)
+        }
+        else if (Model.TabId == 1)
+        {
+            @await Html.PartialAsync("MyOrderTab1Partial", Model)
+        }
+        else if (Model.TabId == 2)
+        {
+            @await Html.PartialAsync("MyOrderTab2Partial", Model)
+        }
+    </div>
+    <!-- //tab contents -->
+</div>

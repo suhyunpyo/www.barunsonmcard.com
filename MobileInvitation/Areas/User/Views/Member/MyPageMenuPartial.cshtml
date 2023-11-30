@@ -1,0 +1,36 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model string
+@{
+    Layout = null;
+    //Model 값: myOrder, wishList, couponList
+    string User_Name = !string.IsNullOrEmpty(User.FindFirst("Name").Value) ? User.FindFirst("Name").Value : "비회원";
+}
+<div class="mypage_box">
+    <p>
+        안녕하세요 <br />
+        <strong>@User_Name  님</strong>
+    </p>
+    <ul>
+        @if (Model == "myOrder")
+        {
+            <li><a asp-action="MyOrder" asp-controller="Member" class="myorder @((Model == "myOrder")? "active": "")">주문 내역 조회</a></li>
+        }
+        else
+        {
+            <li><a asp-action="Mypage" asp-controller="Member" class="myorder @((Model == "OrderDetail")? "active": "")">주문 내역 조회</a></li>
+        }
+        @if (User.IsInRole("Users"))
+        {
+            <li><a asp-action="WishList" asp-controller="Member" class="@((Model == "wishList")? "active": "")">위시리스트</a></li>
+            <li><a asp-action="Coupon_List" asp-controller="Member" class="@((Model == "couponList")? "active": "")">쿠폰 보관함</a></li>
+        }
+        <li><a asp-action="Ask" asp-controller="Customer">고객센터</a></li>
+        @if (User.IsInRole("Users"))
+        {
+            <li><a asp-action="EditProfile" asp-controller="Member" class="EditProfile">회원 정보 수정</a></li>
+            <li><a asp-action="SecessionProfile" asp-controller="Member" class="SecessionProfile">회원 탈퇴</a></li>
+        }
+    </ul>
+</div>

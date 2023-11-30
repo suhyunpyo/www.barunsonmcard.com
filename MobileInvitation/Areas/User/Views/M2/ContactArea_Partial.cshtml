@@ -1,0 +1,72 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model M2ContectViewModel
+
+@if (Model.IsShow)
+{
+    <!-- 연락처  -->
+    <div id="area4" idx="4" class="call">
+        <div class="grid_box">
+        @foreach(var mainItem in Model.MainContects)
+        {
+            <dl>
+                <dt>
+                    <span class="blue">@mainItem.Title</span>
+                </dt>
+                <dd><a href="tel:@(mainItem.TelNo)"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_call.svg" width="24" alt="전화 아이콘" /></a></dd>
+                <dd><a href="sms:@(mainItem.TelNo)"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_sms.svg" width="24" alt="SMS 아이콘" /></a></dd>
+            </dl>
+        }
+        </div>
+        @if (Model.IsExtraShow)
+        {
+            <section class="onoff_2">
+                <div class="list_wrap">
+                    <button type="button" class="info_detail">정보 더보기</button>
+                    <ul class="grid_box">
+                        <li>
+                            <h3>신랑 측 혼주</h3>
+                            @foreach (var extrItem in Model.Extra1Contects)
+                            {
+                                <div class="list_con">
+                                    <p>
+                                        <span>@extrItem.Title</span>
+                                        <span>@(extrItem.Name)</span>
+                                    </p>
+                                    <div class="btn_wrap">
+                                        @if (!string.IsNullOrEmpty(extrItem.TelNo))
+                                        {
+                                            <a href="tel:@(extrItem.TelNo)"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_call.svg" width="20" alt="전화 아이콘"></a>
+                                            <a href="sms:@(extrItem.TelNo)"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_sms.svg" width="21" alt="SMS 아이콘"></a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </li>
+                        <li>
+                            <h3>신부 측 혼주</h3>
+                            @foreach (var extrItem in Model.Extra2Contects)
+                            {
+                                <div class="list_con">
+                                    <p>
+                                        <span>@extrItem.Title</span>
+                                        <span>@(extrItem.Name)</span>
+                                    </p>
+                                    <div class="btn_wrap">
+                                        @if (!string.IsNullOrEmpty(extrItem.TelNo))
+                                        {
+                                            <a href="tel:@(extrItem.TelNo)"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_call.svg" width="20" alt="전화 아이콘"></a>
+                                            <a href="sms:@(extrItem.TelNo)"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_sms.svg" width="21" alt="SMS 아이콘"></a>
+                                        }                                    
+                                        </div>
+                                </div>
+                            }
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        }
+    </div>
+    <!-- //신랑 & 신부 연락 -->
+}

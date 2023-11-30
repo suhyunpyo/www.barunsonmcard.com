@@ -1,0 +1,61 @@
+@charset "utf-8";
+body {position: relative;}
+/***** payment  *****/
+.payment.bottom_fix.type01 {position: relative; min-height: 100vh;}
+.payment.bottom_fix .btn_wrap.bottom {position: absolute; bottom: 0; width: 100%; margin-bottom: 0; z-index: 200;}
+.payment.bottom_fix .btn_wrap.bottom .btn {font-size: 18px; height: 66px; line-height: 66px;}
+
+
+.sub_title_box {padding: 40px 0 22px; background: #f6f7f8; margin-bottom: 38px;}
+.sub_title_box .area {padding: 0 28px;}
+.sub_title_box h1 {font-size: 18px;font-weight: 500;}
+.sub_title_box h1 a {background: url(../img/common/arr_left_sm.svg) no-repeat left center; background-size: 8px; padding-left: 20px; font-weight: bold;}
+
+/* 송금 리스트 메인 */
+.payment_list li {position: relative; margin-bottom: 16px; }
+.payment_list li:last-child {margin-bottom: 0;}
+.payment_list li a { display: block; font-size: 18px; background: #f6f7f8; padding:30px 22px;}
+.payment_list li a strong {font-weight: bold;}
+.payment_list li a.on {background: #fee500;}
+.payment_list li a.on .kakaopay {top:32px}
+.payment_list .kakaopay {position: absolute; top:15px; right:26px; font-size: 14px; font-weight: bold;}
+.payment_list .kakaopay img {width: 48px; border-radius: 6px;}
+
+/* 모바일 하단 유의사항 */
+.payment.bottom_fix .manage_notice {position: absolute; bottom: 0; width: 100%;}
+.mobile .manage_notice {background: #f6f7f8; padding:30px 0; margin-top: 60px;}
+.mobile .manage_notice .notice_con * {font-size: 12px; line-height: 20px; color:#757575; font-weight: 400;}
+.mobile .manage_notice .notice_con dl {margin-bottom: 10px;}
+.mobile .manage_notice .notice_con dl:last-child {margin-bottom: 0;}
+.mobile .manage_notice .notice_con dt {margin-bottom: 6px;}
+.mobile .manage_notice .notice_con dd,
+.mobile .manage_notice .notice_text {font-weight: 300;}
+.mobile .manage_notice .notice_con .dash {position: relative; padding-left: 8px;}
+.mobile .manage_notice .notice_con .dash:before {content:"- "; position: absolute; left:0;}
+
+/* 이체 정보 입력 */
+.contents_title {margin:40px 0 50px;}
+.contents_title h2 {font-size: 18px; text-align: center;}
+.contents_title h2 strong {font-weight: bold;}
+.send_list li {margin-bottom: 36px;}
+.send_list li .send_con::after {content:""; display: block; clear: both;}
+.send_list li .send_con {border-bottom: 1px solid #ebebeb; padding: 0 10px;}
+.send_list li span {font-size: 14px; float: left; line-height: 34px;}
+.send_list li .pi_box {float: right;}
+.send_list li .pi_box .pay_input {font-size: 21px; text-align: right;}
+.send_list li .pi_box .pi_won {font-size: 21px;float: right; margin-left: 4px;}
+.send_price {font-size: 14px; text-align: right; margin-top: 10px; clear: both; padding: 0 10px;}
+.send_text {font-size: 14px; color:#757575; text-align: center; line-height: 22px; letter-spacing: -0.35px; font-weight: 300; margin-bottom: 12px;}
+
+/* 이체 결과 */
+.payment_contents.result {position: fixed; top:0; right: 0; bottom: 0; left: 0; z-index: 100; text-align: center;}
+.payment_contents.result:before {content: ""; display: inline-block; height: 100%; vertical-align: middle;}
+.payment_result {position: relative;display: inline-block;vertical-align: middle;max-width: 450px;width: 90%;height: auto; background: #fff; z-index: 1000; padding: 24px 30px; margin: auto; margin-top:-200px; box-sizing: border-box;}
+.payment_result .img_con {margin-bottom: 20px;}
+.payment_result .img_con img {width: 40px;}
+.payment_result p {font-size: 18px;}
+.payment_result p strong{font-size: inherit; font-weight: 500;}
+
+@media screen and (max-width:375px){
+    .payment.bottom_fix .manage_notice {position: static;}
+}

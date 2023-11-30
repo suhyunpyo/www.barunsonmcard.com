@@ -1,0 +1,192 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/event.css">
+<!-- //header -->
+
+<section class="event event_price">
+
+    <!-- 배너 -->
+    <div class="event_banner">
+        <!-- pc 배너 -->
+        <div class="event_pc">
+            <div class="price_banner"></div>
+        </div>
+        <!-- mobile 배너 -->
+        <div class="event_m">
+            <img src="/img/event/eventPrice/m_event_banner.png" alt="다양한 기능과 예쁜 디자인의 모바일 청첩장, 특별 할인가로 만나보세요!" />
+        </div>
+    </div>
+    <!-- //배너 -->
+
+    <!-- 이벤트 내용 -->
+    <div class="event_contents">
+        <div class="event_con event01">
+            <div class="event_title">
+                <h2>
+                    꼭 필요한 모바일청첩장 <br/>
+                    <strong>다양한 기능과 예쁜 디자인의 모바일 청첩장, <br /> 특별 할인가로 만나보세요!</strong>
+                </h2>
+                <p>* 단, 특가 청첩장은 재구매 할인 쿠폰 적용이 불가합니다.</p>
+            </div>
+            <div class="area">
+                <div class="event_pc img_con view_list">
+                    <a href="https://www.barunsonmcard.com/Product/Detail/52" target="_blank"><img src="/img/event/eventPrice/img01.png" alt="포토 디자인 이미지" /></a>
+                    <a href="https://www.barunsonmcard.com/Product/Detail/26" target="_blank"><img src="/img/event/eventPrice/img02.png" alt="일러스트 디자인 이미지" /></a>
+                    <a href="https://www.barunsonmcard.com/Product/Detail/13" target="_blank"><img src="/img/event/eventPrice/img03.png" alt="심플 디자인" /></a>
+                </div>
+                <div class="event_m img_con view_list">
+                    <a href="https://www.barunsonmcard.com/Product/Detail/52" target="_blank"><img src="/img/event/eventPrice/m_img01.png" alt="포토 디자인 이미지" /></a>
+                    <a href="https://www.barunsonmcard.com/Product/Detail/26" target="_blank"><img src="/img/event/eventPrice/m_img02.png" alt="일러스트 디자인 이미지" /></a>
+                    <a href="https://www.barunsonmcard.com/Product/Detail/13" target="_blank"><img src="/img/event/eventPrice/m_img03.png" alt="심플 디자인" /></a>
+                </div>
+            </div>
+        </div>
+        <div class="event_con event02">
+            <div class="event_title">
+                <h2>
+                    <span>DOUBLE EVENT</span> <br/>
+                    <strong>모바일 감사장 증정 이벤트 </strong>
+                </h2>
+                <p>
+                    가족용, 친구용 2개 이상 모바일 청첩장을 구매하시는 고객분들을 위한 특별 이벤트! <br/>
+                    추가 구매 시 <strong>모바일 감사장을 증정</strong>해 드립니다.
+                </p>
+            </div>
+            <div class="item_wrap">
+                <div class="img_con area">
+                    <div class="price_slide price0 swiper-container">
+                        <ul class="item_list swiper-wrapper">
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/List/1/0/9/0/0/0" target="_blank">
+                                    <img src="/img/event/eventPrice/item01.png" alt="상품 이미지" />
+                                    <p>감사와 존경 <span>MT1201</span></p>
+                                </a>
+                            </li>
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/List/1/0/9/0/0/0" target="_blank">
+                                    <img src="/img/event/eventPrice/item02.png" alt="상품 이미지" />
+                                    <p>감사의 마음 <span>MT1202</span></p>
+                                </a>
+                            </li>
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/List/1/0/9/0/0/0" target="_blank">
+                                    <img src="/img/event/eventPrice/item03.png" alt="상품 이미지" />
+                                    <p>존경의 마음 <span>MT1203</span></p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+        <div class="event_con event03">
+            <div class="event_title">
+                <h2>15,900원 모바일청첩장</h2>
+            </div>
+            <div class="item_wrap">
+                <div class="img_con area">
+                    <div class="price_slide price1 swiper-container">
+                        <ul class="item_list swiper-wrapper">
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/42" target="_blank">
+                                    <img src="/img/event/eventPrice/item04.png" alt="상품 이미지" />
+                                    <p><span>MC0411</span>소소한 즐거움</p>
+                                </a>
+                            </li>
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/29" target="_blank">
+                                    <img src="/img/event/eventPrice/item05.png" alt="상품 이미지" />
+                                    <p><span>MC9624</span>PRECIOUS MEMORY</p>
+                                </a>
+                            </li>
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/31" target="_blank">
+                                    <img src="/img/event/eventPrice/item06.png" alt="상품 이미지" />
+                                    <p><span>MC9258</span>피오니</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+            <div class="event_title">
+                <h2>13,900원 모바일청첩장</h2>
+            </div>
+            <div class="item_wrap">
+                <div class="img_con area">
+                    <div class="price_slide price2 swiper-container">
+                        <ul class="item_list swiper-wrapper">
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/46" target="_blank">
+                                    <img src="/img/event/eventPrice/item07.png" alt="상품 이미지" />
+                                    <p><span>MC0236</span>Into U</p>
+                                </a>
+                            </li>
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/23" target="_blank">
+                                    <img src="/img/event/eventPrice/item08.png" alt="상품 이미지" />
+                                    <p><span>MC9235</span>Dear U</p>
+                                </a>
+                            </li>
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/25" target="_blank">
+                                    <img src="/img/event/eventPrice/item09.png" alt="상품 이미지" />
+                                    <p><span>MC9444</span>시집장가 가는 날</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <div class="event_title">
+                <h2>9,900원 모바일청첩장</h2>
+            </div>
+            <div class="item_wrap">
+                <div class="img_con area">
+                    <div class="price_slide price3 swiper-container">
+                        <ul class="item_list swiper-wrapper">
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/53" target="_blank">
+                                    <img src="/img/event/eventPrice/item10.png" alt="상품 이미지" />
+                                    <p><span>MC1226</span>Adorable</p>
+                                </a>
+                            </li>
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/1087" target="_blank">
+                                    <img src="/img/event/eventPrice/item11.png" alt="상품 이미지" />
+                                    <p><span>MC1908</span>사랑의 온기</p>
+                                </a>
+                            </li>
+                            <li class="swiper-slide">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/28" target="_blank">
+                                    <img src="/img/event/eventPrice/item12.png" alt="상품 이미지" />
+                                    <p><span>MC9618</span>Juliet rose</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn_wrap tc">
+            <a href="https://www.barunsonmcard.com/Product/List/1/18/1/0/10_/0" target="_blank" class="btn type08">제품 더 보러가기</a>
+        </div>
+    </div>
+    <!-- //이벤트 내용 -->
+
+</section>
+
+
+<script src="/js/event.js"></script>

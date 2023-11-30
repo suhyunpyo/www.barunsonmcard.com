@@ -1,0 +1,150 @@
+﻿@using MobileInvitation.Models
+@using X.PagedList.Mvc.Core; @*페이징툴을 이용...*@
+@using X.PagedList.Mvc; @*페이징툴을 이용...*@
+@using X.PagedList; @*페이징툴을 이용...*@
+@using MobileInvitation.FunctionHelper
+@{
+    Layout = "User_Layout";
+}
+<link rel="stylesheet" href="/css/customer.css">
+<script src="/js/customer/customer.js"></script>
+<style type="text/css">
+    .trSize {
+        height: 58px;
+    }
+
+    .tdSize {
+        width: 8.5%;
+        background: #f8f8f8
+    }
+
+
+    .tdRight {
+        text-align: right;
+    }
+
+    .tdLeft {
+        text-align: left;
+    }
+
+    .tdCenter {
+        text-align: center;
+    }
+</style>
+<!-- sub contents -->
+<section class="customer">
+    <div class="sub_con_wrap">
+        <aside class="mypage_list">
+            <div class="mypage_box">
+                <p><strong>고객센터</strong></p>
+                <ul>
+                    <li><a href="/Customer/Notice">공지사항</a></li>
+                    <li><a href="/Customer/Faq">FAQ</a></li>
+                    <li><a href="/Customer/Ask" class="active">1:1 문의</a></li>
+                </ul>
+            </div>
+        </aside>
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents">
+            <!-- 고객센터 검색영역 -->
+            <div class="cs_center">
+                <div class="cs_top">
+                    <h2>CS Center</h2>
+                    <p>1644-0708 <span>평일 09:00 ~ 18:00 (점심 12:00 ~ 13:00)</span></p>
+                </div>
+                @*<div class="cs_content">
+                <div class="area">
+                    <div class="cs_search">
+                        <input type="text" class="inp" placeholder="궁금하신 내용을 검색해 보세요" />
+                        <button type="button">검색버튼</button>
+                    </div>
+                    <div class="cs_con_bottom">
+                        <p>혹시 원하는 답변을 찾지 못하셨나요?</p>
+                        <a href="/Customer/Ask_Reg" class="spoq">1:1 문의 ></a>
+                    </div>
+                </div>
+            </div>*@
+            </div>
+            <!-- //고객센터 검색영역 -->
+            <div class="table_wrap cs_table_wrap">
+                <div class="table_top">
+                    <div class="btn_wrap tr">
+                        <a href="/Customer/Ask_Reg" class="btn type06 br20">1:1 상담 글쓰기</a>
+                    </div>
+                </div>
+                <table class="table list ask">
+                    <caption>고객센터 문의 리스트</caption>
+                    <colgroup>
+                        <col style="width:110px;">
+                        <col style="width:auto;">
+                        <col style="width:120px;">
+                        <col style="width:250px;">
+                        <col style="width:150px;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>내용</th>
+                            <th>작성자</th>
+                            <th>작성일</th>
+                            <th>처리상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int TotalCount = ViewBag.Qna_List.TotalItemCount;
+
+                            int pageno = (int)ViewData["page"];
+                            int itemperpage = (int)ViewData["pageSize"];
+                            int currentno = TotalCount - ((pageno - 1) * itemperpage);
+
+                        }
+                        @if (TotalCount == 0)
+                        {
+
+                            <tr>
+                                <td colspan="5" style="text-align: center">리스트가 없습니다</td>
+                            </tr>
+
+                        }
+                        else
+                        {
+                            @foreach (VW_User_QNA list in ViewBag.Qna_List)
+                            {
+                                <tr id="@list.ORDER_ID">
+                                    <td>@{@currentno}@{currentno--;}</td>
+                                    <td class="tl"><a href="/Customer/Ask_View/@list.QNA_ID">@list.TITLE</a></td>
+                                    <td>@list.NAME</td>
+                                    <td>@DateTimeHelper.HHmm(Convert.ToDateTime(list.REGIST_DATETIME))</td>
+                                    <td>@StringHelper.QnA_Status_Str(list.STAT.ToString())</td>
+                                </tr>
+                            }
+                        }
+                        @*<tr>
+                        <td>1</td>
+                        <td class="tl"><a href="./customer_ask_detail.html">스마트폰에서 카카오톡으로 초대장을 보내고 싶어요.</a></td>
+                        <td>김바른</td>
+                        <td>2021.03.31</td>
+                        <td>답변완료</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="tl"><a href="./customer_ask_detail.html">스마트폰에서 카카오톡으로 초대장을 보내고 싶어요.</a></td>
+                        <td>김바른</td>
+                        <td>2021.03.31</td>
+                        <td>제작 및 결제</td>
+                    </tr>*@
+                    </tbody>
+                </table>
+            </div>
+            @if (TotalCount > 0)@Html.PagedListPager((IPagedList)ViewBag.Qna_List, page => Url.Action("Index", new { page }))
+        </div>
+       
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+</section>
+<!-- //sub contents -->
+<script>
+    PagingNavigator();
+
+</script>

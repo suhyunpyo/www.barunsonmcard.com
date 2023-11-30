@@ -1,0 +1,48 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyPageViewModel
+@{
+    Layout = "User_Layout_m";
+}
+<link rel="stylesheet" href="/css/m_mypage.css">
+
+<section class="mypage">
+    <div class="sub_con_wrap">
+        <aside class="mypage_list fixed">
+            @await Html.PartialAsync("MyPageMenuPartial", "myOrder")
+        </aside>
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents">
+            <!-- 마이페이지 배너리스트 -->
+            <div class="mypage_banner mobile">
+                <!-- Slider main container -->
+                <div class="swiper-container banner_slide">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        @foreach (BannerViewModel banner in Model.Banners)
+                        {
+                            <div class="swiper-slide">
+                                <div class="slide_con">
+                                    <a href="@banner.LinkUrl" target="@((banner.IsNewWindow) ? "_blank" : "_self")">
+                                        <img src="@banner.ImageUrl" alt="@banner.MainDescription">
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <!-- 페이징 -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+            <!-- 마이페이지 배너리스트 -->
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+</section>
+@section Scripts
+{
+    <!-- 아래 스크림트 사용여부 검토 필요.. -->
+    <script src="/js/member/mypage.js" asp-append-version="true"></script>
+}

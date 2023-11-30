@@ -1,0 +1,30 @@
+{
+  "profiles": {
+    "MobileInvitation_Local": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "https://local.barunsonmcard.com",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Local"
+      },
+      "applicationUrl": "https://local.barunsonmcard.com"
+    },
+    "MobileInvitation_Dev": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "https://local.barunsonmcard.com",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://local.barunsonmcard.com"
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "https://local.barunsonmcard.com",
+      "sslPort": 44350
+    }
+  }
+}

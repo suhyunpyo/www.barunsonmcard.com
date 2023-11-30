@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+.subContents {
+    position: relative;
+    max-width: 1200px;
+    margin: 150px auto 100px;
+}
+
+.privacyWrap {
+    height: 100%;
+    padding: 20px;
+    font-size: 18px;
+    word-spacing: -1px;
+    line-height: 1.5em
+}
+
+.privacyWrap h2 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.privacyWrap h3 {
+    margin: 40px 0 10px
+}
+
+.privacyWrap h3:first-child {
+    margin: 0 0 10px
+}
+
+.privacyWrap > h4 {
+    margin: 20px 0 10px
+}
+
+.privacyWrap p {
+    font-size: 16px;
+    line-height: 28px !important;
+}
+
+.privacyWrap ol {
+    margin-left: 25px   
+}
+
+.privacyWrap ol li {
+    margin-bottom: 15px;
+    list-style-type: decimal
+}
+
+.privacyWrap ul {
+    margin-left: 18px
+}
+
+.privacyWrap dt {
+    color: #333;
+    margin-top: 10px
+}
+
+.privacyWrap table {
+    border-collapse: collapse;
+    width: 99%
+}
+
+.privacyWrap table th {
+    border: 1px solid #ddd;
+    padding: 2px;
+    text-align: center
+}
+
+.privacyWrap table td {
+    border: 1px solid #ddd;
+    padding: 2px
+}
+
+
+@media screen and (max-width:400px) {
+    .subContents {margin:120px auto 50px;}
+    .privacyWrap h2 { font-size: 20px; margin-bottom:20px;}
+
+    .privacyWrap p { font-size: 13px; line-height: 21px !important;}
+}

@@ -1,0 +1,136 @@
+﻿@using MobileInvitation.Models
+@using X.PagedList.Mvc.Core; @*페이징툴을 이용...*@
+@using X.PagedList.Mvc; @*페이징툴을 이용...*@
+@using X.PagedList; @*페이징툴을 이용...*@
+@using MobileInvitation.FunctionHelper;
+@{
+    Layout = "User_Layout_m";
+}
+<link rel="stylesheet" href="/css/m_customer.css">
+
+<!-- sub contents -->
+<section class="customer ask">
+    <div class="sub_con_wrap mypage_service">
+        <div class="sub_title_box">
+            <div class="area">
+                <h2><a href="/Customer/">공지사항</a></h2>
+            </div>
+        </div>
+        <div class="mypage_con">
+            <!-- 고객센터 안내 -->
+            <div class="cs_center pb20">
+                <div class="cs_top">
+                    <a href="javascript:popOpen(0);">
+                        <h2>CS Center <span>1644-0708</span></h2>
+                        <p><span>평일 09:00 ~ 18:00(점심 12:00 ~ 13:00)</span></p>
+                    </a>
+                </div>
+            </div>
+            <!-- //고객센터 안내 -->
+            <!-- 공지사항 리스트 -->
+            <div class="manage_content">
+                <div class="manage_list ask_list">
+                    <ul>
+                        @{
+                            int TotalCount1 = ViewBag.Top_NoticeList.Count;
+                            int TotalCount2 = ViewBag.NoticeList.TotalItemCount;
+
+                            int pageno = (int)ViewData["page"];
+                            int itemperpage = (int)ViewData["pageSize"];
+                            int currentno = TotalCount2 - ((pageno - 1) * itemperpage);
+
+                        }
+                        @if (TotalCount1 == 0 && TotalCount2 == 0)
+                        {
+
+                            <li>리스트가 없습니다</li>
+
+                        }
+                        else
+                        {
+                            @foreach (TB_Board list in ViewBag.Top_NoticeList)
+                            {
+                                <li id="@list.Board_ID">
+                                    <div class="manage_box">
+                                        <div class="manage_box_top">
+                                            <p class="fl"><strong class="point03">[공지]</strong></p>
+                                            <p class="fr"><span>@list.Regist_DateTime</span></p>
+                                        </div>
+                                        <div class="manage_box_con">
+                                            <div class="ask_q">
+                                                <!-- 공지사항 타이틀 -->
+                                                <div class="ask_title">
+                                                    <p><a href="/Customer/Notice_View/@list.Board_ID">@list.Title</a></p>
+                                                </div>
+                                                <!-- //공지사항 타이틀 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+
+
+
+                        @foreach (TB_Board list in ViewBag.NoticeList)
+                        {
+                            <li id="@list.Board_ID">
+                                <div class="manage_box">
+                                    <div class="manage_box_top">
+                                        <p class="fl"><strong class="point03">@list.Title</strong></p>
+                                        <p class="fr"><span>@list.Regist_DateTime</span></p>
+                                    </div>
+                                    <div class="manage_box_con">
+                                        <div class="ask_q">
+                                            <!-- 공지사항 타이틀 -->
+                                            <div class="ask_title">
+                                                <p><a href="/Customer/Notice_View/@list.Board_ID">@list.Title</a></p>
+                                            </div>
+                                            <!-- //공지사항 타이틀 -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+
+                    </ul>
+                </div>
+                <!-- 페이징 -->
+                @if (TotalCount2 > 0)@Html.PagedListPager((IPagedList)ViewBag.NoticeList, page => Url.Action("Notice", new { page }))
+                <!-- //페이징 -->
+            </div>
+            <!-- //공지사항 리스트 -->
+        </div>
+        <!-- //contents -->
+        <!-- 고객센터 전화연결 팝업 -->
+        <div class="pop_wrap">
+            <div class="layer_pop">
+                <h3 class="tc">고객센터</h3>
+                <p class="pop_text tc">
+                    1644-0708 번호로 <br />
+                    전화를 연결하시겠습니까?
+                </p>
+                <div class="btn_wrap pop_bottom type02">
+                    <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                    <a href="tel:1644-0708" class="btn type03">전화연결</a>
+                </div>
+            </div>
+            <div class="pop_mask"></div>
+        </div>
+        <!-- //고객센터 전화연결 팝업 -->
+    </div>
+</section>
+<!-- //sub contents -->
+@section Scripts
+{
+
+    <script>
+        PagingNavigator();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.js"></script>
+    <script src="/js/customer/customer.js"></script>
+}

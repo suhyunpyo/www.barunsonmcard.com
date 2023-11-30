@@ -1,0 +1,143 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model RemitAccountToViewModel
+@{
+	Layout = "RemitService_Layout";
+	ViewBag.Title = "축의금 송금";
+}
+@if (Model.AccountId == 0)
+{
+    <div class="sub_title_box">
+        <div class="area">
+            <h1><a href="javascript:window.close();">이체 정보 입력</a></h1>
+        </div>
+    </div>
+    <div class="payment_contents">
+        <div class="area">
+            <div class="contents_title">
+                <h2>송금 계좌 정보를 읽을 수 없습니다.</h2>
+            </div>
+        </div>
+    </div>
+    <!-- 하단 버튼 -->
+    <div class="btn_wrap bottom type01">
+        <button type="button" class="btn type09" onclick="window.close();">닫기</button>
+    </div>
+    <!-- //하단 버튼 -->
+}
+else
+{
+    <form asp-action="RemitAccountTo" asp-controller="KakaoRemit" method="post" id="frmRemitTo">
+	    <input type="hidden" asp-for="AccountId" />
+        <input type="hidden" asp-for="AccountTypeName" />
+        <input type="hidden" asp-for="Price" class="sendPrice" />
+        <!-- 하객 송금페이지 타이틀 -->
+        <div class="sub_title_box">
+            <div class="area">
+                <h1><a href="javascript:window.close();">이체 정보 입력</a></h1>
+            </div>
+        </div>
+        <!-- //하객 송금페이지 타이틀 -->
+        <!-- 하객 송금페이지 컨텐츠 -->
+        <div class="payment_contents">
+            <div class="area">
+                <div class="contents_title">
+                    <h2><strong>@(Model.AccountTypeName)</strong>에게 축의금 송금하기</h2>
+                </div>
+                <div class="payment_content">
+                    <ul class="send_list">
+                        <li>
+                            <div class="send_con">
+                                <span>입금자명</span>
+                                <span class="pi_box">
+                                    <input type="text" asp-for="RemitterName" maxlength="7" class="pay_input w150 tbRemitterName" value="" placeholder="공백포함 7자 이내">
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="send_con">
+                                <span>보낼 금액</span>
+                                <span class="pi_box">
+                                    <input type="number" name="TotalPriceTmp" maxlength="3" pattern="\d*" class="pay_input w150" value="">
+                                    <span class="pi_won">만원</span>
+                                </span>
+                            </div>
+                            <div class="send_price">
+                                <p>0 원</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- //하객 송금페이지 컨텐츠 -->
+        <!-- 하단 버튼 -->
+        <div class="btn_wrap bottom type01">
+            <p class="send_text">카카오페이로 안전하게 이체됩니다.</p>
+            <button type="submit" class="btn type09">다음</button>
+        </div>
+        <!-- //하단 버튼 -->
+    </form>
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function (e) {
+            $('input[name="TotalPriceTmp"]').on('keyup keydown keypress change', function (e) {
+                $(this).val($(this).val().replace(/[^0-9]/g, ''));
+
+                if ($(this).val() < 0) {
+                    $(this).val(0);
+                }
+                else if ($(this).val() > 200) {
+                    $(this).val(200);
+                }
+
+                var price = ($(this).val() == '' ? 0 : $(this).val()) * 10000;
+
+                $('input.sendPrice').val(price);
+
+                $('.send_price').text(priceToString(price) + ' 원');
+            });
+
+            $('#frmRemitTo').on('submit', function (e) {
+                if ($('input.tbRemitterName').val() == "") {
+                    alert('입금자명을 입력해주세요.');
+                    $('input.tbRemitterName').focus();
+                    e.preventDefault();
+                    return false;
+                }
+                if ($('input.sendPrice').val() == "") {
+                    alert('송금액을 입력해주세요.');
+                    $('input[name="TotalPriceTmp"]').focus();
+                    e.preventDefault();
+                    return false;
+                }
+                var sendPrice = parseInt($('input.sendPrice').val())
+                if (sendPrice < 10000 || sendPrice > 2000000) {
+                    alert('송금은 1만원에서 200만원까지 가능합니다.');
+                    $('input[name="TotalPriceTmp"]').focus();
+                    e.preventDefault();
+                    return false;
+                }
+
+                return true;
+            });
+        });
+
+        function priceToString(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+        var isEmpty = function (val) {
+            if (val === "" || val === null || val === undefined
+                || (val !== null && typeof val === "object" && !Object.keys(val).length)
+            ) {
+                return true
+            } else {
+                return false
+            }
+
+        };
+    </script>
+}

@@ -1,0 +1,199 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+
+<style type="text/css">
+    a, a:link, a:visited, a:active, a:hover {
+        text-decoration: none;
+     
+        font-family: "SpoqaHanSansNeo","Open Sans","Spoqa Han Sans",sans-serif;
+    }
+</style>
+<link rel="stylesheet" href="/css/event.css">
+<section class="event paper">
+    <!-- 배너 -->
+    <div class="event_banner">
+        <!-- pc 배너 -->
+        <div class="event_pc">
+            <div class="paper_banner"></div>
+        </div>
+        <!-- mobile 배너 -->
+        <div class="event_m">
+            <img src="../img/event/paper/m_event_banner.jpg" alt="종이 청첩장 구매 시 모바일 청첩장 무료증정">
+        </div>
+    </div>
+    <!-- //배너 -->
+    <!-- 단계 -->
+    <div class="event_con event01">
+        <h2 class="blind">종이청첩장 단계</h2>
+        <div class="area">
+            <ol>
+                <li>
+                    <h3>STEP1</h3>
+                    <p class="info_text">
+                        로그인 후 <strong>마이페이지-쿠폰보관함</strong>에서 <br />
+                        무료쿠폰을 확인하세요.
+                    </p>
+                </li>
+                <li>
+                    <h3>STEP2</h3>
+                    <p class="info_text">
+                        다양한 모바일 청첩장 중 마음에 드는 <br />
+                        <strong>무료템플릿을 결정</strong>하세요.
+                    </p>
+                </li>
+                <li>
+                    <h3>STEP3</h3>
+                    <p class="info_text">
+                        신랑,신부님 그리고 부모님과 상의하여 <br />
+                        <strong>필요한 내용을 기입</strong>하세요.
+                    </p>
+                </li>
+                <li>
+                    <h3>STEP4</h3>
+                    <p class="info_text">
+                        마지막 결제 단계에서 <strong>무료쿠폰을 사용</strong>하여 <br />
+                        제작을 완료하세요.
+                    </p>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- //단계 -->
+    <!-- 다양한 스킨 -->
+    <div class="event_con event02">
+        <h2>다양한 스킨</h2>
+        <div class="area">
+            <!-- 슬라이드 -->
+            <div class="skin_banner">
+                <!-- Slider main container -->
+                <div class="swiper-container">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper item_list">
+                        <!-- Slides -->
+                        @foreach (Dictionary<string, object> list in ViewBag.ProductList)
+                        {
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                           
+                                <a href="/Product/Detail/@list["Product_Id"]">
+                                    <img src="@list["Main_Image_URL"]" alt="모바일 청첩장 다양한 스킨">
+                                </a>
+                            </div>
+                            <!-- 이미지 미리보기 버튼 모바일 노출 -->
+                            <div class="mobile_preview_btn" style="display: none;">
+                                <a href="javascript:;">이미지 미리보기</a>
+                            </div>
+                        </div>
+                      
+                        }
+                    </div>
+                    <!-- //Additional required wrapper -->
+                    <!-- 페이징 -->
+                    @*<div class="swiper-pagination paper_paging"></div>*@
+                </div>
+                <!-- //Slider main container -->
+                <div class="arrow_area">
+                    <div class="swiper-button-prev pp_btn"></div>
+                    <div class="swiper-button-next pp_btn"></div>
+                </div>
+            </div>
+            <!-- //슬라이드 -->
+        </div>
+    </div>
+    <!-- //다양한 스킨 -->
+    <!-- 부가서비스 -->
+    <div class="event_con event03">
+        <h2>원하는대로 선택할 수 있는 <br /> 부가서비스</h2>
+        <div class="area">
+            <p class="info_text">필요한 기능만 담고 싶을 때, on/off 기능을 사용해보세요!</p>
+            <ul class="service_list">
+                <li>
+                    <div class="img_con">
+                        <img src="../img/event/paper/icon01.svg" alt="전화하기 아이콘">
+                    </div>
+                    <p>전화하기</p>
+                </li>
+                <li>
+                    <div class="img_con">
+                        <img src="../img/event/paper/icon02.svg" alt="사진갤러리 아이콘">
+                    </div>
+                    <p>사진갤러리</p>
+                </li>
+                <li>
+                    <div class="img_con">
+                        <img src="../img/event/paper/icon03.svg" alt="초대영상 아이콘">
+                    </div>
+                    <p>초대영상</p>
+                </li>
+                <li>
+                    <div class="img_con">
+                        <img src="../img/event/paper/icon04.svg" alt="방명록 아이콘">
+                    </div>
+                    <p>방명록</p>
+                </li>
+                <li>
+                    <div class="img_con">
+                        <img src="../img/event/paper/icon05.svg" alt="송금서비스 아이콘">
+                    </div>
+                    <p>송금서비스</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- //부가서비스 -->
+    <!-- 모바일 청첩장 안내 -->
+    <div class="event_con event04">
+        <div class="area">
+            <div class="event_con_l">
+                <h2>친구용,가족용,직장용 <br /> 각각 다른 모바일 청첩장</h2>
+                <p class="info_text">
+                    사진이나 인사말을 다르게 하고 싶을 때 <br />
+                    모바일 청첩장을 추가 구매해 <br />
+                    다양하게 제작해 보세요
+                </p>
+            </div>
+            <div class="event_con_r">
+                <img src="../img/event/paper/obj01.jpg" alt="모바일 청첩장 이미지">
+            </div>
+        </div>
+    </div>
+    <div class="btn_wrap">
+        <a href="/Product/List/1/0/1/1/0/0" class="event04_btn">모바일 청첩장 보러가기</a>
+    </div>
+    <!-- //모바일 청첩장 안내 -->
+    <!-- 모바일 청첩장 유의사항 -->
+    <div class="event_con notice_con">
+        <div class="area">
+            <h2>모바일 청첩장 제작 전 <br /> 반드시 참고하세요.</h2>
+            <div class="notice_text">
+                <p>종이 청첩장 구매고객은 모바일 청첩장 무료 제작 쿠폰이 자동으로 발급됩니다.</p>
+                <p>청첩장 결제 후, 해당 사이트에서 셀프 제작으로 모바일 청첩장을 제작하실 수 있습니다.</p>
+                <p>모바일 청첩장은 청첩장 구매 고객에 한해 1회 무료로 제공되며, 추가로 구매 가능합니다.</p>
+                <p>모바일 청첩장은 예식일(행사일)기준으로 최대 3개월(90일)까지 사용하실 수 있습니다.</p>
+                <p>스마트폰 기종에 따라 이미지 사이즈 차이가 발생할 수 있습니다.</p>
+                <p>청첩장 결제 취소 시, 제작한 모바일 청첩장은 삭제됩니다.</p>
+                <p>해외 예식/행사장의 경우 네이버 약도가 지원되지 않으니 약도 이미지 파일 업로드를 이용하여 주세요.</p>
+                <p>
+                    <strong>권장 사양</strong>
+                    <dl>
+                        <dt>운영체제</dt>
+                        <dd>Microsoft Windows7 32bit 이상</dd>
+                    </dl>
+                    <dl>
+                        <dt>브라우저</dt>
+                        <dd>Microsoft Internet Explorer 9.0 이상 / Google Chrome (Windows XP 사용자는 Chrome 권장)</dd>
+                    </dl>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- //모바일 청첩장 유의사항 -->
+</section>
+
+
+<script src="/js/event.js"></script>

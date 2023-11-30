@@ -1,0 +1,36 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/reset.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+    <link rel="preconnect" href="//fonts.gstatic.com">
+    <link href="//fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/css/common.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/payment.css" asp-append-version="true">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    @RenderSection("Heads", required: false)
+
+    <title>@ViewBag.Title</title>
+
+</head>
+<body>
+    <div id="wrap" class="sub mobile">
+        <section class="payment bottom_fix">
+            <div class="sub_contents_wrap">
+                @RenderBody()
+            </div>
+        </section>
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/common/common.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

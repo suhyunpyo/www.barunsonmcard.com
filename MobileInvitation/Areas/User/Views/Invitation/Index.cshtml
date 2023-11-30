@@ -1,0 +1,848 @@
+﻿@using MobileInvitation.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "Preview_Layout";
+}
+
+<style>
+    #wrap {
+        overflow: hidden;
+    }
+
+    .templatearea {
+        width: 100%;
+        height: 0px;
+        position: relative;
+        letter-spacing: 0px;
+    }
+
+    .item {
+        display: flex;
+    }
+
+    .text {
+        width: 100%;
+    }
+
+
+    .area .map_wrap iframe {
+        width: 100% !important;
+        height: 150px !important;
+        box-sizing: border-box;
+    }
+
+    .photo {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column; /*수직 정렬*/
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mapImg {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .map_title {
+        margin-right: 1% !important;
+    }
+
+
+
+
+
+    /* 갤러리 타입02 */
+    .gallery_type02 {
+        text-align: center;
+    }
+
+        .gallery_type02 li {
+            margin-bottom: 10px;
+        }
+
+            .gallery_type02 li:last-child {
+                margin-bottom: 0;
+            }
+
+
+            .gallery_type02 li img {
+                max-width: 100%;
+            }
+
+
+    /* 갤러리 타입03 */
+    .gallery_type03 {
+        text-align: center;
+    }
+
+        .gallery_type03 .gallery-top .swiper-slide img {
+            width: 100%;
+        }
+
+        .gallery_type03 .gallery-thumbs .swiper-slide {
+            height: 150px;
+            overflow: hidden;
+        }
+
+            .gallery_type03 .gallery-thumbs .swiper-slide img {
+            }
+
+        .gallery_type03 .swiper-slide-thumb-active {
+            border: 1px solid #757575;
+            box-sizing: border-box;
+        }
+
+        .gallery_type03 .swiper-button-next.swiper-button-white,
+        .swiper-button-prev.swiper-button-white {
+            --swiper-navigation-color: #333;
+        }
+
+    .iframe_wrap.embed iframe {
+        width: 100% !important;
+        height: 146px !important;
+    }
+
+    .iframe_wrap.preview {
+        display: none;
+    }
+
+    .iframe_wrap.preview iframe {
+        width: 100% !important;
+        height: 190px !important;
+    }
+
+    #area11 {
+        padding: 20px 10px 20px 10px;
+        height: 100%;
+    }
+
+    #area11 li {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.4em;
+    }
+
+    .at_Groom_Parents1_Phone {
+        display: none;
+    }
+
+    .as_Groom_Parents1_Phone {
+        display: none;
+    }
+
+    .at_Groom_Parents2_Phone {
+        display: none;
+    }
+
+    .as_Groom_Parents2_Phone {
+        display: none;
+    }
+
+    .at_Bride_Parents1_Phone {
+        display: none;
+    }
+
+    .as_Bride_Parents1_Phone {
+        display: none;
+    }
+
+    .at_Bride_Parents2_Phone {
+        display: none;
+    }
+
+    .as_Bride_Parents2_Phone {
+        display: none;
+    }
+
+    .bottom_logo {
+        text-align: center;
+        width: 100%;
+    }
+
+    .d_day {
+        display: none;
+    }
+
+    .dvfooter img {
+        width: 100%;
+    }
+
+    .account_list span {
+        font-size: 16px !important;
+    }
+
+    /* 계좌번호보기 팝업 */
+    .account_pop {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 5000;
+        text-align: center;
+    }
+
+    .account_pop:before {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    .account_pop .layer_pop {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 450px;
+        width: 90%;
+        height: auto;
+        background: #fff;
+        z-index: 1000;
+        padding: 0 10px;
+        border: 1px solid #ebebeb;
+        box-sizing: border-box;
+        margin: auto;
+        text-align: left;
+    }
+
+    .account_pop .layer_pop .account_list {
+        height: 300px;
+        overflow: auto;
+        padding: 24px 10px 0;
+    }
+    /*.account_pop .layer_pop .account_list::-webkit-scrollbar {display:none;}*/
+    .account_pop .layer_pop .account_list::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .account_pop .layer_pop .account_list::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        border-radius: 10px;
+    }
+
+    .account_pop .layer_pop .account_list::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px white;
+    }
+
+    .account_pop .layer_pop dl {
+        margin-bottom: 15px;
+    }
+
+    .account_pop .layer_pop dl dt {
+        position: relative;
+        font-size: 16px !important;
+        line-height: 24px;
+        border-bottom: 1px solid #ebebeb;
+        margin-bottom: 5px;
+        padding-bottom: 5px;
+        font-family: "Spoqa Han Sans Neo", sans-serif;
+        color: #333;
+    }
+
+    .account_pop .layer_pop dl dt .copy_btn {
+        position: absolute;
+        top: 2px;
+        right: 0;
+        width: 66px;
+        height: 22px;
+        line-height: 22px;
+        background: #757575;
+        font-size: 12px !important;
+        color: #fff;
+        text-align: center;
+        border-radius: 20px;
+        font-family: "Noto Sans Kr", sans-serif;
+    }
+
+    .account_pop .layer_pop dl dd {
+        font-size: 16px;
+        line-height: 24px;
+        color: #757575;
+        font-family: "Spoqa Han Sans Neo", sans-serif;
+        font-weight: 300;
+    }
+
+    .account_pop .layer_pop .btn_wrap {
+        margin-top: 32px;
+        padding: 0 10px 24px;
+    }
+
+    .account_pop .layer_pop .btn_wrap .btn {
+        height: 45px;
+        line-height: 45px;
+        background: #98a3f4;
+        color: #fff;
+        padding: 0;
+        font-family: "Noto Sans Kr", sans-serif;
+    }
+
+    .account_pop .pop_mask {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0,0,0,0.3);
+    }
+
+
+    
+
+</style>
+
+<div class="frame_wrap">
+    <div>
+        <!-- 표지 디자인 (메인 디자인) -->
+        <div id="area1" idx="1" class="templatearea"></div>
+        <!-- 초대글 (인사말) -->
+        <div id="area2" idx="2" class="templatearea"></div>
+        <!-- 신랑,신부 연락처 타이틀 이미지 -->
+        <div id="area3" idx="3" class="templatearea"></div>
+    </div>
+    <!-- 신랑 신부 연락정보 -->
+    <div id="area4" idx="4" class="call">
+        <h2 class="sound">신랑 신부 연락정보</h2>
+        <div class="grid_box">
+            <dl class="husband">
+                <dt>
+                    <span class="blue">신랑에게 연락하기</span>
+                </dt>
+                <dd><a href="javascript:;" class="at_Groom_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_call.svg" width="24" alt="전화 아이콘" /></a></dd>
+                <dd><a href="javascript:;" class="as_Groom_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_sms.svg" width="24" alt="SMS 아이콘" /></a></dd>
+            </dl>
+            <dl class="wife">
+                <dt>
+                    <span class="blue">신부에게 연락하기</span>
+                </dt>
+                <dd><a href="javascript:;" class="at_Bride_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_call.svg" width="24" alt="전화 아이콘" /></a></dd>
+                <dd><a href="javascript:;" class="as_Bride_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_sms.svg" width="24" alt="SMS 아이콘" /></a></dd>
+            </dl>
+        </div>
+        
+        <section class="onoff_2">
+            <div class="list_wrap">
+                <a href="javascript:;" class="info_detail">정보 더보기</a>
+                <ul class="grid_box">
+                    <li>
+                        <h3>신랑측 혼주</h3>
+                        <div class="list_con">
+                            <p>
+                                <span class="i_Groom_Parents1_Title">@ViewData["Groom_Parents1_Title"]</span>
+                                <span class="i_Groom_Parents1_Name">@ViewData["Groom_Parents1_Name"]</span>
+                            </p>
+                            <div class="btn_wrap">
+                                <a href="javascript:;" class="at_Groom_Parents1_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_call.svg" width="20" alt="전화 아이콘"></a>
+                                <a href="javascript:;" class="as_Groom_Parents1_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_sms.svg" width="21" alt="SMS 아이콘"></a>
+                            </div>
+                        </div>
+                        <div class="list_con">
+                            <p>
+                                <span class="i_Groom_Parents2_Title">@ViewData["Groom_Parents2_Title"]</span>
+                                <span class="i_Groom_Parents2_Name">@ViewData["Groom_Parents2_Name"]</span>
+                            </p>
+                            <div class="btn_wrap">
+                                <a href="javascript:;" class="at_Groom_Parents2_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_call.svg" width="20" alt="전화 아이콘"></a>
+                                <a href="javascript:;" class="as_Groom_Parents2_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_sms.svg" width="21" alt="SMS 아이콘"></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <h3>신부측 혼주</h3>
+                        <div class="list_con">
+                            <p>
+                                <span class="i_Bride_Parents1_Title">@ViewData["Bride_Parents1_Title"]</span>
+                                <span class="i_Bride_Parents1_Name">@ViewData["Bride_Parents1_Name"]</span>
+                            </p>
+                            <div class="btn_wrap">
+                                <a href="javascript:;" class="at_Bride_Parents1_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_call.svg" width="20" alt="전화 아이콘"></a>
+                                <a href="javascript:;" class="as_Bride_Parents1_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_sms.svg" width="21" alt="SMS 아이콘"></a>
+                            </div>
+                        </div>
+                        <div class="list_con">
+                            <p>
+                                <span class="i_Bride_Parents2_Title">@ViewData["Bride_Parents2_Title"]</span>
+                                <span class="i_Bride_Parents2_Name">@ViewData["Bride_Parents2_Name"]</span>
+                            </p>
+                            <div class="btn_wrap">
+                                <a href="javascript:;" class="at_Bride_Parents2_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_call.svg" width="20" alt="전화 아이콘"></a>
+                                <a href="javascript:;" class="as_Bride_Parents2_Phone"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/icon/ico_24_sms.svg" width="21" alt="SMS 아이콘"></a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- 아기 프로필 정보 -->
+    <section class="onoff_7">
+        <!-- 아빠 엄마 연락처 -->
+        <div id="area21" idx="21" class="call">
+            <h2 class="sound">아빠 엄마 연락정보</h2>
+            <dl class="husband">
+                <dt>
+                    <span class="blue">아빠에게 연락하기</span>
+                </dt>
+                <dd><a href="javascript:;" class="at_Groom_Phone"><img src="~/img/skin/call_icon.png" width="32" alt="전화 아이콘" /></a></dd>
+                <dd><a href="javascript:;" class="as_Groom_Phone"><img src="~/img/skin/sms_icon.png" width="36" alt="SMS 아이콘" /></a></dd>
+            </dl>
+            <dl class="wife">
+                <dt>
+                    <span class="blue">엄마에게 연락하기</span>
+                </dt>
+                <dd><a href="javascript:;" class="at_Bride_Phone"><img src="~/img/skin/call_icon.png" width="32" alt="전화 아이콘" /></a></dd>
+                <dd><a href="javascript:;" class="as_Bride_Phone"><img src="~/img/skin/sms_icon.png" width="36" alt="SMS 아이콘" /></a></dd>
+            </dl>
+        </div>
+        <h2 class="sound">아기 프로필 정보</h2>
+        <div class="baby_area">
+            <!-- 아기정보 타이틀 이미지 -->
+            <!--<div id="area17" idx="17" class="templatearea"></div>-->
+            <!-- 아기 정보 프로필 디자인 -->
+            <!--<div id="area18" idx="18" class="templatearea"></div>-->
+            <!-- 아기 정보 본문 디자인 -->
+            <!--<div id="area19" idx="19" class="templatearea"></div>-->
+            <!-- 아기 정보 하단 이미지 -->
+            <!--<div id="area20" idx="20" class="templatearea"></div>-->
+        </div>
+    </section>
+    <section class="onoff_5">
+        <!-- 갤러리 타이틀 이미지 -->
+        <div id="area5" idx="5" class="templatearea"></div>
+        <!-- 갤러리 -->
+        <div id="area6" idx="6">
+            <section class="gallery line" id="gallery">
+                <div class="area">
+                    <!-- 갤러리 타입01 바둑판-->
+                    <div class="gallery_type01">
+                        <div class="skin_gallery">
+                            @foreach (TB_Gallery item in ViewBag.Gallery)
+                            {
+                                var url = new Uri((Uri)ViewBag.CDNUrl, item.Image_URL);
+                                <figure><a href="#" style="background: url(@url ) no-repeat center center" itemprop="contentUrl"><img src="/img/skin/img_frame.png" class="img_frame" itemprop="thumbnail" alt=""></a></figure>
+                            }
+                        </div>
+                    </div>
+                    <!-- //갤러리 타입01 바둑판 -->
+                    <!-- //갤러리 타입02 리스트 -->
+                    <div class="gallery_type02">
+                        <ul>
+                            @foreach (TB_Gallery item in ViewBag.Gallery)
+                            {
+                                var url = new Uri((Uri)ViewBag.CDNUrl, item.Image_URL);
+                                <li><img src="@url" alt=""></li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- //갤러리 타입02 리스트 -->
+                    <!-- //갤러리 타입03 슬라이드-->
+                    <div class="gallery_type03">
+                        <!-- Swiper -->
+                        <!-- 썸네일 슬라이드 노출 -->
+                        <div class="swiper-container gallery-top">
+                            <div class="swiper-wrapper">
+                                @foreach (TB_Gallery item in ViewBag.Gallery)
+                                {
+                                    var url = new Uri((Uri)ViewBag.CDNUrl, item.Image_URL);
+
+                                    <div class="swiper-slide">
+                                        <img src="@url" alt="">
+                                    </div>
+                                }
+                            </div>
+                            <div class="swiper-button-next swiper-button-white"></div>
+                            <div class="swiper-button-prev swiper-button-white"></div>
+                        </div>
+                        <div class="swiper-container gallery-thumbs">
+                            <div class="swiper-wrapper">
+                                @foreach (TB_Gallery item in ViewBag.Gallery)
+                                {
+                                    var url = new Uri((Uri)ViewBag.CDNUrl, item.Image_URL);
+                                    <div class="swiper-slide" style="background:url(@url ) no-repeat center; background-size:cover;"></div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //갤러리 타입03 슬라이드-->
+
+                </div>
+            </section>
+        </div>
+    </section>
+    <section class="onoff_6">
+        <!-- 동영상 타이틀 이미지 -->
+        <div id="area7" idx="7" class="templatearea"></div>
+        <!-- 동영상 -->
+        <div id="area8" idx="8" class="movie line">
+            <div class="area">
+                <div class="iframe_wrap embed">
+                </div>
+                <div class="iframe_wrap preview">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 오시는길 타이틀 이미지 -->
+    <div id="area9" idx="9" class="templatearea"></div>
+    <!-- 오시는 길 -->
+    <div id="area10" idx="10" class="location line">
+        <div class="area">
+            <div class="map_info">
+                <dl class="map_title">
+                    <dt><span class="i_Weddinghall_Name">@ViewData["Weddinghall_Name"]</span><span class="i_WeddingHallDetail">@ViewData["WeddingHallDetail"]</span></dt>
+                    <dd><span class="i_Weddinghall_Address">@ViewData["Weddinghall_Address"]</span></dd>
+                    <dd><span class="i_Weddinghall_PhoneNumber">@ViewData["Weddinghall_PhoneNumber"]</span></dd>
+                </dl>
+            </div>
+            <div class="location_button_box">
+                <a href="javascript:;" class="map_btn">지도</a>
+                <a href="tel:@ViewData["Weddinghall_PhoneNumber"]" class="call_btn">전화</a>
+            </div>
+            <div class="map_wrap">
+                <iframe src="/Invitation/NaverMap" width="750" frameborder="0" style="border: 0" allowfullscreen></iframe>
+            </div>
+            <div class="input_imgmap" style="display:none;"><img class="mapImg" id="Outline_Image" style="border:0px solid #ccc;"></div>
+        </div>
+    </div>
+    <!-- 기타정보 -->
+    <section class="onoff_3">
+        <div id="area11" idx="11" class="templatearea">
+            <div class="etc_info">
+                <ul>
+                    <li>
+                        <strong id="etc_title_1"></strong>
+                        <span id="etc_contents_1"></span>
+                    </li>
+                    <li>
+                        <strong id="etc_title_2"></strong>
+                        <span id="etc_contents_2"></span>
+                    </li>
+                    <li>
+                        <strong id="etc_title_3"></strong>
+                        <span id="etc_contents_3"></span>
+                    </li>
+                    <li>
+                        <strong id="etc_title_4"></strong>
+                        <span id="etc_contents_4"></span>
+                    </li>
+                    <li>
+                        <strong id="etc_title_5"></strong>
+                        <span id="etc_contents_5"></span>
+                    </li>
+                    <li>
+                        <strong id="etc_title_6"></strong>
+                        <span id="etc_contents_6"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 화환 선물 -->
+    <div class="flowergift onoff_8">
+        <div class="templatearea">
+            <div class="item">
+                <img class="img" src="https://static.barunsoncard.com/barunsonmcard/invitation/title/tit_remittance_fla_v3.png" />
+            </div>
+        </div>
+        <div class="btn_fla">
+            <a href="javascript:;" class="btn an_btn type03 flowergift">
+                <span class="btn_text01">신랑, 신부님께 <br /> 축하의 마음을 전해보세요</span>
+                <strong class="btn_text02">화환 선물하기</strong>
+                <img src="/img/order/c_flowers/flowers_img_v2.png" alt="화환 이미지">
+            </a>
+        </div>
+    </div>
+    <!-- 화환 선물 -->
+
+    <div class="remittance onoff_4">
+        <div id="area12" idx="12" class="templatearea"></div>
+        <div id="area13" idx="13" class="btn_wrap">
+            <a href="javascript:;" class="btn remittance_btn type03"><i class="ico kakaopay"></i>축의금 송금하기</a>
+            <a href="javascript:;" class="btn an_btn type03 groom">신랑 측 계좌번호</a>
+            <a href="javascript:;" class="btn an_btn type03 bride">신부 측 계좌번호</a>
+            <a href="javascript:;" class="btn an_btn type03 account">계좌번호 보기</a>
+        </div>
+    </div>
+
+    <!-- 계좌번호 팝업 -->
+    <div class="account_pop account">
+        <div class="layer_pop">
+            <div class="account_list account">
+                <dl id="dl_1">
+                    <dt>
+                        <span id="inputSender_1" class="input_sender"></span>&nbsp;&nbsp;계좌
+                        <a href="javascript:;" class="copy_btn">복사하기</a>
+                    </dt>
+                    <dd><span id="inputBank_1" class="input_bank"></span>&nbsp;&nbsp;(예금주 : <span id="inputAccountHolder_1" class="input_accountholder"></span>)</dd>
+                    <dd><span id="inputAccountNumber_1" class="input_accountnumber"></span></dd>
+                </dl>
+                <dl id="dl_2">
+                    <dt>
+                        <span id="inputSender_2" class="input_sender"></span>&nbsp;&nbsp;계좌
+                        <a href="javascript:;" class="copy_btn">복사하기</a>
+                    </dt>
+                    <dd><span id="inputBank_2" class="input_bank"></span>&nbsp;&nbsp;(예금주 : <span id="inputAccountHolder_2" class="input_accountholder"></span>)</dd>
+                    <dd><span id="inputAccountNumber_2" class="input_accountnumber"></span></dd>
+                </dl>
+            </div>
+            <div class="btn_wrap type01">
+                <a href="javascript:accClose();" class="btn">닫기</a>
+            </div>
+        </div>
+        <div class="pop_mask"></div>
+    </div>
+    <!-- //계좌번호 팝업 -->
+    <!-- 신랑측 계좌번호 팝업 -->
+    <div class="account_pop groom">
+        <div class="layer_pop">
+            <div class="account_list groom">
+                <dl id="dl_bride_1">
+                    <dt>
+                        <span id="inputGroomSender_1" class="input_groom_sender"></span>&nbsp;&nbsp;계좌
+                        <a href="javascript:;" class="copy_btn">복사하기</a>
+                    </dt>
+                    <dd><span id="inputGroomBank_1" class="input_groom_bank"></span>&nbsp;&nbsp;(예금주 : <span id="inputGroomAccountHolder_1" class="input_groom_accountholder"></span>)</dd>
+                    <dd><span id="inputGroomAccountNumber_1" class="input_groom_accountnumber"></span></dd>
+                </dl>
+            </div>
+            <div class="btn_wrap type01">
+                <a href="javascript:;" class="btn close">닫기</a>
+            </div>
+        </div>
+        <div class="pop_mask"></div>
+    </div>
+    <!-- //신랑측 계좌번호 팝업 -->
+    <!-- 신부측 계좌번호 팝업 -->
+    <div class="account_pop bride">
+        <div class="layer_pop">
+            <div class="account_list bride">
+                <dl id="dl_bride_1">
+                    <dt>
+                        <span id="inputBrideSender_1" class="input_bride_sender"></span>&nbsp;&nbsp;계좌
+                        <a href="javascript:;" class="copy_btn">복사하기</a>
+                    </dt>
+                    <dd><span id="inputBrideBank_1" class="input_bride_bank"></span>&nbsp;&nbsp;(예금주 : <span id="inputBrideAccountHolder_1" class="input_bride_accountholder"></span>)</dd>
+                    <dd><span id="inputBrideAccountNumber_1" class="input_bride_accountnumber"></span></dd>
+                </dl>
+            </div>
+            <div class="btn_wrap type01">
+                <a href="javascript:;" class="btn close">닫기</a>
+            </div>
+        </div>
+        <div class="pop_mask"></div>
+    </div>
+    <!-- //신부측 계좌번호 팝업 -->
+   
+    <!-- 방명록 타이틀 이미지 -->
+    <section class="onoff_1">
+        <div id="area14" idx="14" class="templatearea"></div>
+        <!-- 방명록 -->
+        <div id="area15" idx="15" class="guest_book line">
+            <div class="area">
+                <div class="write_box">
+                    <input type="text" placeholder="이름" readonly>
+                    <input type="password" placeholder="비밀번호" readonly>
+                    <input type="text" placeholder="축하메시지" readonly>
+                </div>
+                <div class="btn_wrap">
+                    <button type="button" class="btn btn_save_guestbook guest_btn">축하메시지 남기기</button>
+                </div>
+                @{
+                    var messageList = new string[]
+                    {
+                        "결혼 축하해~~ 행복하게 잘 살아^^",
+                        "드디어 결혼하는구나! 축하한다 친구야~~~~"
+};
+                    if ((string)ViewData["Product_Category_Code"] == "PCC03")
+                    {
+                        messageList = new string[]
+                        {
+                            "벌써 1년, 많이 컸다~ 앞으로 더 건강히 자라렴!",
+                            "엄마 뱃속에 있었던게 어제 같은데 다 컸네~^^"
+};
+                    }
+                }
+                <!-- 방명록 글 리스트 -->
+                <div class="message_wrap">
+                    <ul>
+                        <li>
+                            <div class="message_top">
+                                <span class="name">최수진</span>
+                                <div class="message_box">
+                                    <span class="date">2021-05-29 10:53</span>
+                                    <button type="button" class="message_del">방명록 삭제하기</button>
+                                </div>
+                            </div>
+                            <div class="message_text">
+                                <p>@messageList[0]</p>
+                            </div>
+                            <div class="password_check">
+                                <input type="password" placeholder="Password">
+                                <a href="javascript:;" class="btn_type_02 check_btn">확인</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="message_top">
+                                <span class="name">김동호</span>
+                                <div class="message_box">
+                                    <span class="date">2021-05-29 10:53</span>
+                                    <button type="button" class="message_del">방명록 삭제하기</button>
+                                </div>
+                            </div>
+                            <div class="message_text">
+                                <p>@messageList[1]</p>
+                            </div>
+                            <div class="password_check">
+                                <input type="password" placeholder="Password">
+                                <a href="javascript:;" class="btn_type_02 check_btn">확인</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="btn_wrap">
+                        <a href="javascript:;" class="btn btn_guestbook_more">더보기</a>
+                        <a href="javascript:;" class="btn btn_guestbook_all">전체보기</a>
+                    </div>
+                </div>
+                <!-- //방명록 글 리스트 -->
+            </div>
+        </div>
+        <!-- //방명록 -->
+    </section>
+    <div id="area16" idx="16" class="footer line">
+        <ul class="sns_list">
+            <li><a href="javascript:;" class="btn_share" data-type="facebook"><img src="/img/skin/facebook_icon.png" width="12" alt="페이스북"></a></li>
+            <li><a href="javascript:;" id="kakao-link-btn"><img src="/img/skin/kakao_icon.png" width="40" alt="카카오톡"></a></li>
+            <li><a href="javascript:;" class="btn_share copy_url" data-type="copy" data-cllpboard-target="url"><img src="/img/skin/linkcopy_icon.png" width="30" alt="링크복사"></a></li>
+        </ul>
+        <div class="dvfooter">
+            <a href="https://www.barunsonmcard.com" target="_blank">
+                <img src="/img/preview/barunson.png">
+            </a>
+        </div>
+    </div>
+</div>
+@{
+    string Product_Category_Code = (string)ViewData["Product_Category_Code"];
+    List<TB_ReservationWord> defaultInfo = (List<TB_ReservationWord>)ViewData["defaultInfos"];
+    var prodItems = defaultInfo.Where(m => m.Product_Category_Codes.Contains(Product_Category_Code));
+}
+@functions{
+
+    public string matchName(IEnumerable<TB_ReservationWord> prodItems, string id)
+    {
+        return prodItems.FirstOrDefault(m => m.MappingField == id)?.ReserveWord;
+    }
+}
+<div style="display:none" id="Objects">@ViewData["Objects"]</div>
+<div style="display:none" id="TB_Area">@ViewData["TB_Area"]</div>
+<div style="display:none" id="ETCs">@ViewData["ETCs"]</div>
+<div style="display:none" id="Accounts">@ViewData["Accounts"]</div>
+<div style="display:none" id="GroomAccounts">@ViewData["GroomAccounts"]</div>
+<div style="display:none" id="BrideAccounts">@ViewData["BrideAccounts"]</div>
+<div style="display:none" id="BabyInfos">@ViewData["BabyInfos"]</div>
+
+<div style="display:none" id="divMatch"></div>
+
+<input type="hidden" id="Product_Category_Code" value="@ViewData["Product_Category_Code"]" />
+
+<input type="hidden" id="Invitation_Title" match="@(matchName(prodItems, "Invitation_Title"))" value="@ViewData["Invitation_Title"]">
+
+<input type="hidden" id="Groom_Name" match="@(matchName(prodItems, "Groom_Name"))" value="@ViewData["Groom_Name"]">
+<input type="hidden" id="Bride_Name" match="@(matchName(prodItems, "Bride_Name"))" value="@ViewData["Bride_Name"]">
+
+<input type="hidden" id="Groom_Phone" value="@ViewData["Groom_Phone"]">
+<input type="hidden" id="Groom_Global_Phone_YN" value="@ViewData["Groom_Global_Phone_YN"]">
+<input type="hidden" id="Groom_Global_Phone_Number" value="@ViewData["Groom_Global_Phone_Number"]">
+<input type="hidden" id="Bride_Phone" value="@ViewData["Bride_Phone"]">
+<input type="hidden" id="Bride_Global_Phone_YN" value="@ViewData["Bride_Global_Phone_YN"]">
+<input type="hidden" id="Bride_Global_Phone_Number" value="@ViewData["Bride_Global_Phone_Number"]">
+<input type="hidden" id="Groom_Parents1_Name" value="@ViewData["Groom_Parents1_Name"]">
+<input type="hidden" id="Groom_Parents1_Global_Phone_Number_YN" value="@ViewData["Groom_Parents1_Global_Phone_Number_YN"]">
+<input type="hidden" id="Groom_Parents1_Global_Phone_Number" value="@ViewData["Groom_Parents1_Global_Phone_Number"]">
+<input type="hidden" id="Groom_Parents1_Phone" value="@ViewData["Groom_Parents1_Phone"]">
+<input type="hidden" id="Groom_Parents2_Name" value="@ViewData["Groom_Parents2_Name"]">
+<input type="hidden" id="Groom_Parents2_Global_Phone_Number_YN" value="@ViewData["Groom_Parents2_Global_Phone_Number_YN"]">
+<input type="hidden" id="Groom_Parents2_Global_Phone_Number" value="@ViewData["Groom_Parents2_Global_Phone_Number"]">
+<input type="hidden" id="Groom_Parents2_Phone" value="@ViewData["Groom_Parents2_Phone"]">
+<input type="hidden" id="Bride_Parents1_Name" value="@ViewData["Bride_Parents1_Name"]">
+<input type="hidden" id="Bride_Parents1_Global_Phone_Number_YN" value="@ViewData["Bride_Parents1_Global_Phone_Number_YN"]">
+<input type="hidden" id="Bride_Parents1_Global_Phone_Number" value="@ViewData["Bride_Parents1_Global_Phone_Number"]">
+<input type="hidden" id="Bride_Parents1_Phone" value="@ViewData["Bride_Parents1_Phone"]">
+<input type="hidden" id="Bride_Parents2_Name" value="@ViewData["Bride_Parents2_Name"]">
+<input type="hidden" id="Bride_Parents2_Global_Phone_Number_YN" value="@ViewData["Bride_Parents2_Global_Phone_Number_YN"]">
+<input type="hidden" id="Bride_Parents2_Global_Phone_Number" value="@ViewData["Bride_Parents2_Global_Phone_Number"]">
+<input type="hidden" id="Bride_Parents2_Phone" value="@ViewData["Bride_Parents2_Phone"]">
+
+<input type="hidden" id="Greetings" match="인사말" value="@ViewData["Greetings"]">
+
+<input type="hidden" id="WeddingDate" value="@ViewData["WeddingDate"]" match="@(matchName(prodItems, "WeddingDate"))" />
+<input type="hidden" id="WeddingYY" value="@ViewData["WeddingYY"]" match="@(matchName(prodItems, "WeddingYY"))" />
+<input type="hidden" id="WeddingMM" value="@ViewData["WeddingMM"]" match="@(matchName(prodItems, "WeddingMM"))" />
+<input type="hidden" id="WeddingDD" value="@ViewData["WeddingDD"]" match="@(matchName(prodItems, "WeddingDD"))" />
+<input type="hidden" id="WeddingWeek" value="@ViewData["WeddingWeek"]" />
+<input type="hidden" id="WeddingWeekName" value="@ViewData["WeddingWeekName"]" match="@(matchName(prodItems, "WeddingWeek"))" />
+<input type="hidden" id="Time_Type_Code" value="@ViewData["Time_Type_Code"]" />
+<input type="hidden" id="Time_Type_Name" value="@ViewData["Time_Type_Name"]" match="@(matchName(prodItems, "Time_Type_Code"))" />
+
+<input type="hidden" id="WeddingHour" value="@ViewData["WeddingHour"]" match="@(matchName(prodItems, "WeddingHour"))" />
+<input type="hidden" id="WeddingMin" value="@ViewData["WeddingMin"]" match="@(matchName(prodItems, "WeddingMin"))" />
+<input type="hidden" id="WeddingHHmm" value="@ViewData["WeddingHHmm"]" />
+<input type="hidden" id="Weddinghall_Name" value="@ViewData["Weddinghall_Name"]" match="@(matchName(prodItems, "Weddinghall_Name"))" />
+<input type="hidden" id="WeddingHallDetail" value="@ViewData["WeddingHallDetail"]" match="@(matchName(prodItems, "WeddingHallDetail"))" />
+<input type="hidden" id="Weddinghall_Address" value="@ViewData["Weddinghall_Address"]" match="@(matchName(prodItems, "Weddinghall_Address"))" />
+
+<input type="hidden" id="Baby_Name" value="" match="@(matchName(prodItems, "Baby_Name"))" />
+<input type="hidden" id="Baby_Birthday" value="" match="@(matchName(prodItems, "Baby_Birthday"))" />
+
+<input type="hidden" id="Outline_Type_Code" value="@ViewData["Outline_Type_Code"]" />
+<input type="hidden" id="Outline_Image_URL" value="@ViewData["Outline_Image_URL"]" />
+
+<input type="hidden" id="GuestBook_Use_YN" value="@ViewData["GuestBook_Use_YN"]" />
+<input type="hidden" id="Etc_Information_Use_YN" value="@ViewData["Etc_Information_Use_YN"]" />
+<input type="hidden" id="Parents_Information_Use_YN" value="@ViewData["Parents_Information_Use_YN"]" />
+<input type="hidden" id="MoneyGift_Remit_Use_YN" value="@ViewData["MoneyGift_Remit_Use_YN"]" />
+<input type="hidden" id="MoneyAccount_Remit_Use_YN" value="@ViewData["MoneyAccount_Remit_Use_YN"]" />
+<input type="hidden" id="MoneyAccount_Div_Use_YN" value="@ViewData["MoneyAccount_Div_Use_YN"]" />
+<input type="hidden" id="Flower_gift_YN" value="@ViewData["Flower_gift_YN"]" />
+<input type="hidden" id="Invitation_Video_Use_YN" value="@ViewData["Invitation_Video_Use_YN"]" />
+<input type="hidden" id="Gallery_Use_YN" value="@ViewData["Gallery_Use_YN"]" />
+<input type="hidden" id="Gallery_Type_Code" value="@ViewData["Gallery_Type_Code"]" />
+<input type="hidden" id="Invitation_Video_Type_Code" value="@ViewData["Invitation_Video_Type_Code"]" />
+<input type="hidden" id="Invitation_Video_URL" value="@ViewData["Invitation_Video_URL"]" />
+<input type="hidden" id="Step" value="@ViewData["Step"]" />
+<input type="hidden" id="Delegate_Image_URL" value="@ViewData["Delegate_Image_URL"]" />
+<input type="hidden" id="Product_Category_Code" value="@ViewData["Product_Category_Code"]" />
+
+<input type="hidden" id="Location_LAT" value="@ViewData["Location_LAT"]" />
+<input type="hidden" id="Location_LOT" value="@ViewData["Location_LOT"]" />
+<input type="hidden" id="loc" value="@ViewData["Weddinghall_Name"]">
+
+<input type="hidden" id="User_ID" value="@ViewData["User_ID"]">
+
+<input type="hidden" id="DetailNewLineYN" value="@ViewData["DetailNewLineYN"]" />
+
+<input type="hidden" id="CDN" value="@(((Uri)ViewBag.CDNUrl).ToString().TrimEnd('/'))">
+<input type="hidden" id="D-DAY" match="D-DAY" value="@ViewData["D-DAY"]">
+
+
+@section Scripts
+{
+    <script language="javascript" src="~/js/invitation/invitation.js" asp-append-version="true" type="text/javascript"></script>
+
+    @if (ViewData["Attached_File1_URL"] != null)
+    {
+        <link href="@ViewData["Attached_File1_URL"]" rel="stylesheet">
+    }
+    @if (ViewData["Attached_File2_URL"] != null)
+    {
+        <script src="@ViewData["Attached_File2_URL"]"></script>
+    }
+}

@@ -1,0 +1,119 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyPageOrderViewModel
+@{
+    Layout = null;
+}
+<div class="tab_con">
+    @if (Model.DataModels.Count == 0)
+    {
+        <p class="empty_text">주문정보가 없습니다.</p>
+    }
+    else
+    {
+        <ul class="order_check">
+            @foreach(var item in Model.DataModels)
+            {
+                var orderStepActionname = "McardStep1";
+                if (item.ProductCategoryCode == "PCC01") //청첩장
+                    orderStepActionname = "McardStep1";
+                else if (item.ProductCategoryCode == "PCC02") //감사장
+                    orderStepActionname = "MthanksStep1";
+                else if (item.ProductCategoryCode == "PCC03") //돌잔치
+                    orderStepActionname = "MDollStep1";
+                <li>
+                    @if (Model.IsMobileView)
+                    {
+                        //Mobile
+                        <div class="order_info">
+                            <!-- 상품 타이틀 및 주문번호 -->
+                            <div class="order_title">
+                                <p><strong>주문번호</strong>@item.OrderCode</p>
+                            </div>
+
+                            <div class="order_detail">
+                                <!-- 상품 타이틀 및 주문번호 -->
+                                <div class="img_con">
+                                    <img src="@item.MainImageUrlFull" alt="상품 썸네일 이미지" />
+                                </div>
+                                <div class="info_box">
+                                    <dl>
+                                        <dt>주문 상품</dt>
+                                        <dd>@item.ProductName /@item.ProductCode</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>상품 유형</dt>
+                                        <dd>@item.ProductCategoryName</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>주문 일시</dt>
+                                        <dd>@item.OrderDateTime.ToString("yyyy-MM-dd HH:mm")</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>주문 금액</dt>
+                                        <dd>@item.OrderPrice.ToString("#,##0원")</dd>
+                                    </dl>
+                                </div>
+                            </div>
+
+                            <!-- 제작 및 결제하기 버튼 -->
+                            <div class="btn_wrap type02 bottom1">
+                                <a asp-action="Order_Del" asp-controller="Order" asp-route-Order_Id="@item.OrderID" class="btn type03_1 info_del">삭제</a>
+                                <a asp-action="@orderStepActionname" asp-controller="Order" asp-route-Order_Id="@item.OrderID" class="btn type03" target="_self">제작하기</a>
+                            </div>
+                            <!-- //제작 및 결제하기 버튼 -->
+                        </div>
+                    }
+                    else
+                    {
+                        //PC
+                        <div class="img_con">
+                            <img src="@item.MainImageUrlFull" alt="상품 썸네일 이미지" />
+                        </div>
+                        <div class="order_info">
+                            <!-- 상품 타이틀 및 주문번호 -->
+                            <div class="order_title">
+                                <p><strong>@item.ProductName /@item.ProductCode</strong></p>
+                                <dl>
+                                    <dt>주문번호</dt>
+                                    <dd>@item.OrderCode</dd>
+                                </dl>
+                            </div>
+                            <!--// 상품 타이틀 및 주문번호 -->
+                            <!-- 상품 상세정보 -->
+                            <div class="order_detail">
+                                <dl>
+                                    <dt>상품 유형</dt>
+                                    <dd>@item.ProductCategoryName</dd>
+                                </dl>
+                                <dl>
+                                    <dt>주문 일시</dt>
+                                    <dd>@item.OrderDateTime.ToString("yyyy-MM-dd HH:mm")</dd>
+                                </dl>
+                                <dl>
+                                    <dt>주문 금액</dt>
+                                    <dd>@item.OrderPrice.ToString("#,##0원")</dd>
+                                </dl>
+                            </div>
+                            <!-- //상품 상세정보 -->
+                            <!-- 제작 및 결제하기 버튼 -->
+                            <div class="btn_wrap type02 bottom">
+                                <a asp-action="Order_Del" asp-controller="Order" asp-route-Order_Id="@item.OrderID" class="btn type03_1 info_del">삭제</a>
+                                <a asp-action="@orderStepActionname" asp-controller="Order" asp-route-Order_Id="@item.OrderID" class="btn type03" target="_self">제작하기</a>
+                            </div>
+                            <!-- //제작 및 결제하기 버튼 -->
+                        </div>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    <div class="table_info">
+        <dl>
+            <dt>※ 안내</dt>
+            <dd>- '제작 중'에 등록된 주문 건은 30일 이후 자동 삭제됩니다.</dd>
+
+        </dl>
+    </div>
+</div>

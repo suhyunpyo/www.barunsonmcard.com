@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="/css/reset.css">
+	<link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+	<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/css/common.css">
+	<link rel="stylesheet" href="/css/popup.css">
+	<title>BarunsonMcard 모바일 초대장</title>
+</head>
+<body>
+	<div id="popWrap">
+		<section>
+			<div class="pop_top">
+				<div class="pop_area">
+					<h1>인사말 선택</h1>
+					<a href="javascript:;" class="pop_close" onclick="windowPopClose()">팝업닫기</a>
+				</div>
+			</div>
+			<div class="pop_contents">
+				<div class="pop_area">
+					<!-- <div class="pop_tab">
+						<ul>
+							<li><a href="./pop_GreetingSearch01.html">청첩장</a></li>
+							<li><a href="./pop_GreetingSearch02.html" class="active">감사장</a></li>
+						</ul>
+					</div> -->
+					<!-- pop_menu_list -->
+					<div class="pop_menu_list">
+						<div class="swiper-container">
+							<!-- Additional required wrapper -->
+							<div class="swiper-wrapper">
+								<!-- Slides -->
+								<div class="swiper-slide">
+									<!--
+										class active 추가 시 선택효과
+									-->
+									<a href="javascript:;" class="active">베스트</a>
+								</div>
+								<!-- <div class="swiper-slide">
+									<a href="javascript:;">정중한</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="javascript:;">재밌는</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="javascript:;">미사/예배</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="javascript:;">계절</a>
+								</div> -->
+							</div>
+							<!-- //Additional required wrapper -->
+						</div>
+					</div>
+					<!-- //pop_menu_list -->
+					<!-- 인사말 샘플 텍스트 -->
+					<div class="sample_contents">
+						<!-- 베스트 -->
+						<div class="sample_con">
+							<ol>
+								<li>
+									<div class="sample_num">01</div>
+									<div class="sample_text">
+										<p>
+											저희 집 혼사시에 바쁘신 중에도<br />각별하신 축하와 후의를 베풀어 주신데 대하여<br />진심으로 감사를 드립니다.<br />마땅히 찾아 뵈옵고<br />인사를 드리는 것이 도리이오나<br />우선 글월로 감사 드림을<br />너그럽게 받아 주셨으면 합니다.<br />댁내에 건강과 평안이 늘 함께 하시기를 기원합니다.
+										</p>
+										<a href="javascript:;" class="sample_save">적용하기</a>
+									</div>
+								</li>
+								<li>
+									<div class="sample_num">02</div>
+									<div class="sample_text">
+										<p>
+											바쁘신 중에도 축하해 주신데 대하여<br />진심으로 감사를 드립니다.<br />저와 저희 가정에 보내주신 따뜻한 정,<br />오래오래 마음깊이 간직하겠습니다.<br />가정에 건강과 평안이<br />늘 함께 하시기를 기원합니다.
+										</p>
+										<a href="javascript:;" class="sample_save">적용하기</a>
+									</div>
+								</li>
+								<li>
+									<div class="sample_num">03</div>
+									<div class="sample_text">
+										<p>
+											저희 집 혼사에 어려운 상황임에도 불구하고<br />축하와 후의를 베풀어 주셔서<br />진심으로 감사드립니다.<br />힘든 시기가 지나<br />소중한 일상을 함께 할 수 있길 바라며<br />항상 건강하시고 행복이 가득하시길 기원합니다.
+										</p>
+										<a href="javascript:;" class="sample_save">적용하기</a>
+									</div>
+								</li>
+								<li>
+									<div class="sample_num">04</div>
+									<div class="sample_text">
+										<p>
+											오늘 같이 아름다운 날,<br />바쁘신 중에도 각별히 저희 결혼에<br />축하와 후의를 베풀어 주심에<br />진심으로 감사 드립니다.
+										</p>
+										<a href="javascript:;" class="sample_save">적용하기</a>
+									</div>
+								</li>
+								<li>
+									<div class="sample_num">05</div>
+									<div class="sample_text">
+										<p>
+											오늘 저희 집 혼사에<br />각별한 축하와 호의를 베풀어 주셔서<br />진심으로 감사드립니다.<br />댁내에 건강과 평안이 늘 함께 하시고<br />뜻하시는 모든 일이 형통하시길 기원합니다.
+										</p>
+										<a href="javascript:;" class="sample_save">적용하기</a>
+									</div>
+								</li>
+							</ol>
+						</div>
+						<!-- //베스트 -->
+					</div>
+					<!-- //인사말 샘플 텍스트 -->
+				</div>
+			</div>
+		</section>
+	</div>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.js"></script>
+	<script src="/js/common/common.js"></script>
+	<script src="/js/common/popup.js"></script>
+	<script>
+        function fn_replace(str, searchStr, replaceStr) {
+            return str.split(searchStr).join(replaceStr);
+        }
+        function fn_trim(str) {
+            str = str.replace(/^\s*/, '').replace(/\s*$/, '');
+            return str;
+        }
+
+        $('.sample_save').on('click', function () {
+
+            opener.$("#Greetings").val(fn_trim(fn_replace($(this).prev("p").html(), "<br>", "\n")));
+            opener.$("#Greetings").focus();
+
+            self.close();
+        });
+	</script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+﻿@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+<link rel="stylesheet" href="/css/product.css">
+<script src="/js/qrcode.min.js"></script>
+@{
+    int Product_Id = 0;
+    int Price = 0;
+    int Wish_Cnt = 0;
+    string Brand_Code = "", Product_Name = "", Product_Code = "", Preview_Image_URL = "", Main_Image_URL = "", Display_Yn = "", Product_Category_Code="";
+    int COUPON_EXCEPTION_PRODUCT_YN = 0;
+    string Wish_Yn = "N";
+    string SetCard_Display_YN = "N";
+    string SetCard_URL = "";
+    string SetCard_Mobile_URL = "";
+
+}
+
+@foreach (Dictionary<string, object> list in ViewBag.Product_Detail_List)
+{
+    Product_Category_Code = list["Product_Category_Code"].ToString();
+    Product_Id = Convert.ToInt32(list["Product_Id"]);
+    Brand_Code = list["Brand_Code"].ToString();
+    Product_Name = list["Product_Name"].ToString();
+    Product_Code = list["Product_Code"].ToString();
+    Price = Convert.ToInt32(list["Price"]);
+    Preview_Image_URL = list["Preview_Image_URL"] != null ? new Uri((Uri)ViewBag.CDNUrl, list["Preview_Image_URL"].ToString()).ToString() : "";
+    
+    Main_Image_URL = !string.IsNullOrEmpty(list["Display_Yn"].ToString()) ? list["Display_Yn"].ToString() : "";
+    Display_Yn = list["Display_Yn"].ToString();
+    Wish_Cnt = Convert.ToInt32(list["Wish_Cnt"]);
+    Wish_Yn = list["Wish_Yn"].ToString();
+    COUPON_EXCEPTION_PRODUCT_YN = Convert.ToInt32(list["COUPON_EXCEPTION_PRODUCT_YN"]);
+    SetCard_Display_YN = list["SetCard_Display_YN"].ToString();
+    SetCard_URL = list["SetCard_URL"] != null ? list["SetCard_URL"].ToString() : "";
+    SetCard_Mobile_URL = list["SetCard_Mobile_URL"] != null ? list["SetCard_Mobile_URL"].ToString() : "";
+
+}
+
+<section class="sub_contents product detail">
+    <input type="hidden" id="Product_Category_Code" value="@Product_Category_Code" />
+    <input type="hidden" id="Product_Code" value="@Product_Code" />
+    <div class="area">
+        <div class="product_detail_wrap">
+            <!-- 우측 상품 미리보기 -->
+            <aside class="product_preview">
+                <p class="sub_text">
+                    <span class="ico notice"></span>
+                    이미지를 스크롤 하시면 자세히 보실 수 있습니다.
+                </p>
+                <a href="#none" onclick="imgFullView();" class="detail_full"><img src="/img/common/detail_full.svg" alt="확대보기"></a>
+                <!-- 상품 이미지 영역 -->
+                <div class="product_img">
+                    <div class="preview_box">
+                        <div class="preview_top">
+                            <span></span>
+                        </div>
+
+                        <div class="img_con">
+                            <iframe id="preview_frame" class="detail_frame" src="/preview/@Product_Id" frameborder="0" width="100%" marginwidth="0" marginheight="0" onload="previewCalcHeight();"></iframe>
+                        </div>
+
+                        <div class="preview_info_box">
+                            <div class="preview_mouse">
+                                <div class="mousey">
+                                    <div class="scroller"></div>
+                                </div>
+                            </div>
+                            <p>이미지를 스크롤하시면 <br /> 자세히 보실 수 있습니다.</p>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- //상품 이미지 영역 -->
+                <div class="btn_wrap ob_wrap">
+                    <a href="javascript:imgFullView();" class="btn preview_btn">모바일초대장 미리보기</a>
+                </div>
+            </aside>
+            <!-- //우측 상품 미리보기 -->
+            <!-- 상품 정보 -->
+            <div class="product_info_box">
+                <!-- 상품 타이틀 및 좋아요 -->
+                <div class="pf_box">
+                    <div class="product_top">
+                        <p class="product_location">@Product_Code</p>
+                        <p class="product_title"><strong>@Product_Name</strong></p>
+
+                        <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+                        <span class="ico wish  @(Wish_Yn.Equals("Y") ? "active" : "")" id="@Product_Id">
+                            <strong class="wish_count mont">
+                                @(Wish_Cnt > 99 ? "99+" : Wish_Cnt+"")
+                            </strong>
+                        </span>
+                    </div>
+
+                    <!-- //상품 타이틀 및 좋아요 -->
+                    <!-- 상품 상세정보 -->
+                    <div class="product_info">
+                        <dl>
+                            <dt>소비자가</dt>
+                            <dd>
+                                <p class="product_price">
+                                    @String.Format("{0:#,##0}", @Price)원 @*<span class="product_sale">20%</span>*@
+                                    @*@(COUPON_EXCEPTION_PRODUCT_YN > 0 ? "(쿠폰 적용 불가)" : "")*@
+                                </p>
+                                <a href="javascript:Coupon_List();" class="coupon_search">사용 가능한 쿠폰 보기</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>제작기간</dt>
+                            <dd>즉시</dd>
+                        </dl>
+                        <dl>
+                            <dt>사용기간</dt>
+                            @if (Product_Category_Code.Equals("PCC01"))
+                            {
+                                <dd>예식일로부터 90일간 유지</dd>
+                            }
+                            else if (Product_Category_Code.Equals("PCC02"))
+                            {
+                                <dd>구매일로부터  90일간 유지</dd>
+                            }
+                            else if (Product_Category_Code.Equals("PCC03"))
+                            {
+                                <dd>구매일로부터  90일간 유지</dd>
+                            }
+
+
+                        </dl>
+                        <!-- QR Start -->
+                        <dl class="item_preview">
+                            <dt>미리보기</dt>
+                            <dd id="qrcode">
+                                
+                                <img src="@Preview_Image_URL" alt="QR 이미지" style="display:none">
+                            </dd>
+                        </dl>
+                        <!-- QR End -->
+                    </div>
+                    <!-- //상품 상세정보 -->
+                </div>
+
+                <!-- 상품상세 배너 -->
+                @foreach (Dictionary<string, object> list in ViewBag.Banner_List)
+                {
+                    if (list["Status"].ToString().Equals("진행"))
+                    {
+                        var url = new Uri((Uri)ViewBag.CDNUrl, (string)list["Image_URL"]);
+                        <div class="detail_slide swiper-container @list["Banner_Type_Code"]">
+                            <div class="swiper-wrapper">
+
+                                <div class="swiper-slide">
+                                    <a class="" href="@list["Link_URL"]" target="@list["NewPage_YN"]"><img src="@url" alt="상품상세 배너"></a>
+                                </div>
+                            </div>
+                            <!-- 페이징 -->
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    }
+                }
+
+                <!-- 주문하기 버튼 & 모바일초대장 미리보기 버튼 -->
+                <div class="btn_wrap">
+                    <a href="#" class="btn set_btn" target="_blank" style="display:none;"><span>세트 청첩장 보러가기</span> <i class="ico set">SET</i></a>
+                    <a href="#none" id="ordBtn" class="btn type03 ord_btn">주문하기</a>
+                </div>
+                <!-- //주문하기 버튼 & 모바일초대장 미리보기 버튼 -->
+            </div>
+
+            <!-- //상품 정보 -->
+            <!-- 사용 가능한 쿠폰 팝업 -->
+            <div class="pop_wrap pop_l coupon_pop">
+                <div class="layer_pop">
+                    <div class="btn_wrap type01">
+                        <a href="javascript:;" class="btn type03_1" onclick="popClose(); scrollAble();">닫기</a>
+                    </div>
+                </div>
+                <div class="pop_mask" onclick="scrollAble();"></div>
+            </div>
+            <!-- //사용 가능한 쿠폰 팝업 -->
+        </div>
+        @*배너 연동*@
+        <div class="product_banner">
+            @foreach (Dictionary<string, object> list in ViewBag.Banner_List)
+            {
+                if (list["Status"].ToString().Equals("진행"))
+                {
+                    var url = new Uri((Uri)ViewBag.CDNUrl, (string)list["Image_URL"]);
+                    <a class="@list["Banner_Type_Code"]" href="@list["Link_URL"]" target="@list["NewPage_YN"]"><img src="@url" alt="상품상세 배너"></a>
+                }
+
+            }
+
+            @*<a href="javascript:;"><img src="/img/product/product_banner.jpg" alt="상품상세 배너"></a>*@
+        </div>
+        <div class="product_banner">
+            @foreach (TB_Product_Image item in ViewBag.Detail_Img_Url)
+            {
+                string Image_Type_Code = item.Image_Type_Code;
+                
+                var Image_URL = new Uri((Uri)ViewBag.CDNUrl, item.Image_URL);
+
+                <img class="@Image_Type_Code" src="@Image_URL" alt="상품상세 배너">
+
+            }
+
+
+        </div>
+        <!-- 청첩장 유의사항 -->
+        <div class="product_notice">
+            <h2>유의사항</h2>
+            <div class="pn_box">
+
+            </div>
+        </div>
+        <!-- //청첩장 유의사항 -->
+        
+    </div>
+</section>
+    <script type="text/javascript">
+
+    /*QR코드 생성 Start*/
+    var qrcode = new QRCode("qrcode");
+    var device = "P";
+
+    qrcode.makeCode(location.protocol + "//" + location.host + "/preview/" + @Product_Id);//$("#qrcode img").attr("src"));
+    /*QR코드 생성 End*/
+    $("#qrcode img:eq(1)").css({ "width": "112px", "height": "112px", "text-align": "left" });
+    var ErrMessage = "@Html.Raw(ViewBag.AlertMessage)";
+
+    if (!isEmpty(ErrMessage)) {
+       // alert('@Html.Raw(ViewBag.AlertMessage)');
+        location.replace("@Url.Action("Index" , "Main")");
+
+    }
+
+    //초대장 미리보기
+    $(".ob_wrap a:eq(0)").click(function () {
+
+        var url = "/preview/" + @Product_Id; //"@Preview_Image_URL";
+
+        $(this).attr("href", url);
+        //alert("준비 중입니다.");
+
+    });
+    var Preview_Image_URL = location.protocol + "//" + location.host + "@Preview_Image_URL";
+    $(" .product_img .img_con img").attr("src", Preview_Image_URL);
+
+    var filter = "win16|win32|win64|macintel|mac|";
+
+    if (navigator.platform) {
+        if (filter.indexOf(navigator.platform.toLowerCase()) < 0) {
+
+            $(".ICC01, .BTC01").hide();
+            device = "M";
+            //mobile
+        } else {
+
+            $(".ICC02, .BTC02").hide();
+            device = "P";
+            //pc
+        }
+    }
+
+    $(".product_info_box #ordBtn").click(function () {
+        var url = "@Url.Action("Regist", "Order", new { Product_Id = @Product_Id})";
+
+        location.href = url + "/" + device;
+
+         //Device_Type = device
+    });
+
+
+    function imgFullView() {
+
+        if (navigator.platform) {
+            if (filter.indexOf(navigator.platform.toLowerCase()) < 0) {
+                //mobile
+                //location.href = "@Url.Action("Product_Detail_View", "Product", new { Product_Id = @Product_Id })";
+
+                location.href ="/preview/" + @Product_Id;
+            }
+            else {
+                window.open("/preview/" + @Product_Id, "_blank");
+
+                //window.open("@Url.Action("Product_Detail_View", "Product", new { Product_Id = @Product_Id })");
+            }
+        }
+    }
+
+    var Product_Category_Code = $("#Product_Category_Code").val();
+
+    if (Product_Category_Code == "PCC01")//청첩장
+    {
+        $(".product_notice  .pn_box").append("<p> 종이청첩장 구매 시, 모바일 청첩장을 무료로 제작할 수 있는 쿠폰을 제공합니다.</p>");
+        $(".product_notice  .pn_box").append("<p>휴대폰 기종에 따라 폰트나 이미지 사이즈가 다르게 보일 수 있습니다.</p>");
+        $(".product_notice  .pn_box").append("<p>모바일 청첩장은 공통 템플릿으로 제공되며, 정보의 구성이나 순서를 임의적으로 변경할 수 없습니다.</p>");
+        $(".product_notice  .pn_box").append("<p>제작완료 후 횟수 제한 없이 수정하실 수 있습니다.</p>");
+        $(".product_notice  .pn_box").append("<p>해외 예식의 경우, 네이버 지도가 지원되지 않으니, 약도 파일을 직접 업로드 해주세요.</p>");
+    } else if (Product_Category_Code == "PCC02") {  //김사장
+        $(".product_notice  .pn_box").append("<p> 휴대폰 기종에 따라 폰트나 이미지 사이즈가 다르게 보일 수 있습니다.</p>");
+        $(".product_notice  .pn_box").append("<p>모바일 감사장은 공통 템플릿으로 제공되며, 정보의 구성이나 순서를 임의적으로 변경할 수 없습니다.</p>");
+        $(".product_notice  .pn_box").append("<p>제작완료 후 횟수 제한 없이 수정하실 수 있습니다.</p>");
+    } else if (Product_Category_Code == "PCC03") {  //돌잔치
+        $(".product_notice  .pn_box").append("<p> 휴대폰 기종에 따라 폰트나 이미지 사이즈가 다르게 보일 수 있습니다.</p>");
+        $(".product_notice  .pn_box").append("<p>모바일 돌잔치 초대장은 공통 템플릿으로 제공되며, 정보의 구성이나 순서를 임의적으로 변경할 수 없습니다.</p>");
+        $(".product_notice  .pn_box").append("<p>제작완료 후 횟수 제한 없이 수정하실 수 있습니다.</p>");
+    }
+
+
+    //쿠폰 리스트 노출
+    function Coupon_List() {
+        var LoginYN = "@User.IsInRole("Users")";
+        if (LoginYN == "False") {
+
+            //alert("회원만 이용가능합니다.");
+
+            alert("로그인 후 확인 해 주세요!");
+
+            location.replace("/member/logIn?ReturnUrl=/Product/Detail/@Product_Id");
+
+            return false;
+        }
+
+        var Product_Code = $("#Product_Code").val();
+        $.ajax({
+            type: "POST",
+            url: "/Member/Coupon_List_Popup_New/?Product_Code=" + Product_Code,
+            dataType: "json",
+            async: true,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (result) {
+
+                var obj = "<div class=\"coupon_list mCustomScrollbar\">";
+
+                $(result.coupon_List).each(function (index, list) {
+                        var Standard_Purchase_Price = list.Standard_Purchase_Price;
+
+
+                        //   if (list.Expiration_YN == "on") {
+
+                        //쿠폰설정금액이 없거나(제한없음) 쿠폰설정금액이 총금액보다 크거나 같은 경우일때만
+                        // alert(list.Expiration_YN)
+                        var className = "";
+                        var ment = "";
+
+                        if ((!isEmpty(Standard_Purchase_Price) && parseInt(Standard_Purchase_Price) <= @Price) || isEmpty(Standard_Purchase_Price) /*|| list.Expiration_YN != "off"*/) {
+                            if (list.Expiration_YN == "off") {
+                                className = "impossible";
+                                ment = "(사용불가)";
+                            }
+                        }
+                        else {
+
+                            className = "impossible";
+                            ment = "(사용불가)";
+                    }
+                    //alert(ment);
+                    if (isEmpty(className) && list.Coupon_Product_Yn == "0") {
+                        className = "impossible"; ment = "(사용불가)";
+                    }
+
+                        obj += " <dl class=\"" + className + "\"> ";
+                        obj += "    <dt class=\"coupon_title\">" + list.Coupon_Name + "</dt>";
+
+                        obj += "    <dd class=\"coupon_sale\">" + list.Discount_View + "할인" + ment + "</dd>";
+
+                        obj += "    <dd class=\"coupon_date\">" + list.Date_Display_View + "</dd>";
+                        obj += "  </dl>";
+
+                    });
+
+                if ($(result.coupon_List).length == 0) {
+
+                    obj += " <dl class=\"impossible\"> ";
+                    obj += "    <dt class=\"coupon_title\">쿠폰이 없습니다.</dt>";
+                    obj += "  </dl>";
+                }
+
+                obj += " </div>";
+                obj += "<div class=\"btn_wrap type01\">";
+                obj += "<a href=\"javascript:;\" class=\"btn type03_1\" onclick=\"popClose(); scrollAble();\">닫기</a>";
+                obj += "</div>";
+
+                $(".coupon_pop.pop_wrap .layer_pop").html("<h3>사용 가능한 쿠폰</h3>" + obj);
+
+            }
+
+        });
+
+        popOpen(0); scrollDisable();
+
+    }
+
+    if ("@SetCard_Display_YN" == "Y") {
+        if (isMobile()) {
+            $(".set_btn").attr("href", "@SetCard_Mobile_URL");
+        } else {
+            $(".set_btn").attr("href", "@SetCard_URL");
+        }
+
+        $(".set_btn").show();
+    }
+
+    function isMobile() {
+
+        var UserAgent = navigator.userAgent;
+
+        if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+    }
+
+
+</script>

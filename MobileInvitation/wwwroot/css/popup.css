@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+/***** popup *****/
+
+.pop_top {position: relative; background: #f9f9f9; padding: 45px 0 27px;}
+.pop_top h1 {font-size: 21px; letter-spacing: -0.53px; color:#333; font-weight: bold;}
+.pop_top .pop_close {position: absolute; top:25px; right:25px; width: 22px; height: 22px; background:url(../img/common/close_icon.svg) no-repeat center; text-indent: -999999px;}
+.pop_area {margin-left:auto; margin-right: auto;}
+
+.pop_tab {border-bottom: 1px solid #e5e5e5;}
+.pop_tab::after {content:""; display: block; clear: both;}
+.pop_tab li {float: left;}
+.pop_tab li a {position: relative; display:block; font-size: 16px; letter-spacing: -0.4px; color:#333; font-family: 'Spoqa Han Sans Neo', "Open Sans","Spoqa Han Sans", sans-serif; font-weight: 400; padding: 20px 14px 0;}
+.pop_tab li a.active {color:#6a7aef;}
+.pop_tab li a.active:after {content:""; position: absolute; width: 100%; height: 1px; background:#6a7aef; left:0; bottom:-1px;}
+
+/** 인사말 샘플 **/
+.pop_menu_list {margin:15px 0;}
+.pop_menu_list .swiper-slide {display: inline-block; width:auto;}
+.pop_menu_list .swiper-slide a {display: block; font-size: 14px; color:#333; border-radius: 20px; letter-spacing: -0.35px; border:1px solid #ebebeb; box-sizing: border-box; padding:8px 10px;}
+.pop_menu_list .swiper-slide .active {color:#6e7be8; border: 1px solid #6e7be8; font-weight: 600;}
+
+.sample_contents .sample_con {display: none;}
+.sample_contents .sample_con:nth-child(1) {display: block;}
+.sample_contents ol::after {content:""; display: block; clear: both;}
+.sample_contents li {border-top: 1px solid #ebebeb; padding:20px 0; overflow: hidden;}
+.sample_contents .sample_num {float:left; width: 50px; font-size:14px; color:#333; letter-spacing: -0.35px; font-weight: 500; }
+.sample_contents .sample_text {float:left; width:calc(100% - 50px); line-height:18px; font-size:12px; color:#333; letter-spacing: -0.3px; font-weight: 300;}
+.sample_contents .sample_save {display: block; width: 64px; height: 24px; line-height: 24px; font-size:12px; color:#333; font-weight: 600; letter-spacing: -0.3px; border:1px solid #ebebeb; box-sizing: border-box; margin-top:12px; text-align: center;}
+
+@media screen and (min-width:801px) {
+    .pop_area {max-width: 450px; padding: 0 60px;}
+    .pop_tab li a {padding-bottom: 10px;}
+}
+@media screen and (max-width:800px){
+
+    .pop_top {padding-left:30px;}
+
+    .pop_tab {padding-bottom: 0;}
+    .pop_tab li {width: calc(100%/2); text-align: center;}
+    .pop_tab li a {display: block; padding-bottom: 14px;}
+
+    .pop_menu_list {padding: 0 0 0 30px;}
+    
+    .sample_contents li {padding-left:30px; padding-right:30px;}
+}

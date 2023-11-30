@@ -1,0 +1,373 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/reset.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+    <link rel="preconnect" href="//fonts.gstatic.com">
+    <link href="//fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/css/common.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/loader.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css" asp-append-version="true">
+    
+    @RenderSection("Heads", required: false)
+
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/common/front_common_helper.js" asp-append-version="true"></script>
+    <script src="/js/jquery.mCustomScrollbar.js" asp-append-version="true"></script>
+    <script src="/js/product.js" asp-append-version="true"></script>
+    <script>
+        var filter = "win16|win32|win64|mac";
+    </script>
+    <title>BarunsonMcard 모바일 초대장</title>
+</head>
+<body>
+    <div id="wrap" class="sub">
+        <!-- header -->
+        <header class="header fixed">
+            <div class="area">
+                <h1><a href="/">barunsonMcard 로고</a></h1>
+                <div class="family_wrap">
+                    <span class="ico family"></span>
+                    <ul class="family_list" style="z-index: 1000;">
+                        <li><a href="https://www.barunsoncard.com/" target="_self">바른손카드</a></li>
+                        <li><a href="https://www.premierpaper.co.kr/" target="_self">프리미어페이퍼</a></li>
+                        <li><a href="https://barunsongshop.com" target="_self">바른손 Gshop</a></li>
+                        <li><a href="https://deardeer.kr/" target="_self">디얼디어</a></li>
+                        <li><a href="https://barunsonbiz.com/" target="_self">바른손비즈</a></li>
+                    </ul>
+                </div>
+                <nav class="menu_nav">
+                    <ul class="menu_depth01 swiper-wrapper">
+                    </ul>
+                </nav>
+                <div class="user_wrap">
+                    <a href="#none" class="ico user">마이페이지 아이콘</a>
+                    <button type="button" class="ico like">
+                        좋아요 아이콘
+                        <span class="like_count"></span>
+                    </button>
+                    <!-- 모바일 일때 메뉴 아이콘 class true 추가 시 알림 노출 -->
+                    <button type="button" class="ico menu">메뉴 아이콘</button>
+                </div>
+                <div class="user_menu">
+                    <ul>
+                        <li><a href="@Url.Action("Mypage", "Member")">마이페이지</a></li>
+                        <li><a href="/Customer/">고객센터</a></li>
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Users") || User.IsInRole("Guest")))
+                        {
+                            <li><a href="@Url.Action("LogOut", "Member")">로그아웃</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Login", "Member")">로그인</a></li>
+                        }
+
+
+                    </ul>
+                </div>
+            </div>
+            <!-- 전체메뉴 영역 -->
+            <div class="all_menu">
+                <div class="area">
+                    <a href="/" class="menu_logo">barunsonMcard 로고</a>
+                    <!-- 전체메뉴 리스트 -->
+                    <nav class="all_menu_nav">
+                        <ul class="menu_depth01 m_menu">
+                            <li>
+                                <a asp-action="Mypage" asp-controller="Member" class="mont">My page</a>
+                            </li>
+
+                            @if (User.IsInRole("Users"))
+                            {
+                                <li>
+                                    <a asp-action="WishList" asp-controller="Member" class="mont">Wish List</a>
+                                    <span class="mont count point01"></span>
+                                </li>
+                            }
+                        </ul>
+                        <ul class="menu_depth01 menu_list">
+                        </ul>
+                    </nav>
+                    <!-- //전체메뉴 리스트 -->
+                    <div class="search_wrap">
+                        <input type="text" class="search_input" placeholder="상품코드 OR 상품명">
+                        <button type="button" class="search_btn">검색버튼</button>
+                    </div>
+                    <button type="button" class="close_btn">전체메뉴 닫기버튼</button>
+                    <div class="select_wrap" onchange="GoURL(this);">
+                        <select name="" id="" class="mont select">
+                            <option value="">Family site</option>
+                            <option value="">바른손카드</option>
+                            <option value="">프리미어페이퍼</option>
+                            <option value="">더카드</option>
+                            <option value="">디얼디어</option>
+                            <option value="">바른손비즈</option>
+                        </select>
+                    </div>
+                    <!-- 로그인 / 로그아웃 -->
+                    <div class="m_menu log_btn">
+                        <a href="javascript:;" class="spoq"></a>
+                    </div>
+                    <!-- 로그인 / 로그아웃 -->
+                </div>
+            </div>
+            <div class="mobile_menu_bg"></div>
+            <!-- //전체메뉴 영역-->
+        </header>
+        @RenderBody()
+        <!-- footer -->
+        <footer class="footer">
+            <div class="footer_nav">
+                <div class="fn_area">
+                    <span class="footer_logo">barunsonMcard 로고</span>
+                    <ul class="footer_menu">
+                    </ul>
+                </div>
+            </div>
+            <div class="footer_area clear">
+                <div class="footer_info">
+                    <span class="footer_logo">barunsonMcard 로고</span>
+                    <p><strong>(주)바른컴퍼니</strong> 대표이사 : 박정식</p>
+                    <address>
+                        본사 : 경기도 파주시 회동길 219 | 서울사옥 : 서울 서초구 서운로 142-4 <br />
+                        문의전화 : 1644-0708 | 팩스 : 02-2275-3108 | 개인정보관리책임자 : 원덕규 <br />
+                        통신판매업신고번호 : 2007-00940 | 사업자등록번호 : 221-81-03108
+                    </address>
+                    <small class="copyright">Copyright ⓒ barunsoncard all rights reserved</small>
+                </div>
+                <div class="select_wrap">
+                    <select name="" id="" class="mont select" onchange="GoURL(this);">
+                        <option value="">Family site</option>
+                        <option value="https://www.barunsoncard.com/">바른손카드</option>
+                        <option value="https://www.premierpaper.co.kr/">프리미어페이퍼</option>
+                        <option value="https://barunsongshop.com">바른손 Gshop</option>
+                        <option value="https://deardeer.kr/">디얼디어</option>
+                        <option value="https://barunsonbiz.com/">바른손비즈</option>
+                    </select>
+                </div>
+            </div>
+        </footer>
+        <!-- //footer -->
+        <!-- IE 예외처리 -->
+        <section class="not_ie pc_area">
+            <div class="not_area">
+                <p><strong>지원 중단된 브라우저입니다. 최신 브라우저(크롬, 엣지) 사용을 권장합니다.</strong></p>
+                <p>브라우저를 변경하지 않을 시, 일부 기능을 사용하지 못할 수도 있습니다.</p>
+                <a href="javascript:closeIe();" class="not_check">확인</a>
+            </div>
+        </section>
+    </div>
+    <div class="loader">
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+    <div class="saved">
+        <span>저장되었습니다.</span>
+    </div>
+    <div class="error">
+        <span>오류가 발생하였습니다.</span>
+    </div>
+    <script src="/js/common/common.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.js"></script>
+    <script>
+        var loginYn = "@User.Identity.IsAuthenticated";
+        var Users = "@User.IsInRole("Users")";
+        var Guest = "@User.IsInRole("Guest")";
+
+        if (Users == "True" || Guest == "True") {
+            $(".all_menu .log_btn a").text("로그아웃").attr("href", "@Url.Action("LogOut", "Member")");
+        }
+        else {
+            $(".all_menu .log_btn a").text("로그인").attr("href", "@Url.Action("Login", "Member")");
+        }
+        $(".header.fixed .ico.like").on("click", function () {
+
+            if (loginYn == "False") {
+                alert("로그인 후 이용해주세요");
+                location.replace("/member/logIn?ReturnUrl=/Member/wishList");
+            }
+            else {
+               if ("@User.IsInRole("Guest")" == "True") {
+                    alert("회원만 이용하실 수 있습니다");
+                    return;
+                }
+                location.replace("/Member/wishList");
+            }
+        });
+
+
+        $('.ico.wish').on('click', function () {
+
+            var url = location.pathname.toLocaleUpperCase();
+
+            if (url.indexOf("PRODUCT/DETAIL") > 0) {
+
+                if (loginYn == "False") {
+                    alert("로그인 후 이용해주세요!");
+                    location.replace("/member/logIn?ReturnUrl=" + encodeURIComponent(location.pathname + location.search));
+                }
+                else {
+
+                    if ("@User.IsInRole("Guest")" == "True") {
+                        alert("회원만 이용하실 수 있습니다");
+                        return;
+                    }
+
+                    var id = parseInt(url.split('/')[3]);
+
+
+                    if (Login_Product_Wish_Cnt(id) > 0) {
+                        Wish_Save(id, "D");
+                        $(this).removeClass("active");
+                    }
+                    else {
+                        Wish_Save(id, "I");
+                        $(this).toggleClass("active");
+                    }
+
+                    Product_Detail_TotalWishCnt(id);
+
+                }
+
+            }
+            else {
+                if (loginYn == "False") {
+                    alert("로그인 후 이용해주세요!");
+                    //alert(encodeURIComponent(location.pathname + location.search))
+                    location.replace("/member/logIn?ReturnUrl=" + encodeURIComponent(location.pathname + location.search));
+                }
+                else {
+
+                    if ("@User.IsInRole("Guest")" == "True") {
+                        alert("회원만 이용하실 수 있습니다");
+                        return;
+                    }
+
+                    $(this).toggleClass("active");
+
+                    var Gubun = "I";
+
+
+
+                    if (!$(this).hasClass("active")) {
+                        Gubun = "D";
+                    }
+                    var id = $(this).closest("li").attr("id");
+
+                    if (typeof id == "undefined") {
+                        id = $(this).attr("id");
+                    }
+
+                    Wish_Save(id, Gubun);
+
+                    var url = location.pathname.toLocaleUpperCase();
+
+                    if (url.indexOf("PRODUCT/DETAIL") > 0 || parseInt(url.split('/')[3]) > 0) {
+                    }
+
+                }
+
+            }
+
+
+          });
+
+        function Login_Product_Wish_Cnt(id) {
+
+            var cnt = 0;
+
+            $.ajax({
+                type: "POST",
+                url: "/Product/Mem_Wish_Cnt/" + id,
+                async: false,
+                success: function (result) {
+                    cnt = result;
+                }
+            });
+
+            return cnt;
+        }
+
+        function Product_Detail_TotalWishCnt(Product_ID) {
+
+            $.ajax({
+                type: "POST",
+                url: "/Product/Total_Wish_Cnt/" + Product_ID,
+                async: false,
+                success: function (result) {
+                    if (parseInt(result) > 0) {
+                        if (parseInt(result) > 99) result = "99+";
+                        $(".wish_count").html(result);
+
+                    }
+                }
+            });
+        }
+
+        function GoBanner(id, obj) {
+
+            // 배너 클릭수 업데이트
+            $.ajax({
+                type: "POST",
+                url: "/User/Banner/Click_Update/" + id,
+                dataType: "json",
+                async: true,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                success: function (result) {
+
+                }
+            });
+
+        }
+
+
+        /* 로그인한 회원의 총 찜 리스트 개수 */
+        $.ajax({
+            type: "POST",
+            url: "/Product/Wish_Cnt?" + Math.random(),
+            success: function (result) {
+
+                //var filter = "win16|win32|win64|macintel|mac|";
+                //pc버전
+                var cnt = result;
+
+                //로그인 상태이고, 위시리스트 담은 상품이 1개 이상일 경우만 카운트 노출
+
+                if (loginYn == "True" && parseInt(cnt) > 0) {
+
+                    $(".like_count").html(cnt);
+
+                    //모바일버전
+                    $(".point01").html(cnt);
+
+                    if (parseInt(cnt) > 0) {
+
+                        $("#wrap .user_wrap .menu").addClass("true");
+                    }
+                    else {
+                        $("#wrap .user_wrap .menu").removeClass("true");
+                    }
+                }
+
+
+            },
+            error: function (result) {
+                // swal({ title: "오류가 발생했습니다. 다시 시도해 주세요", type: "error" });
+            }
+        });
+
+
+
+
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

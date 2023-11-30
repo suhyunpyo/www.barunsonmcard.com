@@ -1,0 +1,135 @@
+﻿@using MobileInvitation.Models
+@using X.PagedList.Mvc.Core; @*페이징툴을 이용...*@
+@using X.PagedList.Mvc; @*페이징툴을 이용...*@
+@using X.PagedList; @*페이징툴을 이용...*@
+@using MobileInvitation.FunctionHelper;
+@{
+    Layout = "User_Layout_m";
+}
+<link rel="stylesheet" href="/css/m_customer.css">
+
+<!-- sub contents -->
+<section class="customer ask">
+    <div class="sub_con_wrap mypage_service">
+        <div class="sub_title_box">
+            <div class="area">
+                <h2><a href="/Customer">고객센터</a></h2>
+            </div>
+        </div>
+        <!-- contents -->
+        <div class="mypage_con">
+            <!-- 1:1 문의 고객센터 안내 -->
+            <div class="cs_center">
+                <div class="cs_top">
+                    <a href="javascript:popOpen(0);">
+                        <h2>CS Center <span>1644-0708</span></h2>
+                        <p><span>평일 09:00 ~ 18:00 (점심 12:00 ~ 13:00)</span></p>
+                    </a>
+                </div>
+                <div class="cs_content btn_wrap type01">
+                    <a href="/Customer/Ask_Reg" class="btn type07_1 reg_btn">1:1 상담 글쓰기</a>
+                </div>
+            </div>
+            <!-- //1:1 문의 고객센터 안내 -->
+            <!-- 1:1 문의 리스트 -->
+            <div class="manage_content">
+                <div class="manage_list ask_list">
+                    <ul>
+                        @{
+                            int TotalCount = ViewBag.Qna_List.Count;
+
+                            int pageno = (int)ViewData["page"];
+                            int itemperpage = (int)ViewData["pageSize"];
+                            int currentno = TotalCount - ((pageno - 1) * itemperpage);
+
+                        }
+                        @if (TotalCount == 0)
+                        {
+                        <li style="text-align: center">
+                            리스트가 없습니다
+                        </li>
+                            @*<tr>
+                                <td colspan="5" style="text-align: center">리스트가 없습니다</td>
+                            </tr>*@
+
+                        }
+                        else
+                        {
+                            @foreach (VW_User_QNA list in ViewBag.Qna_List)
+                            {
+                                <li id ="@list.ORDER_ID">
+                                    <div class="manage_box">
+                                        <div class="manage_box_top">
+                                            <p><span>@DateTimeHelper.HHmm(Convert.ToDateTime(list.REGIST_DATETIME))</span></p>
+                                            <span class="point03 ask_st">@StringHelper.QnA_Status_Str(list.STAT.ToString())</span>
+                                        </div>
+                                        <div class="manage_box_con">
+                                            <div class="ask_q">
+
+                                                <!-- 1:1문의 타이틀 -->
+                                                <div class="ask_title">
+                                                    @list.TITLE
+                                                </div>
+                                                <!-- //1:1문의 타이틀 -->
+                                                <!-- 1:1문의 내용 -->
+                                                <div class="ask_con">
+                                                    <p>
+                                                        @list.CONTENT
+                                                    </p>
+                                                </div>
+                                                <!-- //1:1문의 내용 -->
+                                            </div>
+                                            <!-- 1:1문의 답변내용 -->
+                                            <div class="ask_a">
+                                                @list.ANSWER_CONTENT
+                                                @if (!string.IsNullOrEmpty(list.ADMIN_UPFILE1))
+                                                {
+                                                    <div class="upfile_box">
+                                                        <h3>첨부파일 :</h3>                                                    
+                                                        <a href="/Customer/Ask/Download/@list.QNA_ID/3" class="file_link point03">다운로드</a>                                                                                                        
+                                                    </div>
+                                                }
+                                            </div>
+                                            <!-- //1:1문의 답변내용 -->
+                                        </div>
+                                        <div class="manage_box_bottom">
+                                            <a href="javascript:;" class="ask_open_btn">펼쳐보기</a>
+                                        </div>
+                                    </div>
+                                    </li>
+
+                            }
+                        }
+                    </ul>
+                    </div>
+                </div>
+                <!-- //1:1 문의 리스트 -->
+            </div>
+            <!-- //contents -->
+            <!-- 고객센터 전화연결 팝업 -->
+            <div class="pop_wrap">
+                <div class="layer_pop">
+                    <h3 class="tc">고객센터</h3>
+                    <p class="pop_text tc">
+                        1644-0708 번호로 <br />
+                        전화를 연결하시겠습니까?
+                    </p>
+                    <div class="btn_wrap pop_bottom type02">
+                        <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                        <a href="tel:1644-0708" class="btn type03">전화연결</a>
+                    </div>
+                </div>
+                <div class="pop_mask"></div>
+            </div>
+            <!-- //고객센터 전화연결 팝업 -->
+        </div>
+    </section>
+    <!-- //sub contents -->
+@section Scripts
+{
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.js"></script>
+    <script src="/js/member/mypage.js"></script>
+    <script src="/js/common/customer.js"></script>
+}

@@ -1,0 +1,149 @@
+﻿@using MobileInvitation.Models
+@using X.PagedList.Mvc.Core; @*페이징툴을 이용...*@
+@using X.PagedList.Mvc; @*페이징툴을 이용...*@
+@using X.PagedList; @*페이징툴을 이용...*@
+@using MobileInvitation.FunctionHelper;
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/customer.css">
+<script src="/js/customer/customer.js"></script>
+
+<style type="text/css">
+    .trSize {
+        height: 58px;
+    }
+
+    .tdSize {
+        width: 8.5%;
+        background: #f8f8f8
+    }
+
+
+    .tdRight {
+        text-align: right;
+    }
+
+    .tdLeft {
+        text-align: left;
+    }
+
+    .tdCenter {
+        text-align: center;
+    }
+</style>
+<!-- sub contents -->
+<section class="customer">
+    <div class="sub_con_wrap">
+        <aside class="mypage_list">
+            <div class="mypage_box">
+                <p><strong>고객센터</strong></p>
+                <ul>
+                    <li><a href="/Customer/Notice" class="active">공지사항</a></li>
+                    <li><a href="/Customer/Faq">FAQ</a></li>
+                    <li><a href="/Customer/Ask">1:1 문의</a></li>
+                </ul>
+            </div>
+        </aside>
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents">
+            <!-- 고객센터 상단영역 -->
+            <div class="cs_center">
+                <div class="cs_top">
+                    <h2>CS Center</h2>
+                    <p>1644-0708 <span>평일 09:00 ~ 18:00 (점심 12:00 ~ 13:00)</span></p>
+                </div>
+            </div>
+            <!-- //고객센터 상단영역 -->
+            <!-- 고객센터 공지사항 리스트 -->
+            <div class="table_wrap cs_table_wrap mt30">
+                <table class="table list ask">
+                    <caption>고객센터 공지사항 리스트</caption>
+                    <colgroup>
+                        <col style="width:110px;">
+                        <col style="width:auto;">
+                        <col style="width:120px;">
+                        <col style="width:200px;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>등록일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int TotalCount1 = ViewBag.Top_NoticeList.Count;
+                            int TotalCount2 = ViewBag.NoticeList.TotalItemCount;
+
+                            int pageno = (int)ViewData["page"];
+                            int itemperpage = (int)ViewData["pageSize"];
+                            int currentno = TotalCount2 - ((pageno - 1) * itemperpage);
+
+                        }
+                        @if (TotalCount1 == 0 && TotalCount2 == 0)
+                        {
+
+                            <tr>
+                                <td colspan="4" style="text-align: center">리스트가 없습니다</td>
+                            </tr>
+
+                        }
+                        else
+                        {
+                            @foreach (TB_Board list in ViewBag.Top_NoticeList)
+                            {
+                                <tr id="@list.Board_ID">
+                                    <td>★</td>
+                                    <td class="tl"><a href="/Customer/Notice_View/@list.Board_ID"><b>@list.Title</b></a></td>
+                                    <td>관리자</td>
+                                    <td class="tdCenter">
+                                        @DateTimeHelper.HHmm(Convert.ToDateTime(list.Regist_DateTime))
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+
+                        @foreach (TB_Board list in ViewBag.NoticeList)
+                        {
+                            <tr id="@list.Board_ID">
+                                <td>@{@currentno}@{currentno--;}</td>
+                                <td class="tl"><a href="/Customer/Notice_View/@list.Board_ID">@list.Title</a></td>
+                                <td>관리자</td>
+                                <td class="tdCenter">
+                                    @DateTimeHelper.HHmm(Convert.ToDateTime(list.Regist_DateTime))
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- //고객센터 문의 리스트 -->
+            <!-- 페이징 -->
+            @if (TotalCount2 > 0)@Html.PagedListPager((IPagedList)ViewBag.NoticeList, page => "/Customer?page=" + page @*Url.Action("Customer", new { page })*@)
+            <!--<div class="paging_wrap">
+        <ul>
+            <li><a href="javascript:;" class="paging_prev">이전페이지 보기</a></li>-->
+            <!-- a class on 추가 시 선택된 현재 페이지 표시 -->
+            <!--<li><a href="javascript:;" class="on">1</a></li>
+            <li><a href="javascript:;">2</a></li>
+            <li><a href="javascript:;">3</a></li>
+            <li><a href="javascript:;">4</a></li>
+            <li><a href="javascript:;">5</a></li>
+            <li><a href="javascript:;" class="paging_next">다음페이지 보기</a></li>
+        </ul>
+    </div>-->
+            <!-- //페이징 -->
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+</section>
+<!-- //sub contents -->
+<script>
+    PagingNavigator();
+</script>

@@ -1,0 +1,250 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+<link rel="stylesheet" href="../css/service.css">
+<link rel="stylesheet" href="../css/jquery.fullpage.min.css">
+<script>
+    (function () {
+        function hideAddressBar() {
+
+            if (document.height <= window.outerHeight) return;		// 웹페이지의 높이가 화면높이보다 작을 때는 실행할 필요가 없으므로 종료
+
+            var scrollTimer = setInterval(function () {
+                if (!pageYOffset) {	// 모바일 브라우저에서 주소창이 보이고 있을 때는 pageYOffset = 0 이므로 이때만 실행
+                    scrollTo(0, 1);		// 웹페이지를 x축 0, y축 1의 위치로 끌어올림
+                } else {
+                    clearInterval(scrollTimer);		// pageYOffset !=0 인 경우 반복 종료: scrollTo(0, 1) 이 실행되었거나 사용자가 스크롤을 움직인 경우
+                }
+            }, 100);	// 100 밀리세컨드마다 반복 실행
+
+        };
+
+        window.addEventListener('load', hideAddressBar, false);		// 페이지 로드 되었을 때 실행
+        window.addEventListener('orientationchange', hideAddressBar, false);	// 화면이 가로/세로 전환되었을 때 실행
+    })();
+</script>
+<div class="service_intro">
+    <div id="fullpage">
+        <!-- section01 -->
+        <section class="fp_section section01">
+            <div class="fp_contents">
+                <div class="banner_wrap">
+                    <div class="intro_banner">
+                        <div class="pc_area">
+                            <img src="/img/service/intro.png" alt="">
+                        </div>
+                        <div class="m_area">
+                            <img src="/img/service/m_intro.jpg" alt="">
+                        </div>
+                    </div>
+                    <!-- class="ani_text top" -->
+                    <h2>
+                        <span>50년 역사를 자랑하는</span>
+                        <strong>바른손카드가 만든 모바일 청첩장</strong>
+                    </h2>
+                </div>
+            </div>
+            <div class="bottom_logo">
+                <img src="/img/common/logo_b.svg" alt="" width="286">
+            </div>
+        </section>
+        <!-- //section01 -->
+        <!-- section02 -->
+        <section class="fp_section section02">
+            <div class="fp_contents">
+                <h2>
+                    <span>부모님 세대부터 현재까지 전 세대의 추억과 함께 자란</span>
+                    <strong>대한민국 대표 청첩장의 노하우를 담았습니다.</strong>
+                </h2>
+                <div class="intro_slide">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <a href="javascript:;">
+                                    <div class="img_con"><img src="/img/service/img_s_01.png" alt=""></div>
+                                    <div class="intro_detail">
+                                        <h3>쉽고 빠른 제작</h3>
+                                        <p>사진과 예식정보만 있다면 <br /> 5분만에 뚝딱 제작할 수 있어요.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="javascript:;">
+                                    <div class="img_con"><img src="/img/service/img_s_02.png" alt=""></div>
+                                    <div class="intro_detail">
+                                        <h3>즉시 사용</h3>
+                                        <p>
+                                            기다릴 필요 없이 제작 후, 결제하면 끝! <br />
+                                            바로 가족, 친구들에게 보낼 수 있어요.
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="javascript:;">
+                                    <div class="img_con"><img src="/img/service/img_s_03.png" alt=""></div>
+                                    <div class="intro_detail">
+                                        <h3>무제한 수정</h3>
+                                        <p>
+                                            예식일이 연기되더라도, <br />
+                                            정보를 잘못 입력했더라도 걱정하지 마세요. <br />
+                                            원하는 만큼 수정할 수 있어요
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="javascript:;">
+                                    <div class="img_con"><img src="/img/service/img_s_04.png" alt=""></div>
+                                    <div class="intro_detail">
+                                        <h3>미리보기 기능</h3>
+                                        <p>
+                                            내 모바일 청첩장이 어떤 모습으로 만들어질지 <br />
+                                            실시간으로 확인하며 제작할 수 있어요.
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="javascript:;">
+                                    <div class="img_con"><img src="/img/service/img_s_05.png" alt=""></div>
+                                    <div class="intro_detail">
+                                        <h3>다양한 스킨</h3>
+                                        <p>
+                                            100여 종의 다양한 스킨을 보유하고 있어요. <br />
+                                            웨딩 사진에 어울리는 스킨을 골라보세요.
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="javascript:;">
+                                    <div class="img_con"><img src="/img/service/img_s_06.png" alt=""></div>
+                                    <div class="intro_detail">
+                                        <h3>원하는 기능만 쏙쏙 On/Off</h3>
+                                        <p>
+                                            필요한 기능은 On <br />
+                                            필요하지 않은 기능은 Off <br />
+                                            내 입맛대로 모바일 청첩장을 만들 수 있어요.
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="intro_slide_bottom">
+                        <div class="swiper-pagination nb"></div>
+                        <div class="arrow_wrap">
+                            <div class="swiper-button-prev nb"></div>
+                            <div class="swiper-button-next nb"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- //section02 -->
+        <!-- section03 -->
+        <section class="fp_section full_section section03">
+            <div class="fp_contents">
+                <div class="fp_img">
+                    <img src="../img/service/img_f_01.png" alt="">
+                </div>
+                <div class="fp_info">
+                    <h2>간편 축의금 송금</h2>
+                    <p>
+                        축의금도 언택트 시대, <br />
+                        얼굴 붉히며 계좌번호 알려드리지 않아도 괜찮아요. <br />
+                        카카오페이로 축의금을 받을 수 있습니다.
+                    </p>
+                    <a href="/remittance">자세히 보기</a>
+                </div>
+            </div>
+        </section>
+        <!-- //section03 -->
+        <!-- section04 -->
+        <section class="fp_section full_section section04">
+            <div class="fp_contents">
+                <div class="fp_img">
+                    <img src="../img/service/img_f_02.png" alt="">
+                </div>
+                <div class="fp_info">
+                    <span class="service_logo"><img src="../img/service/service_logo.svg" alt="Barunn Company x barunsonMcard"></span>
+                    <h2>
+                        종이 청첩장 구매 고객 전원 <br />
+                        모바일 청첩장 무료 증정
+                    </h2>
+                    <p>
+                        인생에 한 번 뿐인 소중한 날을 위해, <br />
+                        정성 가득 담긴 모바일 청첩장을 만들어 보세요.
+                    </p>
+                    <a href="/Product/List/1/0/1/1/0/0 ">모바일 청첩장 만들기</a>
+                </div>
+            </div>
+        </section>
+        <!-- //section04 -->
+        <!-- section05 -->
+        <section class="fp_section full_section section05">
+            <div class="fp_contents">
+                <div class="fp_img">
+                    <img src="../img/service/img_f_03.png" alt="">
+                </div>
+                <div class="fp_info">
+                    <h2>
+                        친구용, 가족용, 직장용 <br />
+                        따로 쓰는 모바일 청첩장
+                    </h2>
+                    <p>
+                        가족에겐 정중한 인사와 단정한 사진을, <br />
+                        친구에겐 스스럼없는 인사와 가벼운 사진을.  <br />
+                        하객에 따라 다양하게 제작해 보세요.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- //section05 -->
+        <!-- section06 -->
+        <section class="fp_section full_section section06">
+            <div class="fp_contents">
+                <div class="fp_img">
+                    <img src="../img/service/img_f_04.png" alt="">
+                </div>
+                <div class="fp_info">
+                    <h2>Exhibition</h2>
+                    <p>
+                        기획 상품, 큐레이팅 등 <br />
+                        고객님을 위한 쇼핑 이슈가 한가득
+                    </p>
+                    <a href="/event_list">자세히 보기</a>
+                </div>
+            </div>
+        </section>
+        <!-- //section06 -->
+        <!-- section07 -->
+        <section class="fp_section full_section section07">
+            <div class="fp_contents">
+                <div class="fp_img">
+                    <img src="../img/service/img_f_05.png" alt="">
+                </div>
+                <div class="fp_info">
+                    <h2>Set Invitation</h2>
+                    <p class="mb0">
+                        종이 청첩장 감성 그대로 담은 <br />
+                        세트형 모바일 청첩장
+                    </p>
+                    <p>
+                        손으로 전하는 종이 청첩장의 진심처럼, <br />
+                        똑 닮은 모바일 청첩장을 전해보세요.
+                    </p>
+                    <a href="/Product/List/1/20/1/1/5_/0">자세히 보기</a>
+                </div>
+            </div>
+        </section>
+        <!-- //section07 -->
+    </div>
+</div>
+<script src="/js/jquery.fullpage.min.js"></script>
+<script src="/js/service.js"></script>

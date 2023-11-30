@@ -1,0 +1,965 @@
+﻿@using MobileInvitation.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "User_Layout_m";
+}
+<link rel="stylesheet" href="/css/m_order.css?ver=5.1">
+<link rel="stylesheet" href="/css/cropper.min.css">
+<style>
+
+    textarea.inp {
+        min-height: 40px;
+        border: 1px solid #ebebeb;
+        box-sizing: border-box;
+    }
+
+    .file_box {
+        background-color: #FFFFFF;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column; /*수직 정렬*/
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dvhhmm {
+        float: left;
+        display: flex;
+        align-items: center;
+        height: 30px;
+        padding: 5px;
+    }
+
+    .info_reg_list textarea {
+        display: block;
+        min-height: 40px;
+        max-height: 100px;
+        border: 1px solid #ebebeb;
+        box-sizing: border-box;
+        padding: 10px;
+        resize: vertical;
+        float: right;
+        width: 100% !important;
+    }
+
+    .line_del_btn {
+        float: right !important;
+        width: 20% !important;
+        line-height: 40px !important;
+        background: #757575 !important;
+        color: #fff !important;
+        text-align: center !important;
+    }
+
+    .del_btn {
+        padding-left: 10px !important;
+    }
+
+    .fl_wrap .etc_contents {
+        float: left;
+    }
+
+    .fl_wrap {
+        position: relative;
+    }
+
+    .number_box {
+        position: relative;
+    }
+
+    .date_box .ico.date {
+        position: absolute;
+        right: 15px;
+        cursor: auto !important;
+    }
+
+    .pop_wrap.sns_pop .layer_pop h3 {
+        margin: 0px;
+    }
+
+    .pop_wrap.sns_pop .layer_pop p {
+        margin: 0px;
+        padding: 10px 5px 10px 5px;
+    }
+
+    .pop_wrap.main_pop .layer_pop h3 {
+        margin: 0px;
+    }
+
+    .pop_wrap.main_pop .layer_pop p {
+        margin: 0px;
+        padding: 10px 5px 10px 5px;
+    }
+
+    .money_gift p {
+        font-size: 12px !important;
+    }
+
+    .order_con.money_account .order_detail {
+        display: none;
+        text-align: center;
+    }
+
+        .order_con.money_account .order_detail p {
+            font-size: 12px;
+            line-height: 24px;
+            color: #757575;
+            margin: 38px 0 18px;
+        }
+
+    .order_detail p {
+        text-align: left;
+        margin-top: 10px !important;
+    }
+
+    .order_detail h3 {
+        text-align: left;
+        margin-top: 15px !important;
+    }
+
+    .con_title span {
+        font-size: 14px !important;
+    }
+</style>
+<!-- sub contents -->
+<section class="order mc">
+    <div class="sub_con_wrap">
+        <!-- 주문 제작단계 -->
+        <div class="step_view">
+            <ol>
+                <li class="on">
+                    <span>1</span>
+                    <p><strong>정보입력</strong></p>
+                </li>
+                <li>
+                    <span>2</span>
+                    <p><strong>영상/이미지 등록</strong></p>
+                </li>
+                <li>
+                    <span>3</span>
+                    <p><strong>제작 완료</strong></p>
+                </li>
+            </ol>
+        </div>
+        <!-- //주문 제작단계 -->
+        <!-- 주문제작 영역 -->
+        <div class="order_area area">
+            <!-- 주문자 정보 -->
+            <div class="order_con">
+                <h2>주문자 정보</h2>
+                <table class="order_table type01">
+                    <caption>주문자 정보</caption>
+                    <tr>
+                        <th>주문자명</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp name_inp wp100" id="Name" placeholder="홍길동" value="@ViewData["Name"]">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>휴대폰 번호</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp num_inp wp100" placeholder="'-'없이 숫자만 입력하세요." id="CellPhone_Number" inputmode="numeric" value="@ViewData["CellPhone_Number"]">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>이메일 주소</th>
+                        <td>
+                            <div style="position:relative;">
+                                <div class="clear">
+                                    <input type="text" class="inp type02 wp45 fl" id="Email_Account" value="@ViewData["Email_Account"]">
+                                    <span class="select_wrap type01 fr wp45 self_add">
+                                        <select id="selEmail" class="select wp100">
+                                            <option>직접 입력</option>
+                                            <option>naver.com</option>
+                                            <option>nate.com</option>
+                                            <option>hotmail.com</option>
+                                            <option>hanmail.com</option>
+                                            <option>daum.net</option>
+                                            <option>gmail.com</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="add_text mt10">
+                                    <input type="text" class="inp type02 email_inp wp100" id="Email_Address" value="@ViewData["Email_Address"]">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- //주문자 정보 -->
+            <!-- 기본 정보 -->
+            <div class="order_con default_info">
+                <h2>기본 정보</h2>
+                <table class="order_table type01">
+                    <caption>기본 정보</caption>
+                    <tr>
+                        <th>초대장 URL</th>
+                        <td>
+                            <div class="url_wrap">
+                                <p class="bf_url"><strong>https://www.barunsonmcard.com/m/</strong></p>
+                                <div class="url_check wp100">
+                                    <input type="text" autocomplete="off" id="Invitation_URL" class="inp wp100" placeholder="영문, 숫자, 특수문자( _ , - )조합 사용(최대 12자)" maxlength="12" value="@ViewData["Invitation_URL"]">
+                                    <span class="url_text"></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th onclick="popOpen(0);">초대장 제목 <span class="ico notice">툴팁 아이콘</span></th>
+                        <td>
+                            <div style="position:relative;">
+                                <textarea idx="1" id="Invitation_Title" cols="30" rows="2" maxlength="100" class="input_match" style="width: 100%; border: 1px solid #ebebeb; resize: none; box-sizing: border-box;"
+                                          placeholder="♡김바른♡ 돌잔치에 초대합니다.">@ViewData["Invitation_Title"]</textarea>
+                            </div>
+                            <!-- 초대장 제목 안내 팝업 -->
+                            <div id="greetingsPop" class="pop_wrap tip_pop pop_l">
+                                <div class="layer_pop">
+                                    <h3>초대장 제목</h3>
+                                    <div class="img_con">
+                                        <img src="/img/order/title_img.jpg" alt="초대장 제목 안내 이미지" />
+                                    </div>
+                                    <p class="pop_text">SNS공유시 카카오톡,페이스북등의 <strong>메인텍스트</strong>로 사용됩니다.</p>
+                                    <div class="btn_wrap type01">
+                                        <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                    </div>
+                                </div>
+                                <div class="pop_mask"></div>
+                            </div>
+                            <!-- //초대장 제목 안내 팝업 -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="vt">인사말</th>
+                        <td>
+                            <div class="btn_wrap">
+                                <a href="javascript:popGreetingSample();" class="btn type03 sample_btn sp01 wp100">인사말 샘플보기</a>
+                            </div>
+                            <div class="text_area_wrap" style="position:relative;">
+                                <textarea idx="2" id="Greetings" cols="30" rows="10" maxlength="500" class="input_match">@ViewData["Greetings"]</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="tip_box">
+                            <span class="tip_btn">
+                                방명록 기능
+                                <button type="button" class="ico notice tip_btn">툴팁 아이콘</button>
+                            </span>
+                            <div class="bn_tip m_tip w180">
+                                <p>방명록 작성은 실명제가 아니며, <br /> 익명으로도 작성할 수 있습니다. </p>
+                                <p>방명록에 등록되는 글은 당사에서 <br /> 관리하거나 책임지지 않습니다. </p>
+                            </div>
+                        </th>
+                        <td>
+                            <div class="radio_box">
+                                <input type="radio" id="GuestBook_Use_Y" name="GuestBook_Use_YN" class="btn_use" idx="1" checked>
+                                <label for="GuestBook_Use_Y">사용함</label>
+                                <input type="radio" id="GuestBook_Use_N" name="GuestBook_Use_YN" class="btn_unuse" idx="1">
+                                <label for="GuestBook_Use_N" class="ml30">사용안함</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- 포토형 청첩장인 경우에만 해당 영역 출력 -->
+                    <tr>
+                        <th class="vt img_help" onclick="popOpen(1)">
+                            공유 이미지
+                            <span class="ico notice">툴팁 아이콘</span>
+                        </th>
+                        <td>
+                            <!-- 공유 이미지 안내 팝업 -->
+                            <div class="pop_wrap pop_l">
+                                <div class="layer_pop">
+                                    <h3>공유 이미지</h3>
+                                    <div class="img_con">
+                                        <img src="/img/order/share_img.jpg" alt="공유 이미지 안내 이미지" />
+                                    </div>
+                                    <p class="pop_text" style="color:#333;">카카오톡, 문자(SMS) 공유 시 사용되는 이미지입니다.</p>
+                                    <div class="text_info_box mt10">
+                                        <p>이미지 용량은 1MB 이하의 파일 업로드를 권장합니다.</p>
+                                        <p>
+                                            가로형 사진을 권장하며, 세로형 사진의 경우 등록 후 편집 버튼을 통해
+                                            가로형으로 편집 바랍니다.
+                                        </p>
+                                        <p>
+                                            공유하시는 SNS(카카오톡, 문자 등)에 따라 이미지 출력 형태가 각기 다르니,
+                                            최대한 중앙에 피사체를 놓는 것을 권장합니다
+                                        </p>
+                                        <p>
+                                            <strong style="font-weight:bold;">공유이미지 변경 시</strong>, 카카오 서버와 네트워크 상황에 따라 반영이 늦어질 수 있습니다. (최대 24시간)
+                                        </p>
+                                    </div>
+                                    <div class="btn_wrap type01">
+                                        <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                    </div>
+                                </div>
+                                <div class="pop_mask"></div>
+                            </div>
+                            <!-- //공유 이미지 안내 팝업 -->
+                            <div class="sort_wrap">
+                                <ul class="sort_list sns">
+                                    <li type="sns_img">
+                                        <div class="file_box">
+                                            <div class="img_preview" style="display:none;">
+                                                <img class="sns_img" orgimg="@ViewData["SNS_Image_URL"]" src="@ViewData["SNS_Image_URL"]" style="max-width:159px;max-height:159px;">
+                                            </div>
+                                            <label name="file" onclick="fn_add_SNS_Image();"></label>
+                                        </div>
+                                        <div class="btn_wrap" style="position:relative;">
+                                            <a href="javascript:;" class="crop ico"></a>
+                                            <a href="javascript:;" class="delete ico"></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- 이미지 크롭 팝업 -->
+                                <div class="pop_wrap sns_pop">
+                                    <div class="layer_pop">
+                                        <h3>이미지 편집</h3>
+                                        <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                        <div class="img_box">
+                                        </div>
+                                        <div class="btn_wrap type02">
+                                            <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                            <a href="javascript:;" class="btn type03" onclick="CompleteCrop('sns',0);">확인</a>
+                                        </div>
+                                    </div>
+                                    <div class="pop_mask"></div>
+                                    <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_sns_img_org" /></div>
+                                </div>
+                                <!-- //이미지 크롭 팝업 -->
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="isPhotoYn">
+                        <th onclick="popOpen(3)">
+                            대표 이미지
+                            <span class="ico notice">툴팁 아이콘</span>
+                        </th>
+                        <td>
+                            <!-- 대표 이미지 안내 팝업 -->
+                            <div class="pop_wrap pop_l">
+                                <div class="layer_pop">
+                                    <h3>대표 이미지</h3>
+                                    <div class="img_con">
+                                        <img src="/img/order/representative_img.jpg" alt="대표 이미지 안내 이미지" />
+                                    </div>
+                                    <p class="pop_text"><strong>포토형 초대장 메인</strong>에 사용되는 이미지입니다.</p>
+                                    <div class="btn_wrap type01">
+                                        <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                    </div>
+                                </div>
+                                <div class="pop_mask"></div>
+                            </div>
+                            <!-- //대표 이미지 안내 팝업 -->
+                            <div class="sort_wrap">
+                                <ul class="sort_list main">
+                                    <li type="main_img">
+                                        <div class="file_box">
+                                            <div class="img_preview" style="display:none;">
+                                                <img class="main_img" orgimg="@ViewData["Delegate_Image_URL"]" src="@ViewData["Delegate_Image_URL"]" style="max-width:159px;max-height:159px;">
+                                            </div>
+                                            <label name="file" onclick="fn_add_Main_Image();"></label>
+                                        </div>
+                                        <div class="btn_wrap" style="position:relative;">
+                                            <a href="javascript:;" class="crop ico"></a>
+                                            <a href="javascript:;" class="delete ico"></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- 이미지 크롭 팝업 -->
+                                <div class="pop_wrap main_pop">
+                                    <div class="layer_pop">
+                                        <h3>이미지 편집</h3>
+                                        <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                        <div class="img_box">
+                                        </div>
+                                        <div class="btn_wrap type02">
+                                            <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                            <a href="javascript:;" class="btn type03" onclick="CompleteCrop('main', 0);">확인</a>
+                                        </div>
+                                    </div>
+                                    <div class="pop_mask"></div>
+                                    <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_main_img_org" /></div>
+                                </div>
+                                <!-- //이미지 크롭 팝업 -->
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- //포토형 청첩장인 경우에만 해당 영역 출력 -->
+                </table>
+            </div>
+            <!-- //기본 정보 -->
+            <!-- 아기정보 -->
+            <div class="order_con baby_info">
+                <div class="baby_content content1 on">
+                    <input type="hidden" name="babyinfoidx" value="1" />
+                    <div class="con_title">
+                        <h2>아기 정보</h2>
+                        <a href="javascript:;" class="baby_table_reg baby_btn">+ 쌍둥이 추가</a>
+                    </div>
+                    <table class="order_table type01 baby_list">
+                        <caption>아기 정보</caption>
+                        <tr>
+                            <th class="vt pt40">프로필 이미지</th>
+                            <td>
+                                <div class="sort_wrap">
+                                    <ul class="sort_list profile">
+                                        <li type="profile_img">
+                                            <div class="file_box">
+                                                <div class="img_preview" style="display:none;">
+                                                    <img class="profile_img" orgimg="" src="" style="max-width:159px;max-height:159px;">
+                                                </div>
+                                                <label name="file" onclick="fn_add_profile_Image(1);"></label>
+                                            </div>
+                                            <div class="btn_wrap">
+                                                <a href="javascript:;" class="crop ico">자르기</a>
+                                                <a href="javascript:;" class="delete ico">삭제</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 이미지 크롭 팝업 -->
+                                    <div class="pop_wrap profile_pop">
+                                        <div class="layer_pop">
+                                            <h3>이미지 편집</h3>
+                                            <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                            <div class="img_box">
+                                            </div>
+                                            <div class="btn_wrap type02">
+                                                <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                                <a href="javascript:;" class="btn type03" onclick="CompleteCrop('profile',1);">확인</a>
+                                            </div>
+                                        </div>
+                                        <div class="pop_mask"></div>
+                                        <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_sns_img_org" /></div>
+                                    </div>
+                                    <!-- //이미지 크롭 팝업 -->
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>아기 이름</th>
+                            <td>
+                                <input type="text" class="inp name_inp wp100 input_match" idx="17" placeholder="이름" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>탄생일</th>
+                            <td>
+                                <div class="date_box">
+                                    <input type="text" class="inp date_inp wp100 birthday" value="">
+                                    <span class="ico date">달력 아이콘</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="btn_wrap add_btn_wrap" style="padding-top:15px;">
+                        <a href="javascript:;" class="btn type08_1 add_inp_btn baby wp100" style="font-size:14px;">+ 항목 추가</a>
+                    </div>
+                </div>
+                <!-- 아기 정보 추가내용 -->
+                <div class="baby_content content2">
+                    <input type="hidden" name="babyinfoidx" value="2" />
+                    <div class="con_title">
+                        <h2>아기 정보2</h2>
+                        <a href="javascript:;" class="baby_table_del baby_btn"> <i class="ico delete"></i> 쌍둥이 삭제</a>
+                    </div>
+                    <table class="order_table type01 baby_list">
+                        <caption>아기 정보</caption>
+                        <tr>
+                            <th class="vt pt40">프로필 이미지</th>
+                            <td>
+                                <div class="sort_wrap">
+                                    <ul class="sort_list profile">
+                                        <li type="profile_img">
+                                            <div class="file_box">
+                                                <div class="img_preview" style="display:none;">
+                                                    <img class="profile_img" orgimg="" src="" style="max-width:159px;max-height:159px;">
+                                                </div>
+                                                <label name="file" onclick="fn_add_profile_Image(2);"></label>
+                                            </div>
+                                            <div class="btn_wrap">
+                                                <a href="javascript:;" class="crop ico">자르기</a>
+                                                <a href="javascript:;" class="delete ico">삭제</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 이미지 크롭 팝업 -->
+                                    <div class="pop_wrap profile_pop">
+                                        <div class="layer_pop">
+                                            <h3>이미지 편집</h3>
+                                            <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                            <div class="img_box">
+                                            </div>
+                                            <div class="btn_wrap type02">
+                                                <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                                <a href="javascript:;" class="btn type03" onclick="CompleteCrop('profile',2);">확인</a>
+                                            </div>
+                                        </div>
+                                        <div class="pop_mask"></div>
+                                        <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_sns_img_org" /></div>
+                                    </div>
+                                    <!-- //이미지 크롭 팝업 -->
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>아기 이름</th>
+                            <td>
+                                <input type="text" class="inp name_inp wp100" placeholder="이름" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>탄생일</th>
+                            <td>
+                                <div class="date_box">
+                                    <input type="text" class="inp date_inp wp100 birthday" value="">
+                                    <span class="ico date">달력 아이콘</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="btn_wrap add_btn_wrap" style="padding-top:15px;">
+                        <a href="javascript:;" class="btn type08_1 add_inp_btn baby wp100" style="font-size:14px;">+ 항목 추가</a>
+                    </div>
+                </div>
+                <div class="baby_content content3">
+                    <input type="hidden" name="babyinfoidx" value="3" />
+                    <div class="con_title">
+                        <h2>아기 정보3</h2>
+                        <a href="javascript:;" class="baby_table_del baby_btn"> <i class="ico delete"></i> 쌍둥이 삭제</a>
+                    </div>
+                    <table class="order_table type01 baby_list">
+                        <caption>아기 정보</caption>
+                        <tr>
+                            <th class="vt pt40">프로필 이미지</th>
+                            <td>
+                                <div class="sort_wrap">
+                                    <ul class="sort_list profile">
+                                        <li type="profile_img">
+                                            <div class="file_box">
+                                                <div class="img_preview" style="display:none;">
+                                                    <img class="profile_img" orgimg="" src="" style="max-width:159px;max-height:159px;">
+                                                </div>
+                                                <label name="file" onclick="fn_add_profile_Image(3);"></label>
+                                            </div>
+                                            <div class="btn_wrap">
+                                                <a href="javascript:;" class="crop ico">자르기</a>
+                                                <a href="javascript:;" class="delete ico">삭제</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 이미지 크롭 팝업 -->
+                                    <div class="pop_wrap profile_pop">
+                                        <div class="layer_pop">
+                                            <h3>이미지 편집</h3>
+                                            <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                            <div class="img_box">
+                                            </div>
+                                            <div class="btn_wrap type02">
+                                                <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                                <a href="javascript:;" class="btn type03" onclick="CompleteCrop('profile',3);">확인</a>
+                                            </div>
+                                        </div>
+                                        <div class="pop_mask"></div>
+                                        <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_sns_img_org" /></div>
+                                    </div>
+                                    <!-- //이미지 크롭 팝업 -->
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>아기 이름</th>
+                            <td>
+                                <input type="text" class="inp name_inp wp100" placeholder="이름" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>탄생일</th>
+                            <td>
+                                <div class="date_box">
+                                    <input type="text" class="inp date_inp wp100 birthday">
+                                    <span class="ico date">달력 아이콘</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="btn_wrap add_btn_wrap" style="padding-top:15px;">
+                        <a href="javascript:;" class="btn type08_1 add_inp_btn baby wp100" style="font-size:14px;">+ 항목 추가</a>
+                    </div>
+                </div>
+            </div>
+            <!-- //아기내용 -->
+            <!-- 부모 정보 -->
+            <div class="order_con wedd_info">
+                <h2>부모님 정보</h2>
+                <table class="order_table type01">
+                    <caption>부모님 정보</caption>
+                    <tr>
+                        <th>아빠</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp wp100 input_match" idx="21" id="Groom_Name" placeholder="이름" value="@ViewData["Groom_Name"]">
+                            </div>
+                            <div class="number_box">
+                                <span class="inp_box">
+                                    <input type="text" class="inp w50 mr5 call_val" id="Groom_Global_Phone_Number" inputmode="numeric" value="@ViewData["Groom_Global_Phone_Number"]" @(ViewData["Groom_Global_Phone_YN"] != null && ViewData["Groom_Global_Phone_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                    <input type="text" class="inp wp70" placeholder="'-'없이 숫자만 입력하세요." inputmode="numeric" id="Groom_Phone" value="@ViewData["Groom_Phone"]">
+                                </span>
+                                <span class="check_box tip_box">
+                                    <input type="checkbox" id="Groom_Global_Phone_YN" name="check" @(ViewData["Groom_Global_Phone_YN"] != null && ViewData["Groom_Global_Phone_YN"].ToString() == "Y" ? "checked='true'" : "") />
+                                    <label for="Groom_Global_Phone_YN" class="ml0">국제전화</label>
+                                    <span class="bn_tip w240 right">
+                                        <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                        <p>
+                                            ex) 대한민국 : +82 <br />
+                                            미국/캐나다 : +1 <br />
+                                            베트남 : +84 <br />
+                                            영국 : +44
+                                        </p>
+                                    </span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>엄마</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp wp100 input_match" idx="21" id="Bride_Name" placeholder="이름" value="@ViewData["Bride_Name"]">
+                            </div>
+                            <div class="number_box">
+                                <span class="inp_box">
+                                    <input type="text" class="inp w50 mr5 call_val" id="Bride_Global_Phone_Number" inputmode="numeric" value="@ViewData["Bride_Global_Phone_Number"]" @(ViewData["Bride_Global_Phone_YN"] != null && ViewData["Bride_Global_Phone_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                    <input type="text" class="inp wp70" placeholder="'-'없이 숫자만 입력하세요." inputmode="numeric" id="Bride_Phone" value="@ViewData["Bride_Phone"]">
+                                </span>
+                                <span class="check_box tip_box">
+                                    <input type="checkbox" id="Bride_Global_Phone_YN" name="check" @(ViewData["Bride_Global_Phone_YN"] != null && ViewData["Bride_Global_Phone_YN"].ToString() == "Y" ? "checked='true'" : "") />
+                                    <label for="Bride_Global_Phone_YN" class="ml0">국제전화</label>
+                                    <span class="bn_tip w240 right">
+                                        <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                        <p>
+                                            ex) 대한민국 : +82 <br />
+                                            미국/캐나다 : +1 <br />
+                                            베트남 : +84 <br />
+                                            영국 : +44
+                                        </p>
+                                    </span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- //부모 정보 -->
+            <!-- 행사장 정보 -->
+            <div class="order_con wedd_info">
+                <h2>돌잔치 정보</h2>
+                <table class="order_table type01">
+                    <caption>돌잔치 정보</caption>
+                    <tr>
+                        <th>일시</th>
+                        <td>
+                            <div class="date_box">
+                                <input type="text" class="inp date_inp w230 WeddingDate" id="Calendar">
+                                <input type="hidden" class="input_match" idx="1" id="WeddingYY" value="@ViewData["WeddingYY"]">
+                                <input type="hidden" class="input_match" idx="1" id="WeddingMM" value="@ViewData["WeddingMM"]">
+                                <input type="hidden" class="input_match" idx="1" id="WeddingDD" value="@ViewData["WeddingDD"]">
+                                <input type="hidden" class="input_match" idx="1" id="WeddingWeek" value="@ViewData["WeddingWeek"]">
+                                <input type="hidden" class="input_match" idx="1" id="Time_Type_Code" value="@ViewData["Time_Type_Code"]" />
+                                <input type="hidden" class="input_match" idx="1" id="WeddingDate" value="@ViewData["WeddingDate"]" />
+                                <span class="ico date">달력 아이콘</span>
+                            </div>
+                            <div class="time_box fl_wrap mt10">
+                                <span class="radio_box wedd_time pt10 wp45">
+                                    <input type="radio" id="AM" kname="오전" name="Time_Type_Code" checked>
+                                    <label for="AM">오전</label>
+                                    <input type="radio" id="PM" kname="오후" name="Time_Type_Code">
+                                    <label for="PM" class="ml10">오후</label>
+                                </span>
+                                <input type="text" class="dvhhmm inp w50" id="WeddingHour" inputmode="numeric" maxlength="2" value="@ViewData["WeddingHour"]">
+                                <label class="dvhhmm" for="WeddingHour">시</label>
+                                <input type="text" class="dvhhmm inp w50" id="WeddingMin" inputmode="numeric" maxlength="2" value="@ViewData["WeddingMin"]">
+                                <label class="dvhhmm" for="WeddingMin">분</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>장소명</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp wp100 input_match" id="Weddinghall_Name" placeholder="바른손베이비 강남점" value="@ViewData["Weddinghall_Name"]">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>층/홀/실</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp wp75 input_match" id="WeddingHallDetail" placeholder="9층 블라썸홀" value="@ViewData["WeddingHallDetail"]">
+                                <input type="checkbox" id="DetailNewLineYN" style="margin-left:10px;" @(ViewData["DetailNewLineYN"] != null && ViewData["DetailNewLineYN"].ToString() == "Y" ? "checked='true'" : "") /><label for="DetailNewLineYN" style="margin-left:5px;">줄바꿈</label>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>연락처</th>
+                        <td>
+                            <div style="position:relative;"><input type="text" class="inp wp100 input_match" inputmode="numeric" placeholder="02-0000-0000" id="Weddinghall_PhoneNumber" value="@ViewData["Weddinghall_PhoneNumber"]"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td>
+                            <div class="fl_wrap btn_wrap" style="position:relative;">
+                                <input type="text" class="inp wp75" id="Weddinghall_Address" value="@ViewData["Weddinghall_Address"]">
+                                <a href="javascript:;" class="btn type03 wp23 fr" onclick="execDaumPostcode(); return false;">검색하기</a>
+                                <!-- 주소 팝업 -->
+                                <div class="pop_wrap pop_l addr">
+                                    <div class="layer_pop">
+                                        <div id="layerAddr" style="display:none;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
+                                        <div class="btn_wrap type01">
+                                            <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                        </div>
+                                    </div>
+                                    <div class="pop_mask">
+                                        <div class="forErrorMsg"><div class="Weddinghall_Address"></div></div>
+                                    </div>
+                                </div>
+                                <!-- //주소 팝업 -->
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>약도 입력</th>
+                        <td>
+                            <div class="inp_wb btn_wrap type02">
+                                <span class="radio_box">
+                                    <input type="radio" id="navermap" name="map" checked onclick="hiddenFile();">
+                                    <label for="navermap">네이버지도 사용</label>
+                                    <input type="radio" id="outlinemap" name="map" onclick="viewFile();">
+                                    <label for="outlinemap" class="ml10">직접등록</label>
+                                </span>
+                                <span id="viewfile" class="fl_wrap map_box mt15 clear map_box" style="display:none; position:relative;">
+                                    <input type="text" class="inp wp75" placeholder="폭 360 px로 업로드해주세요.">
+                                    <label class="wp23 fr" onclick="fn_add_Outline_Image();">파일등록</label>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>약도</th>
+                        <td>
+                            <!-- 파일 등록한 약도 노출  -->
+                            <div class="wedd_map wp100">
+                                <div class="input_navermap">
+                                    <div id="map_canvas">
+                                        <iframe id="incNaverMap" src="/Invitation/NaverMap" frameborder="0" style="border:0;width:100%;height:200px;" allowfullscreen></iframe>
+                                    </div>
+                                    <div id="map_tip">TIP: 행사장 주소를 검색하신 후 실제 지도와 위치가 다를 경우 정확한 설정을 위해 위치를 클릭해주세요.</div>
+                                    <div class="forErrorMsg"><div class="lat"></div></div>
+                                </div>
+                                <div class="input_imgmap" style="display:none;"><img class="mapImg" id="Outline_Image" style="border:0px solid #ccc;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- //행사장 정보 -->
+            <!-- 기타 정보 -->
+            <div class="order_con etc_info">
+                <div class="con_title">
+                    <h2>기타 정보</h2>
+                    <div class="radio_box">
+                        <input type="radio" id="Etc_Information_Use_Y" class="btn_use" name="Etc_Information_Use_YN" idx="3" checked>
+                        <label for="Etc_Information_Use_Y">사용함</label>
+                        <input type="radio" id="Etc_Information_Use_N" name="Etc_Information_Use_YN" idx="3" class="btn_unuse">
+                        <label for="Etc_Information_Use_N" class="ml25">사용안함</label>
+                    </div>
+                </div>
+                <div class="order_detail">
+                    <table class="order_table type01 info_reg_list">
+                        <caption>기타 정보</caption>
+                        <tr>
+                            <th>
+                                <div style="position:relative;">
+                                    <input type="text" id="etc_title_1" class="inp wp100 etc_title" placeholder="ex) 버스 안내">
+                                </div>
+                            </th>
+                            <td>
+                                <div style="position:relative;">
+                                    <textarea cols="17" rows="1" class="etc_contents" id="etc_contents_1" maxlength="500" style="width:100%"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <div style="position:relative;">
+                                    <input type="text" id="etc_title_2" class="inp wp100 etc_title" placeholder="ex) 자가용 안내">
+                                </div>
+                            </th>
+                            <td>
+                                <div style="position:relative;">
+                                    <textarea cols="17" rows="1" class="etc_contents" id="etc_contents_2" maxlength="500" style="width:100%"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="btn_wrap mt10" style="position:relative;">
+                        <a href="javascript:;" class="btn type08_1 wp100 add_inp_btn etc_info" style="font-size:14px;">+ 항목 추가</a>
+                    </div>
+                </div>
+            </div>
+            <!-- //기타 정보 -->
+            <!-- 축의금(카카오페이) -->
+            <div class="order_con money_gift">
+                <div class="con_title">
+                    <h2>축의금<span>(카카오페이)</span></h2>
+                    <div class="radio_box">
+                        <input type="radio" id="MoneyGift_Remit_Use_Y" class="btn_use" name="MoneyGift_Remit_Use_YN" idx="4">
+                        <label for="MoneyGift_Remit_Use_Y">사용함</label>
+                        <input type="radio" id="MoneyGift_Remit_Use_N" class="btn_unuse" name="MoneyGift_Remit_Use_YN" idx="4" checked>
+                        <label for="MoneyGift_Remit_Use_N" class="ml10">사용안함</label>
+                    </div>
+                </div>
+                <div class="order_detail">
+                    <p class="kakao_text">
+                        계좌번호 안내 없이도 카카오페이를 통해 축의금을 <br />받을 수 있는 부가서비스입니다.
+
+                    </p>
+                    <div class="btn_wrap">
+                        <a href="@(ViewData["KakaoBankingUrl"])" target="_blank" class="btn type07_1">지금 계좌설정 하기</a>
+                    </div>
+                    <div class="info_text tl">
+                        <p><strong>건 당 1,000원의 서비스 이용료(카카오페이 이용료 외)가 발생합니다.</strong></p>
+                        <p>축의금 내역은 마이페이지에서 엑셀다운로드 하셔서, 편리하게 관리할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- //축의금(카카오페이) -->
+            <!-- 축의금(계좌번호통합) -->
+            <div class="order_con money_account all">
+                <div class="con_title">
+                    <h2>계좌번호</h2>
+                    <div class="radio_box">
+                        <input type="radio" id="MoneyAccount_Remit_Use_Y" class="btn_use" name="MoneyAccount_Remit_Use_YN" idx="4">
+                        <label for="MoneyAccount_Remit_Use_Y">사용함</label>
+                        <input type="radio" id="MoneyAccount_Remit_Use_N" class="btn_unuse" name="MoneyAccount_Remit_Use_YN" idx="4" checked>
+                        <label for="MoneyAccount_Remit_Use_N" class="ml10">사용안함</label>
+                    </div>
+                </div>
+                <div class="order_detail">
+                    <table class="order_table type01 account_list">
+                        <caption>계좌번호 정보입력</caption>
+                        <tr>
+                            <th style="position:relative;">
+                                <span class="select_wrap type01 wp60">
+                                    <select class="select sel_sender" id="selSender_1">
+                                    </select>
+                                </span>
+                                <input type="text" class="inp wp25 ml5 input_sender " placeholder="관계" style="display:none;" id="inputSender_1" value="" />
+                                <span class="select_wrap type01 wp35 fr">
+                                    <select class="select sel_bank " id="selBank_1">
+                                    </select>
+                                </span>
+                            </th>
+                            <td style="position:relative;">
+                                <input type="text" class="inp num_inp wp100 input_accountnumber" inputmode="numeric" placeholder="계좌번호입력( - 없이 숫자만 입력)" id="inputAccountNumber_1" /> <br />
+                                <input type="text" class="inp num_inp wp100 mt10 input_accountholder" placeholder="예금주 입력" id="inputAccountHolder_1" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="position:relative;">
+                                <span class="select_wrap type01 wp60">
+                                    <select class="select sel_sender" id="selSender_2">
+                                    </select>
+                                </span>
+                                <input type="text" class="inp wp25 ml5 input_sender" placeholder="관계" style="display:none;" id="inputSender_2" value="" />
+                                <span class="select_wrap type01 wp35 fr">
+                                    <select class="select sel_bank " id="selBank_2">
+                                    </select>
+                                </span>
+                            </th>
+                            <td style="position:relative;">
+                                <input type="text" class="inp num_inp wp100 input_accountnumber" inputmode="numeric" placeholder="계좌번호입력( - 없이 숫자만 입력)" id="inputAccountNumber_2" /> <br />
+                                <input type="text" class="inp num_inp wp100 mt10 input_accountholder" placeholder="예금주 입력" id="inputAccountHolder_2" />
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- 항목 추가 -->
+                    <div class="btn_wrap add_btn_wrap mt10" style="position:relative;">
+                        <a href="javascript:;" class="btn type08_1 wp100 add_inp_btn account" style="font-size:14px;">+ 항목 추가</a>
+                    </div>
+                </div>
+            </div>
+            <!-- //축의금(계좌번호통합) -->
+        </div>
+        <!-- //주문제작 영역 -->
+        <!-- 다음 단계로 이동 버튼 -->
+        <div class="btn_wrap next_wrap bottom">
+            <a href="javascript:;" id="btn_next" class="btn type03 wp100">다음 단계로 이동</a>
+        </div>
+        <!-- 다음 단계로 이동 버튼 -->
+    </div>
+</section>
+<!-- //sub contents -->
+<div style="display:none" id="ETCs">@ViewData["ETCs"]</div>
+<div style="display:none" id="Objects">@ViewData["Objects"]</div>
+<div style="display:none" id="Banks">@ViewData["Banks"]</div>
+<div style="display:none" id="Sender">@ViewData["Sender"]</div>
+<div style="display:none" id="Accounts">@ViewData["Accounts"]</div>
+<div style="display:none" id="BabyInfos">@ViewData["BabyInfos"]</div>
+
+<form id="uploadFrm" enctype="multipart/form-data" method="post">
+    <div class="modal-body">
+        <input type="file" id="mapfile" name="files" accept=".jpg,.jpeg,.png" style="display:none" />
+        <input type="file" id="mainfile" name="files" accept=".jpg,.jpeg,.png" style="display:none">
+        <input type="file" id="snsfile" name="files" accept=".jpg,.jpeg,.png" style="display:none">
+        <input type="file" id="profilefile" name="files" accept=".jpg,.jpeg,.png" style="display:none">
+    </div>
+</form>
+<input type="hidden" id="lat" value="@ViewData["Location_LAT"]" />
+<input type="hidden" id="lot" value="@ViewData["Location_LOT"]" />
+<input type="hidden" id="Invitation_Id" value="@ViewData["Invitation_Id"]" />
+<input type="hidden" id="Order_Id" value="@ViewData["Order_Id"]" />
+<input type="hidden" id="upload_path" value="@ViewData["upload_path"]" />
+<input type="hidden" id="Outline_Type_Code" value="@ViewData["Outline_Type_Code"]" />
+<input type="hidden" id="Outline_Image_URL" value="@ViewData["Outline_Image_URL"]" />
+<input type="hidden" id="GuestBook_Use_YN" value="@ViewData["GuestBook_Use_YN"]" />
+<input type="hidden" id="Etc_Information_Use_YN" value="@ViewData["Etc_Information_Use_YN"]" />
+<input type="hidden" id="MoneyGift_Remit_Use_YN" value="@ViewData["MoneyGift_Remit_Use_YN"]" />
+<input type="hidden" id="MoneyAccount_Remit_Use_YN" value="@ViewData["MoneyAccount_Remit_Use_YN"]" />
+<input type="hidden" id="MoneyAccount_Div_Use_YN" value="N" />
+<input type="hidden" id="Invitation_Video_Use_YN" value="@ViewData["Invitation_Video_Use_YN"]" />
+<input type="hidden" id="Gallery_Use_YN" value="@ViewData["Gallery_Use_YN"]" />
+<input type="hidden" id="Gallery_Type_Code" value="@ViewData["Gallery_Type_Code"]" />
+<input type="hidden" id="Invitation_Video_Type_Code" value="@ViewData["Invitation_Video_Type_Code"]" />
+<input type="hidden" id="Photo_YN" value="@ViewData["Photo_YN"]" />
+<input type="hidden" id="SNS_Image_Height" value="@ViewData["SNS_Image_Height"]" />
+<input type="hidden" id="SNS_Image_Width" value="@ViewData["SNS_Image_Width"]" />
+<input type="hidden" id="Delegate_Image_Height" value="@ViewData["Delegate_Image_Height"]" />
+<input type="hidden" id="Delegate_Image_Width" value="@ViewData["Delegate_Image_Width"]" />
+<input type="hidden" id="Photo_Max_Width" value="@ViewData["Photo_Max_Width"]" />
+<input type="hidden" id="Photo_Max_Height" value="@ViewData["Photo_Max_Height"]" />
+<input type="hidden" id="Delegate_Image_URL" value="@ViewData["Delegate_Image_URL"]" />
+<input type="hidden" id="Groom_Parents1_Title" value="@ViewData["Groom_Parents1_Title"]" />
+<input type="hidden" id="Groom_Parents2_Title" value="@ViewData["Groom_Parents2_Title"]" />
+<input type="hidden" id="Bride_Parents1_Title" value="@ViewData["Bride_Parents1_Title"]" />
+<input type="hidden" id="Bride_Parents2_Title" value="@ViewData["Bride_Parents2_Title"]" />
+
+<input type="hidden" id="Time_Type_Eng_YN" value="@ViewData["Time_Type_Eng_YN"]" />
+<input type="hidden" id="WeddingWeek_Eng_YN" value="@ViewData["WeddingWeek_Eng_YN"]" />
+<input type="hidden" id="photo_width" />
+<input type="hidden" id="photo_height" />
+
+<input type="hidden" id="User_ID" value="@ViewData["User_ID"]" />
+
+@section Scripts
+{
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/cropper.min.js"></script>
+    <script src="/js/step/m_mdollstep1.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,366 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyOrderDetailViewModel
+@{
+    Layout = "User_Layout";
+    var infoText = "구매일로부터 3개월";
+    if (Model.ProductCategoryCode == "PCC01")
+        infoText = "예식일로부터 3개월";
+
+    var orderStepActionname = "McardStep1";
+    if (Model.ProductCategoryCode == "PCC01") //청첩장
+        orderStepActionname = "McardStep1";
+    else if (Model.ProductCategoryCode == "PCC02") //감사장
+        orderStepActionname = "MthanksStep1";
+    else if (Model.ProductCategoryCode == "PCC03") //돌잔치
+        orderStepActionname = "MDollStep1";
+}
+@section Heads
+{
+    <link rel="stylesheet" href="/css/mypage.css" asp-append-version="true">
+    <style type="text/css">
+        .copy_btn:hover {
+            color: #1E90FF;
+        }
+
+        .copy_btn {
+            /*position: absolute;*/
+            top: 0;
+            right: 0;
+            width: 66px;
+            height: 22px;
+            /*line-height: 22px;*/
+            /*  background: #757575;*/
+            font-size: 14.5px;
+            color: #333;
+            text-align: center;
+            /*  border-radius: 20px;*/
+            font-family: "'Spoqa Han Sans Neo', "Open Sans","Spoqa Han Sans", Apple SD Gothic Neo, Nanum Barun Gothic, Nanum Gothic, "돋움", Dotum, Verdana, Arial, sans-serif";
+        }
+
+    </style>
+}
+<!-- sub contents -->
+<section class="mypage">
+    <div class="sub_con_wrap">
+        <aside class="mypage_list fixed">
+            @await Html.PartialAsync("MyPageMenuPartial", "OrderDetail")
+        </aside>
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents detail">
+            <!-- 미리보기 -->
+            <aside class="product_img fixed">
+                <!-- 상품 이미지 영역 -->
+                <div class="preview_box">
+                    <div class="preview_top">
+                        <span></span>
+                    </div>
+                    <div class="img_con">
+                        <iframe id="preview_frame" class="viewPort" src="@Url.Action("Index", "Invitation", new {Invitation_ID = Model.InvitationId})" frameborder="0" width="100%" marginwidth="0" marginheight="0" onload="previewCalcHeight();"></iframe>
+                    </div>
+                    <div class="preview_info_box">
+                        <div class="preview_mouse">
+                            <div class="mousey">
+                                <div class="scroller"></div>
+                            </div>
+                        </div>
+                        <p>이미지를 스크롤하시면 <br /> 자세히 보실 수 있습니다.</p>
+                    </div>
+                </div>
+                <!-- //상품 이미지 영역 -->
+            </aside>
+            <!-- //미리보기 -->
+            <!-- 상세정보 -->
+            <div class="order_con">
+                <div class="detail_title">
+                    <h2>@Model.ProductCode / @Model.ProductName</h2>
+                    <a href="#" class="refund_btn btnrefundPop">취소/환불 ></a>
+                </div>
+                <!-- 상세정보 테이블 -->
+                <table class="order_table type01 compl">
+                    <caption>상세 정보</caption>
+                    <colgroup>
+                        <col style="width:145px;">
+                        <col style="width:585px">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th>주문번호</th>
+                            <td>@Model.OrderCode</td>
+                        </tr>
+                        <tr>
+                            <th>상품유형</th>
+                            <td>@Model.ProductCategoryName</td>
+                        </tr>
+                        <tr>
+                            <th>결제일시</th>
+                            <td>@Model.PaymentDateTime?.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <th>결제수단</th>
+
+                            @if (Model.PaymentMethodCode == "PMC02") //가상계좌
+                            {
+                                <td>  @Model.PaymentMethodName / @Model.FinanceName /  @Model.AccountNumber </td>
+                            }
+                            else if (Model.PaymentMethodCode == "PMC04") //쿠폰
+                            {
+                                <td>  @Model.PaymentMethodName</td>
+                            }
+                            else
+                            {
+                                <td>  @Model.PaymentMethodName / @Model.FinanceName /  @Model.AccountNumber </td>
+                            }
+
+
+                        </tr>
+                        <tr>
+                            <th class="tip_box">
+                                초대장 주소
+                                <span class="ico notice tip_btn">툴팁 아이콘</span>
+                                <div class="bn_tip w195" style="width: 425px; left:0.1px; height:50px; top: 50px; z-index: 10000">
+                                    <p>주소 복사 후 고객님의 휴대폰(카카오톡, 문자 등)으로<br />전송(붙여넣기) 하셔서 최종 확인 하시고, 지인분들께 공유하세요.</p>
+                                </div>
+                            </th>
+                            <td>
+                                <a href="@Model.InvitationUrlFull" target="_blank" class="url_text">@Model.InvitationUrlFull</a>
+                                <span class="check_box ml10" style="width:150px;">
+                                    <a href="#none" onclick="copyToClipboard(this);toast_copy('복사되었습니다.', 1500);" id="copy_btn" class="copy_btn" 
+                                       style=" font-family:'Spoqa Han Sans Neo' , 'Open Sans' ,'Spoqa Han Sans', Apple SD Gothic Neo, Nanum Barun Gothic, Nanum Gothic, '돋움' , Dotum, Verdana, Arial, sans-serif">주소복사</a>
+
+                                </span>
+                            </td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <th></th>
+                            <td style="vertical-align: top; height: 20px; padding-top:6px; ">
+                                <form asp-action="UpdateInvitationDisplay" asp-controller="Member" asp-route-Order_Id="@Model.OrderID" method="post" id="frmCheckDisplay">
+                                    <span class="check_box ml10" style=" margin:-10px 0 0 -6px; height:20px; ">
+                                        <input type="checkbox" id="ckDisplay" name="notDisplay" value="true" @((!Model.IsDisplay) ? "checked" : "")>
+                                        <label for="ckDisplay">비공개</label>
+                                    </span>
+                                </form>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>유효기간</th>
+                            <td>@infoText</td>
+                        </tr>
+                        <tr>
+
+                            <th class="vt">결제 금액</th>
+                            <td>
+                                <div class="info_box">
+                                    <dl>
+                                        <dt>상품 금액</dt>
+                                        <dd>@Model.ProductPrice.ToString("#,##0원")</dd>
+                                    </dl>
+                                    @if (Model.CouponPrice.HasValue)
+                                    {
+                                        <dl>
+                                            <dt>쿠폰 할인</dt>
+                                            <dd class="point03">-@Model.CouponPrice.Value.ToString("#,##0원")</dd>
+                                        </dl>
+                                    }
+
+                                    <div class="result_box">
+                                        <dl>
+                                            <dt>결제 금액</dt>
+                                            <dd>@(Model.PaymentPrice.HasValue ? Model.PaymentPrice.Value.ToString("#,##0원") : "0원")</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- //상세정보 테이블 -->
+                <!-- 수정 및 방명록 관리 버튼 -->
+                <div class="btn_wrap type02 bottom">
+                    <button type="button" id="btnEdit" class="btn type03_1" data-href="@Url.Action(orderStepActionname, "Order", new { Order_Id = Model.OrderID })">@(Model.ProductCategoryName.Replace("M", "") + "수정")</button>
+                    @if (Model.ProductCategoryCode == "PCC01" || Model.ProductCategoryCode == "PCC03")
+                    {
+                        <button type="button" id="btnGuestbook" class="btn type03" data-href="@Url.Action("Guestbook", "Member", new { InvitationId = Model.InvitationId })">방명록 관리</button>
+                    }
+                    </div>
+                <!-- //수정 및 방명록 관리 버튼 -->
+                <!-- 유의사항 -->
+                <div class="table_info">
+                    @if (Model.ProductCategoryCode == "PCC01")
+                    {
+                        <p>- 모바일 청첩장은 예식일(행사일) 기준으로 최대 3개월(90일)까지 보관하실 수 있습니다.</p>
+                        <p>-스마트폰 기종에 따라 이미지 및 폰트 사이즈 차이가 발생할 수 있습니다.</p>
+                        <p><strong>- 제작 완료 후, 3일 이내 취소/환불 가능합니다.(3일 이후 취소/환불 불가)</strong></p>
+                        <p><strong>- 송금 내역이 있을 경우, 3일 이내라도 취소/환불이 불가능합니다.</strong></p>
+                    }
+                    else if (Model.ProductCategoryCode == "PCC02")
+                    {
+                        <p>- 모바일 감사장은 구매일 기준으로 최대 3개월(90일)까지 보관하실 수 있습니다.</p>
+                        <p>- 스마트폰 기종에 따라 이미지 및 폰트 사이즈 차이가 발생할 수 있습니다.</p>
+                        <p><strong>- 제작 완료 후, 3일 이내 취소/환불 가능합니다.(3일 이후 취소/환불 불가)</strong></p>
+                    }
+                    else if (Model.ProductCategoryCode == "PCC03")
+                    {
+                        <p>- 모바일 초대장은 구매일 기준으로 최대 3개월(90일)까지 보관하실 수 있습니다.</p>
+                        <p>- 스마트폰 기종에 따라 이미지 및 폰트 사이즈 차이가 발생할 수 있습니다.</p>
+                        <p><strong>- 제작 완료 후, 3일 이내 취소/환불 가능합니다.(3일 이후 취소/환불 불가)</strong></p>
+                        <p><strong>- 송금 내역이 있을 경우, 3일 이내라도 취소/환불이 불가능합니다.</strong></p>
+                    }
+                </div>
+                <!-- //유의사항 -->
+            </div>
+            <!-- //상세정보 -->
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+        <!-- 취소/환불 팝업 -->
+        
+        <div class="pop_wrap pop_l poprefund">
+            <div class="layer_pop">
+                <h3>취소/환불</h3>
+                @if (Model.IsCancel)
+                {
+                    <p class="pop_text tl">
+                        현재 저장하신 청첩장을 취소/환불하실 <br>경우 관련된 모든 내용 및 URL이 삭제되며, <br>이후 재이용하거나 복구할 수 없습니다.
+                    </p>
+                    <p class="pop_text tl">
+                        취소/환불하시겠습니까 ?
+                    </p>
+                }
+                else
+                {
+                    <p class="pop_text tl">
+                        @Html.Raw(Model.NotCancelText)
+                    </p>
+                }
+                <div class="btn_wrap pop_bottom type02">
+                    @if (Model.IsCancel)
+                    {
+                        <a href="#none" class="btn type03_1" onclick="popClose()">닫기</a>
+                        <a asp-action="User_Refund" asp-controller="Member" asp-route-id="@Model.OrderID" class="btn type03 btnrefund">취소/환불</a>
+                    }
+                    else
+                    {
+                        <a href="#none" class="btn type03_1" onclick="popClose()" style="width: 100%;">닫기</a>
+                    }
+                </div>
+            </div>
+            <div class="pop_mask"></div>
+        </div>
+        <!-- //취소/환불 팝업 -->
+    </div>
+    <div class="toast"></div>
+</section>
+<!-- //sub contents -->
+@section Scripts
+{
+    <script src="/js/member/mypage.js" asp-append-version="true"></script>
+    <script>
+
+        $(document).ready(function (e) {
+
+        });
+
+        function copyToClipboard(obj) {
+            var copyurl = $(".url_text").html();
+            var aux = document.createElement("textarea");
+            aux.value = copyurl;
+            document.body.appendChild(aux);
+            aux.select();
+            aux.setSelectionRange(0, 9999);
+            document.execCommand("copy");
+            document.body.removeChild(aux);
+        }
+
+        //토스트 알림 기능
+        function toast_copy(msg, timer) {
+            var $elem = $("<p>" + msg + "</p>");
+
+            $(".toast").html($elem).show();
+
+            $elem.slideToggle(100, function () {
+                setTimeout(function () {
+                    $elem.fadeOut(function () {
+                        $(this).remove();
+                        $('.toast ').css('bottom', '');
+                    });
+                }, timer);
+                return false;
+            });
+
+            $('.toast').stop().animate({ 'bottom': '5%' });
+
+        }
+
+        // 방명록 관리 이동
+        $('#btnGuestbook').on("click", function (e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            var url = $(e.currentTarget).data('href');
+            window.open(url, 'guestbook');
+        });
+        // 청첩장 수정
+        $('#btnEdit').on("click", function (e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            var url = $(e.currentTarget).data('href');
+            location.replace(url);
+        });
+
+        // 초대장 노출/비노출 처리
+        $("#ckDisplay").on("click", function (e) {
+            var nonDisplay = $("#ckDisplay").prop('checked');
+
+            var form = $("#frmCheckDisplay");
+            var url = form.attr('action');
+            var formData = form.serialize();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: formData, 
+                success: function (result) {
+                    if (result.status) {
+                        if (nonDisplay)
+                            toast_copy('초대장이 비공개 되었습니다.', 1500);
+                        else
+                            toast_copy('초대장이 공개 되었습니다.', 1500);
+                    } else {
+                        toast_copy(result.message, 1500);
+                    }
+                },
+                error: function (result) {
+                    toast_copy("오류가 발생했습니다.", 1500);
+                }
+            });
+        });
+
+        //취소&환불
+        $("a.btnrefundPop").on("click", function (e) {
+            e.preventDefault();
+            $("div.poprefund").show();
+        });
+
+        $("a.btnrefund").on("click", function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: $(this).attr("href"),
+                async: false,
+                success: function (result) {
+                    if (result.status) {
+                        location.replace(result.message1);
+                    } else {
+                        var $popWrap = $('div.poprefund');
+                        $popWrap.find(".layer_pop p:eq(0)").html(result.message1);
+                        $popWrap.find(".layer_pop p:eq(1)").html(result.message2);
+                        $popWrap.find(".layer_pop div a:eq(0)").css("width", "100%");
+                        $popWrap.find(".layer_pop div a:eq(1)").hide();
+                    }
+                }
+            });
+        });
+    
+    </script>
+}

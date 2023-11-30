@@ -1,0 +1,61 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model M2AreaItemViewModel
+@{
+    var item = Model;
+}
+
+@if (item.ItemType == "ITC01") //txt
+{
+    var css = $"position:absolute; top:{item.Top}px; left: {item.Left}px; width: {item.Width}px; height: {item.Height}px;";
+    if (!string.IsNullOrEmpty(item.BackgroundColor))
+        css += $"background-color: {item.BackgroundColor};";
+    if (!string.IsNullOrEmpty(item.VerticalAlign))
+        css += $"align-items: {item.VerticalAlign};";
+
+    var textcss = "";
+
+    if (!string.IsNullOrEmpty(item.Font))
+        textcss += $"font-family: {item.Font};";
+    if (!string.IsNullOrEmpty(item.FontColor))
+        textcss += $"color: {item.FontColor};";
+    if (item.FontSize.HasValue)
+        textcss += $"font-size: {item.FontSize.Value}px;";
+    if (item.IsBold)
+        textcss += $"font-weight: bold;";
+    if (item.IsItalic)
+        textcss += $"font-style: italic;";
+    if (item.IsUnderline)
+        textcss += $"font-decoration: underline;";
+    if (!string.IsNullOrEmpty(item.HorizontalAlign))
+        textcss += $"text-align: {item.HorizontalAlign};";
+    if (item.LetterSpacing.HasValue)
+        textcss += $"letter-spacing: {item.LetterSpacing.Value / 100}em;";
+    if (item.LineHeight.HasValue)
+        textcss += $"line-height: {item.LineHeight.Value}em;";
+
+    <div id="@item.itemId" class="item ITC01" style="@Html.Raw(css)">
+        <div class="text" style="@Html.Raw(textcss)">
+            @Html.Raw(item.Text)
+        </div>
+    </div>
+}
+else if (item.ItemType == "ITC02") //img
+{
+    <div id="@item.itemId" class="item ITC02" style="position:absolute; top:@(item.Top)px; left: @(item.Left)px;">
+        <img class="img" src="@item.ResourceAbsoluteUrl" style="width:@(item.Width)px; height:@(item.Height)px;" alt="image" />
+    </div>
+}
+else if (item.ItemType == "ITC03") //photo
+{
+    <div id="@item.itemId" class="item photo ITC03" style="position:absolute; top:@(item.Top)px; left: @(item.Left)px; width:@(item.Width)px; height:@(item.Height)px;">
+        <img class="img" src="@item.ResourceAbsoluteUrl" style="max-width:@(item.Width)px; max-height:@(item.Height)px; width:100%;" alt="photo"/>
+    </div>
+}
+else if (item.ItemType == "ITC04") //profile
+{
+    <div id="@item.itemId" class="item photo ITC04" style="position:absolute; top:@(item.Top)px; left: @(item.Left)px; width:@(item.Width)px; height:@(item.Height)px;">
+        <img class="img" src="@item.ResourceAbsoluteUrl" style="max-width:@(item.Width)px; max-height:@(item.Height)px; width:100%;" alt="profile"/>
+    </div>
+}

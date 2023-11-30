@@ -1,0 +1,226 @@
+﻿@using MobileInvitation.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "Main_Preview_Layout";
+}
+
+<style>
+    #wrap {
+        overflow: hidden;
+    }
+
+    .templatearea {
+        width: 100%;
+        /* height: 0px;*/
+        position: relative;
+        letter-spacing: 0px;
+    }
+
+    .item {
+        display: flex;
+    }
+
+    .text {
+        width: 100%;
+    }
+
+    .photo {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column; /*수직 정렬*/
+        align-items: center;
+        justify-content: center;
+    }
+
+    .frame_wrap {
+        display: none;
+        background:#fff;
+    }
+
+    #area1 {
+        padding: 0px !important;
+    }
+
+    #area4 {
+        padding: 0px !important;
+    }
+
+    #area21 {
+        padding: 10px !important;
+    }
+
+    .onoff_4 {
+        padding: 0px !important;
+    }
+
+    img {
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .flowergift {padding-bottom:0 !important;}
+</style>
+<div class="frame_wrap">
+
+    <!-- 표지 디자인 (메인 디자인) -->
+    <div id="area1" idx="1" class="templatearea"></div>
+    <!-- 초대글 (인사말) -->
+    <div id="area2" idx="2" class="templatearea"></div>
+    <!-- 신랑,신부 연락처 타이틀 이미지 -->
+    <div id="area3" idx="3" class="templatearea"></div>
+    <!-- 신랑 신부 연락정보 -->
+    <div id="area4" idx="4" class="call templatearea">
+        <div class="list_wrap"></div>
+    </div>
+    <!-- 돌잔치 -->
+    <!-- 아빠 엄마 연락처 -->
+    <div id="area21" idx="21" class="templatearea call line">
+        <div class="list_wrap"></div>
+    </div>
+    <!-- 아기정보 타이틀 이미지 -->
+    <div id="area17" idx="17" class="templatearea"></div>
+    <!-- 아기 정보 프로필 디자인 -->
+    <div id="area18" idx="18" class="templatearea"></div>
+    <!-- 아기 정보 본문 디자인 -->
+    <div id="area19" idx="19" class="templatearea"></div>
+    <!-- 아기 정보 하단 이미지 -->
+    <div id="area20" idx="20" class="templatearea"></div>
+    <!-- 돌잔치 -->
+    <!-- 갤러리 타이틀 이미지 -->
+    <div id="area5" idx="5" class="templatearea"></div>
+    <!-- 갤러리 -->
+    <div id="area6" idx="6">
+    </div>
+    <!-- 동영상 타이틀 이미지 -->
+    <div id="area7" idx="7" class="templatearea"></div>
+    <!-- 동영상 -->
+    <div id="area8" idx="8" class="movie line">
+    </div>
+    <!-- 오시는길 타이틀 이미지 -->
+    <div id="area9" idx="9" class="templatearea"></div>
+    <!-- 오시는 길 -->
+    <div id="area10" idx="10" class="location line">
+    </div>
+    <div class="flowergift">
+        <img src="https://static.barunsoncard.com/barunsonmcard/invitation/preview/img_flowergift_v2.png" />
+    </div>
+    <div class="remittance onoff_4">
+    </div>
+
+    <!-- 방명록 타이틀 이미지 -->
+    <div id="area14" idx="14" class="templatearea"></div>
+    <!-- 방명록 -->
+    <div id="area15">
+    </div>
+    <!-- //방명록 -->
+    <!-- footer -->
+    <div id="area16">
+    </div>
+    <!-- //footer -->
+
+</div>
+@{
+    string Product_Category_Code = (string)ViewData["Product_Category_Code"];
+    List<TB_ReservationWord> defaultInfo = (List<TB_ReservationWord>)ViewData["defaultInfos"];
+    var prodItems = defaultInfo.Where(m => m.Product_Category_Codes.Contains(Product_Category_Code));
+}
+@functions{
+
+    public string matchName(IEnumerable<TB_ReservationWord> prodItems, string id)
+    {
+        return prodItems.FirstOrDefault(m => m.MappingField == id)?.ReserveWord;
+    }
+}
+
+<div style="display:none" id="Objects">@ViewData["Objects"]</div>
+<div style="display:none" id="TB_Area">@ViewData["TB_Area"]</div>
+<div style="display:none" id="divMatch"></div>
+<div style="display:none" id="RepeatData">@ViewData["RepeatData"]</div>
+
+<input type="hidden" id="Invitation_Title" match="@(matchName(prodItems, "Invitation_Title"))" value="@ViewData["Invitation_Title"]">
+
+<input type="hidden" id="Groom_Name" match="@(matchName(prodItems, "Groom_Name"))" value="@ViewData["Groom_Name"]">
+<input type="hidden" id="Bride_Name" match="@(matchName(prodItems, "Bride_Name"))" value="@ViewData["Bride_Name"]">
+
+<input type="hidden" id="Groom_Phone" value="@ViewData["Groom_Phone"]">
+<input type="hidden" id="Groom_Global_Phone_YN" value="@ViewData["Groom_Global_Phone_YN"]">
+<input type="hidden" id="Groom_Global_Phone_Number" value="@ViewData["Groom_Global_Phone_Number"]">
+<input type="hidden" id="Bride_Phone" value="@ViewData["Bride_Phone"]">
+<input type="hidden" id="Bride_Global_Phone_YN" value="@ViewData["Bride_Global_Phone_YN"]">
+<input type="hidden" id="Bride_Global_Phone_Number" value="@ViewData["Bride_Global_Phone_Number"]">
+<input type="hidden" id="Groom_Parents1_Name" value="@ViewData["Groom_Parents1_Name"]">
+<input type="hidden" id="Groom_Parents1_Global_Phone_Number_YN" value="@ViewData["Groom_Parents1_Global_Phone_Number_YN"]">
+<input type="hidden" id="Groom_Parents1_Global_Phone_Number" value="@ViewData["Groom_Parents1_Global_Phone_Number"]">
+<input type="hidden" id="Groom_Parents1_Phone" value="@ViewData["Groom_Parents1_Phone"]">
+<input type="hidden" id="Groom_Parents2_Name" value="@ViewData["Groom_Parents2_Name"]">
+<input type="hidden" id="Groom_Parents2_Global_Phone_Number_YN" value="@ViewData["Groom_Parents2_Global_Phone_Number_YN"]">
+<input type="hidden" id="Groom_Parents2_Global_Phone_Number" value="@ViewData["Groom_Parents2_Global_Phone_Number"]">
+<input type="hidden" id="Groom_Parents2_Phone" value="@ViewData["Groom_Parents2_Phone"]">
+<input type="hidden" id="Bride_Parents1_Name" value="@ViewData["Bride_Parents1_Name"]">
+<input type="hidden" id="Bride_Parents1_Global_Phone_Number_YN" value="@ViewData["Bride_Parents1_Global_Phone_Number_YN"]">
+<input type="hidden" id="Bride_Parents1_Global_Phone_Number" value="@ViewData["Bride_Parents1_Global_Phone_Number"]">
+<input type="hidden" id="Bride_Parents1_Phone" value="@ViewData["Bride_Parents1_Phone"]">
+<input type="hidden" id="Bride_Parents2_Name" value="@ViewData["Bride_Parents2_Name"]">
+<input type="hidden" id="Bride_Parents2_Global_Phone_Number_YN" value="@ViewData["Bride_Parents2_Global_Phone_Number_YN"]">
+<input type="hidden" id="Bride_Parents2_Global_Phone_Number" value="@ViewData["Bride_Parents2_Global_Phone_Number"]">
+<input type="hidden" id="Bride_Parents2_Phone" value="@ViewData["Bride_Parents2_Phone"]">
+
+<input type="hidden" id="Greetings" match="@(matchName(prodItems, "Greetings"))" value="@ViewData["Greetings"]">
+<input type="hidden" id="WeddingDate" match="@(matchName(prodItems, "WeddingDate"))" value="@ViewData["WeddingDate"]" />
+<input type="hidden" id="WeddingYY" match="@(matchName(prodItems, "WeddingYY"))" value="@ViewData["WeddingYY"]" />
+<input type="hidden" id="WeddingMM" match="@(matchName(prodItems, "WeddingMM"))" value="@ViewData["WeddingMM"]" />
+<input type="hidden" id="WeddingDD" match="@(matchName(prodItems, "WeddingDD"))" value="@ViewData["WeddingDD"]" />
+<input type="hidden" id="WeddingWeek" value="@ViewData["WeddingWeek"]" />
+<input type="hidden" id="WeddingWeekName" match="@(matchName(prodItems, "WeddingWeek"))" value="@ViewData["WeddingWeekName"]" />
+<input type="hidden" id="Time_Type_Code" value="@ViewData["Time_Type_Code"]" />
+<input type="hidden" id="Time_Type_Name" match="@(matchName(prodItems, "Time_Type_Code"))" value="@ViewData["Time_Type_Name"]" />
+
+<input type="hidden" id="WeddingHour" match="@(matchName(prodItems, "WeddingHour"))" value="@ViewData["WeddingHour"]" />
+<input type="hidden" id="WeddingMin" match="@(matchName(prodItems, "WeddingMin"))" value="@ViewData["WeddingMin"]" />
+<input type="hidden" id="WeddingHHmm" value="@ViewData["WeddingHHmm"]" />
+<input type="hidden" id="Weddinghall_Name" match="@(matchName(prodItems, "Weddinghall_Name"))" value="@ViewData["Weddinghall_Name"]">
+<input type="hidden" id="WeddingHallDetail" match="@(matchName(prodItems, "WeddingHallDetail"))" value="@ViewData["WeddingHallDetail"]">
+<input type="hidden" id="Weddinghall_Address" match="@(matchName(prodItems, "Weddinghall_Address"))" value="@ViewData["Weddinghall_Address"]">
+
+
+<input type="hidden" id="Outline_Type_Code" value="@ViewData["Outline_Type_Code"]" />
+<input type="hidden" id="Outline_Image_URL" value="@ViewData["Outline_Image_URL"]" />
+
+<input type="hidden" id="GuestBook_Use_YN" value="@ViewData["GuestBook_Use_YN"]" />
+<input type="hidden" id="Etc_Information_Use_YN" value="@ViewData["Etc_Information_Use_YN"]" />
+<input type="hidden" id="Parents_Information_Use_YN" value="@ViewData["Parents_Information_Use_YN"]" />
+<input type="hidden" id="MoneyGift_Remit_Use_YN" value="@ViewData["MoneyGift_Remit_Use_YN"]" />
+<input type="hidden" id="Invitation_Video_Use_YN" value="@ViewData["Invitation_Video_Use_YN"]" />
+<input type="hidden" id="Gallery_Use_YN" value="@ViewData["Gallery_Use_YN"]" />
+<input type="hidden" id="Gallery_Type_Code" value="@ViewData["Gallery_Type_Code"]" />
+<input type="hidden" id="Invitation_Video_Type_Code" value="@ViewData["Invitation_Video_Type_Code"]" />
+<input type="hidden" id="Invitation_Video_URL" value="@ViewData["Invitation_Video_URL"]" />
+<input type="hidden" id="Step" value="@ViewData["Step"]" />
+<input type="hidden" id="Delegate_Image_URL" value="@ViewData["Delegate_Image_URL"]" />
+<input type="hidden" id="Product_Category_Code" value="@ViewData["Product_Category_Code"]" />
+
+<input type="hidden" id="Location_LAT" value="@ViewData["Location_LAT"]" />
+<input type="hidden" id="Location_LOT" value="@ViewData["Location_LOT"]" />
+<input type="hidden" id="loc" value="@ViewData["Weddinghall_Name"]">
+
+<input type="hidden" id="CDN" value="@ViewBag.CDNUrl">
+
+<input type="hidden" id="Baby_Birthday" match="탄생일자" value="@(((DateTime?)ViewData["Baby_Birthday"])?.ToString("yy.MM.dd"))">
+<input type="hidden" match="탄생년" value="@(((DateTime?)ViewData["Baby_Birthday"])?.ToString("yyyy"))">
+<input type="hidden" match="탄생월" value="@(((DateTime?)ViewData["Baby_Birthday"])?.ToString("MM"))">
+<input type="hidden" match="탄생일" value="@(((DateTime?)ViewData["Baby_Birthday"])?.ToString("dd"))">
+<input type="hidden" id="Baby_Name" match="아기이름" value="@ViewData["Baby_Name"]">
+
+<input type="hidden" id="D-DAY" match="D-DAY" value="@ViewData["D-DAY"]">
+
+@section Scripts
+{
+    @if (ViewData["Attached_File1_URL"] != null)
+    {
+        <link href="@ViewData["Attached_File1_URL"]" rel="stylesheet">
+    }
+    @if (ViewData["Attached_File2_URL"] != null)
+    {
+        <script src="@ViewData["Attached_File2_URL"]"></script>
+    }
+}

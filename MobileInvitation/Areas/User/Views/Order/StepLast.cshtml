@@ -1,0 +1,257 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model OrderLastStepModel
+@{
+    Layout = "User_Layout";
+}
+<link rel="stylesheet" href="/css/order.css" asp-append-version="true">
+
+<section class="sub_contents order">
+    <div class="sub_con_wrap">
+        <!-- 우측 상품 미리보기 -->
+        <aside class="product_preview fixed">
+            <div class="sticky_box">
+                <!-- 주문 제작단계 -->
+                <div class="step_view">
+                    <ol>
+                        <!--
+                            li class ="on" 추가 시 현재 단계 표시
+                        -->
+                        <li class="on">
+                            <span>1</span>
+                            <p><strong>정보입력</strong></p>
+                        </li>
+                        <li class="on">
+                            <span>2</span>
+                            <p><strong>영상/이미지 등록</strong></p>
+                        </li>
+                        <li class="on">
+                            <span>3</span>
+                            <p><strong>제작 완료</strong></p>
+                        </li>
+                    </ol>
+                </div>
+                <!-- //주문 제작단계 -->
+                <div class="product_info">
+                <!-- 미리보기 이미지 영역 -->
+                <!-- 상품 이미지 영역 -->
+                <div class="product_img">
+                    <div class="preview_box" style="background-color:#FFFFFF;">
+                        <div class="img_con">
+                                <iframe id="preview_frame" class="viewPort" src="@Url.Action("Index","Invitation", new {Invitation_ID = Model.InvitationId})" frameborder="0" width="100%" marginwidth="0" marginheight="0" onload="previewCalcHeight();"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <!-- //상품 이미지 영역 -->
+            </div>
+            </div>
+        </aside>
+        <!-- //우측 상품 미리보기 -->
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents">
+            <div class="order_area">
+                <!-- 제작 완료 -->
+                <div class="order_con">
+                    <h2>제작 완료</h2>
+                    <table class="order_table type01 compl">
+                        <caption>제작 완료</caption>
+                        <colgroup>
+                            <col style="width:145px;">
+                            <col style="width:585px">
+                        </colgroup>
+                        <tr>
+                            <th>주문번호</th>
+                            <td>@Model.OrderCode</td>
+                        </tr>
+                        <tr>
+                            <th>주문일시</th>
+                            <td>@Model.OrderDateTime.ToString("yyyy-MM-dd  HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <th>주문상품</th>
+                            <td>@Model.ProductCode / @Model.ProductName</td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- //제작 완료 -->
+                <!-- 결제 정보 -->
+                <div class="order_con">
+                    <h2>결제 정보</h2>
+                    <table class="order_table type01 compl">
+                        <caption>결제 정보</caption>
+                        <colgroup>
+                            <col style="width:145px;">
+                            <col style="width:585px">
+                        </colgroup>
+                        <tr>
+                            <th>쿠폰</th>
+                            <td>
+                                <div class="btn_wrap">
+                                    <button class="btn type05_1 coupon_btn showcoponlist">
+                                        사용 가능한 쿠폰 @Model.UseCouponList.Count(m => m.IsCopuponUsing) 장
+                                    </button>
+                                    <button class="btn type05_1 coupon_btn on selectcoupon" style="display:none;"></button>
+                                    <span class="check_box ml10 selectcoupon" style="display:none;">
+                                        <input id="coupon_cancel" name="coupon_cancel" type="checkbox" value="N">
+                                        <label for="coupon_cancel">적용 안 함</label>
+                                    </span>
+                                </div>
+                                <!-- 쿠폰 선택 팝업 -->
+                                <div class="pop_wrap pop_l coupon_wrap">
+                                    <div class="layer_pop">
+                                        <h3>쿠폰 선택</h3>
+                                        <div id="divCouponlist" class="radio_box coupon_box">
+                                            <partial name="CouponList_Partial" model="Model.UseCouponList" />
+                                        </div>
+                                        <div class="btn_wrap type02">
+                                            <button class="btn type03_1 coupon_btn_cancel">취소</button>
+                                            <button class="btn type03 coupon_btn_select">쿠폰 적용</button>
+                                        </div>
+                                    </div>
+                                    <div class="pop_mask" onclick="scrollAble();"></div>
+                                </div>
+                                <!-- //쿠폰 선택 팝업 -->
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="vt">결제 금액</th>
+                            <td>
+                                <div class="info_box">
+                                    <dl>
+                                        <dt>상품 금액</dt>
+                                        <dd>@Model.ProductPrice.ToString("#,##0")원</dd>
+                                    </dl>
+                                    <div class="result_box">
+                                        <dl>
+                                            <dt>결제 금액</dt>
+                                            <dd>@Model.TotalPrice?.ToString("#,##0")원</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>결제 수단</th>
+                            <td>
+                                <div class="radio_box">
+                                    <input type="radio" id="pay_way2" name="Pay_Way" value="카드">
+                                    <label for="pay_way2">신용카드</label>
+                                    <input type="radio" id="pay_way4" name="Pay_Way" value="계좌이체">
+                                    <label for="pay_way4" class="ml40">계좌이체</label>
+                                    <input type="radio" id="pay_way3" name="Pay_Way" value="가상계좌">
+                                    <label for="pay_way3" class="ml40">무통장입금(가상계좌)</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- //결제 정보 -->
+                <form id="frmPayment" asp-action="Payment" asp-controller="Order" method="post">
+                    <input type="hidden" name="CouponPublishID" value="0" />
+                    <input type="hidden" name="OrderId" value="@Model.OrderID" />
+                    <!-- 결제하기 버튼 -->
+                    <div class="btn_wrap type02 bottom">
+                        <a href="@(Model.BackToUrl)" class="btn type03_1">이전 단계로 이동</a>
+                        <button type="submit" class="btn type03">결제하기</button>
+                    </div>
+                </form>
+                <!-- //이전 단계, 제작 완료 버튼 -->
+                <input type="hidden" id="hdComplateUrl" value="@(Model.ComplateUrl)" />
+                <input type="hidden" id="hdtossClientKey" value="@(Model.tossClientKey)" />
+            </div>
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+</section>
+@section Scripts
+{
+    <script src="https://js.tosspayments.com/v1/payment"></script>
+
+    <script>
+        var tossPayments;
+
+        $(document).ready(function (e) {
+            tossPayments = TossPayments($("#hdtossClientKey").val());
+        });
+        $(".order .btn_wrap .showcoponlist").on('click', function (e) {
+            e.preventDefault();
+
+            $(".coupon_box").mCustomScrollbar();
+            $('.pop_wrap').show();
+
+            scrollDisable();
+        });
+        $(".order .btn_wrap button.selectcoupon").on('click', function (e) {
+            e.preventDefault();
+        });
+        $(".order .btn_wrap .coupon_btn_cancel").on('click', function (e) {
+            e.preventDefault();
+            popClose(); 
+            scrollAble();
+        });
+        $(".order .btn_wrap .coupon_btn_select").on('click', function (e) {
+            e.preventDefault();
+
+            var selectItem = $(".coupon_wrap .radio_box  ul li input:radio:checked");
+            if (!$(selectItem).hasClass("impossible")) {
+                var infoDiv = $(selectItem).parent().find("div.coupon_info");
+                var copontxt = $(infoDiv).find("p.coupon_text").text();
+
+                $("button.selectcoupon").text(copontxt);
+                $("button.selectcoupon").show();
+                $("span.selectcoupon").show();
+
+                var infoBoxDiv = $(selectItem).parent().find("div.coupon_info_box");
+                $("div.info_box").html(infoBoxDiv.html());
+
+                $("input[name=CouponPublishID]").val($(selectItem).val());
+
+                $('.pop_wrap').hide();
+                scrollAble();
+            }
+        });
+
+        $(document).on('click', "input[name=coupon_cancel]", function (e) {
+            e.preventDefault();
+            location.reload();
+        });
+
+        $("#frmPayment").on("submit", function(e) {
+            e.preventDefault();
+            
+            var form = $(this);
+            var formData = new FormData(form[0]);
+            $.ajax({
+                url: form.attr('action'),
+                data: formData,
+                type: form.attr('method'),
+                enctype: form.attr('enctype'),
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false
+            }).done(function (result) {
+                if (result.status) {
+                    //Status==true && PaymentPrice == 0 는 완료 페이지로 이동
+                    if (result.paymentPrice == 0) {
+                        location.href = $("#hdComplateUrl").val();
+                    } else {
+                        //결제 금액이 있을경우 지불수단 선택 여부 확인
+                        if (isEmpty($("input[name='Pay_Way']:checked").val())) {
+                            alert("결제방법을 선택하세요.");
+                            return;
+                        }
+                        var paytype = $("input[name='Pay_Way']:checked").val();
+                        tossPayments.requestPayment(paytype, result.tossRequestPayment);
+
+                    }
+                } else {
+                    alert(result.message);
+                    location.reload();
+                }
+            });
+        });
+    </script>
+}

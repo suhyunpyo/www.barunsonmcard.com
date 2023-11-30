@@ -1,0 +1,41 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<UseCouponInfo>
+@{
+    Layout = null;
+}
+<ul>
+    @foreach(var item in Model)
+    {
+        var className = item.IsCopuponUsing ? "" : "impossible";
+        var styleCss = item.IsCopuponUsing ? "" : "style='disabled:disabled;''";
+        <li class="@className">
+            <input type="radio" id="coupon_@item.CouponPublishID" name="couponpublishid" value="@item.CouponPublishID" @styleCss />
+            <label for="coupon_@item.CouponPublishID"></label>
+            <div class="coupon_info">
+                <p><strong>@item.CouponName</strong></p>
+                <p class="coupon_text">@item.DiscountViewText</p>
+                <p class="coupon_date">@item.DateViewText</p>
+            </div>
+            <div class="coupon_info_box" style="display:none;" >
+                <dl>
+                    <dt>상품 금액</dt>
+                    <dd>@((item.TotalPrice).ToString("#,##0") + "원")</dd>
+                </dl>
+                <dl>
+                    <dt>쿠폰 할인</dt>
+                    <dd class="point03">
+                        @((item.CouponPrice * -1).ToString("#,##0")+"원")
+                    </dd>
+                </dl>
+                <div class="result_box">
+                    <dl>
+                        <dt>결재금액</dt>
+                        <dd>@((item.PaymentPrice).ToString("#,##0") + "원")</dd>
+                    </dl>
+                </div>
+            </div>
+        </li>
+    }
+</ul>

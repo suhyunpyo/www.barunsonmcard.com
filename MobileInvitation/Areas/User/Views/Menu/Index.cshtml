@@ -1,0 +1,43 @@
+﻿@using MobileInvitation.Models
+
+@{
+    int Parent_Id;
+}
+@foreach (Dictionary<string, object> list in ViewBag.Menu_List)
+{
+    Parent_Id = string.IsNullOrEmpty(Convert.ToString(list["Parent_Menu_ID"])) ? Convert.ToInt32(list["Menu_ID"]) : Convert.ToInt32(list["Parent_Menu_ID"]);
+
+    @if (!Parent_Id.Equals(@list["Parent_Menu_ID"]))
+    {
+        <li>
+            <a href="javascript:;" class="mont">@list["Menu_Name"]</a>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a href="javascript:;">
+                @list["Menu_Name"]
+            </a>
+
+        </li>
+    }
+
+    }
+
+
+
+@*<li>
+        <a href="javascript:;" class="mont">BENEFIT</a>
+        <ul class="menu_depth02">
+            <li>
+                <a href="javascript:;">이벤트</a>
+                <span class="mont count point01">15</span>
+            </li>
+            <li>
+                <a href="javascript:;">기획전</a>
+                <span class="mont count point01">9</span>
+            </li>
+            <li><a href="javascript:;">혜택</a></li>
+        </ul>
+    </li>*@

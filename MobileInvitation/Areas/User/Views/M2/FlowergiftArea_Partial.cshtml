@@ -1,0 +1,20 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Uri
+<!-- 화환 선물 -->
+<div class="flowergift">
+    <div class="templatearea">
+        <div class="item" style="top: 0px; left: 0px;  position:absolute;">
+            <img class="img" src="https://static.barunsoncard.com/barunsonmcard/invitation/title/tit_remittance_fla_v3.png" />
+        </div>
+    </div>
+    <div class="btn_fla">
+        <a href="@Model" target="_blank" class="btn type03 flowergift">
+            <span class="btn_text01">신랑, 신부님께 <br /> 축하의 마음을 전해보세요</span>
+            <strong class="btn_text02">화환 선물하기</strong>
+            <img src="/img/order/c_flowers/flowers_img_v2.png" alt="화환 이미지">
+        </a>
+    </div>
+</div>
+<!-- 화환 선물 -->

@@ -1,0 +1,131 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/event.css">
+<!-- //header -->
+
+<section class="event intro_gift">
+
+    <!-- 배너 -->
+    <div class="event_banner">
+        <!-- pc 배너 -->
+        <div class="event_pc">
+            <div class="gift_banner"></div>
+        </div>
+        <!-- mobile 배너 -->
+        <div class="event_m">
+            <img src="/img/event/introGift/m_event_banner.jpg" alt="주는 즐거움과 받는 기쁨이 가득하길 바라는 마음으로 정성껏 준비했습니다." />
+        </div>
+    </div>
+    <!-- //배너 -->
+
+    <!-- 이벤트 내용 -->
+    <div class="event_contents">
+        <div class="event_con event01">
+            <h2 class="event_title">
+                결혼의 마무리 <br />
+                <strong>답례품을 준비해야 하는 이유</strong>
+            </h2>
+            <div class="area">
+                <div class="event_pc img_con">
+                    <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=37928" target="_blank"><img src="/img/event/introGift/img01.jpg" alt="[에스텔케이크] 플라워 쁘띠설기" /></a>
+                    <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=38050" target="_blank"><img src="/img/event/introGift/img02.jpg" alt="[에코그린] 히말라야 핑크소금 글라인더 선물세트" /></a>
+                    <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=38244" target="_blank"><img src="/img/event/introGift/img03.jpg" alt="[어글리솝] 바디&샴푸바 천연비누 선물세트" /></a>
+                </div>
+                <div class="event_m img_con">
+                    <a href="https://m.barunsoncard.com/product/detail_gift.asp?card_seq=37928" target="_blank"><img src="/img/event/introGift/m_img01.jpg" alt="[에스텔케이크] 플라워 쁘띠설기" /></a>
+                    <a href="https://m.barunsoncard.com/product/detail_gift.asp?card_seq=38050" target="_blank"><img src="/img/event/introGift/m_img02.jpg" alt="[에코그린] 히말라야 핑크소금 글라인더 선물세트" /></a>
+                    <a href="https://m.barunsoncard.com/product/detail_gift.asp?card_seq=38244" target="_blank"><img src="/img/event/introGift/m_img03.jpg" alt="[어글리솝] 바디&샴푸바 천연비누 선물세트" /></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 답례품리스트 -->
+        <div class="gift_wrap">
+            <div class="area">
+                <p class="more_title">더 많은 답례품을 확인해 보세요</p>
+                <div class="gift_contents">
+                    <ol>
+                        <li>
+                            <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=37930" target="_blank">
+                                <img src="http://file.barunsoncard.com/barunsoncard/OR001/M_1.jpg" alt="[오설록] 블루밍데이 선물세트">
+                                <p class="product_title">[오설록] 블루밍데이 선물세트</p>
+                                <p class="product_price">4,200 원</p>
+                                <p class="product_copy">제주 꽃길의 달콤한 향을 차한잔으로 느낄수있는 블루밍데이</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=38050" target="_blank">
+                                <img src="http://file.barunsoncard.com/barunsoncard/EC001/M_1.jpg" alt="[에코그린] 히말라야 핑크소금 글라인더 선물세트">
+                                <p class="product_title">[에코그린] 히말라야 핑크소금 글라인더 선물세트</p>
+                                <p class="product_price">3,100 원</p>
+                                <p class="product_copy">자연에서 온 깨끗한 히말라야 핑크소금 그라인더</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=38225" target="_blank">
+                                <img src="http://file.barunsoncard.com/barunsoncard/MU001/M_1.jpg" alt="[마음이가] 시그니처 답례떡 3종">
+                                <p class="product_title">[마음이가] 시그니처 답례떡 3종</p>
+                                <p class="product_price">3,900 원</p>
+                                <p class="product_copy">마음이가 인기 떡을 고급 패키지에 다양하게 구성<br>무료배송 / 월요일 수령 불가</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=38189" target="_blank">
+                                <img src="http://file.barunsoncard.com/barunsoncard/GB003/M_1.jpg" alt="[골든허니콤] 벌집꿀 병">
+                                <p class="product_title">[골든허니콤] 벌집꿀 병</p>
+                                <p class="product_price">8,900 원</p>
+                                <p class="product_copy">자연에서 만든 천연 벌집꿀로 꿀맛 나는 하루, 달콤한 인생을 선물하세요.</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=38388" target="_blank">
+                                <img src="http://file.barunsoncard.com/barunsoncard/HD011/M_1.jpg" alt="[교동한과] 고시볼해오름달 ">
+                                <p class="product_title">[교동한과] 고시볼해오름달 </p>
+                                <p class="product_price">4,400 원</p>
+                                <p class="product_copy">전통의 지혜와 정성의 맛을 담아</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=38244" target="_blank">
+                                <img src="http://file.barunsoncard.com/barunsoncard/US001/M_1.jpg" alt="[어글리솝] 바디&amp;샴푸바 천연비누 선물세트">
+                                <p class="product_title">[어글리솝] 바디&amp;샴푸바 천연비누 선물세트</p>
+                                <p class="product_price">5,900 원</p>
+                                <p class="product_copy">남녀노소 안심하고 사용할 수 있는 친환경 레서피 천연비누</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=38177" target="_blank">
+                                <img src="http://file.barunsoncard.com/barunsoncard/RA001/M_1.jpg" alt="[시골이야기] 저온착즙 사과주스 10팩">
+                                <p class="product_title">[시골이야기] 저온착즙 사과주스 10팩</p>
+                                <p class="product_price">4,900 원</p>
+                                <p class="product_copy">100% 사과만을 통째로 저온착즙하여 달콤함을 담았습니다.</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.barunsoncard.com/product/detail_gift.asp?card_seq=38046" target="_blank">
+                                <img src="http://file.barunsoncard.com/barunsoncard/BR001/M_1.jpg" alt="[김보람초콜릿] 쇼콜라 시리즈(아망드,말차,헤이즐넛)">
+                                <p class="product_title">[김보람초콜릿] 쇼콜라 시리즈(아망드,말차,헤이즐넛)</p>
+                                <p class="product_price">5,500 원</p>
+                                <p class="product_copy">고소하게 볶은 견과류에 달콤하게 입혀진 진짜 초콜릿</p>
+                            </a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="btn_wrap tc">
+            <a href="https://www.barunsoncard.com/product/list_gift.asp" target="_blank" class="btn type03">답례품 더 보러가기</a>
+        </div>
+    </div>
+    <!-- //이벤트 내용 -->
+
+</section>
+
+
+<script src="/js/event.js"></script>

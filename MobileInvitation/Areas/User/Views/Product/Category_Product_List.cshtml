@@ -1,0 +1,423 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.FunctionHelper;
+
+@using X.PagedList.Mvc.Core; @*페이징툴을 이용...*@
+@using X.PagedList.Mvc; @*페이징툴을 이용...*@
+@using X.PagedList; @*페이징툴을 이용...*@
+
+@{
+    Layout = null;
+}
+
+<div class="sub_contents">
+    <!-- 카테고리 리스트 -->
+    <div class="category_wrap">
+        <!-- Slider main container -->
+        <div class="swiper-container category_button">
+            <!-- Additional required wrapper -->
+            <!-- Slides -->
+            <ul class="swiper-wrapper">
+                <li class="swiper-slide"><a href="javascript:;" class="active">전체</a></li>
+                @foreach (Dictionary<string, object> list in ViewBag.Category_Menu_List)
+                {
+                    <!-- a 태그 class="active" 추가 시 선택효과 노출 -->
+                    <li class="swiper-slide" id="@list["Category_ID"]"><a href="javascript:;">@list["Category_Name"]</a></li>
+                }
+            </ul>
+        </div>
+        <div class="select_wrap">
+            @Html.DropDownList("Product_Brand_Code", ((List<TB_Common_Code>)ViewBag.Brandlist).Select(d => new SelectListItem { Text = d.Code_Name, Value = d.Code }),
+                "브랜드 전체", new { @id = "Product_Brand_Code" })
+
+            @*<select name="" id="" class="select">
+                    <option value="1">신상품 순11</option>
+                    <option value="2">판매량 순</option>
+                    <option value="3">가격 낮은 순</option>
+                    <option value="4">가격 높은 순</option>
+                </select>*@
+
+        </div>
+        <div class="select_wrap">
+            <select name="" id="" class="select">
+                <option value="1">신상품 순22</option>
+                <option value="2">판매량 순</option>
+                <option value="3">가격 낮은 순</option>
+                <option value="4">가격 높은 순</option>
+            </select>
+
+        </div>
+    </div>
+    <!-- //카테고리 리스트 -->
+    <!-- 상품 리스트 -->
+    <div class="list_wrap">
+        <ul>
+            @{
+                int TotalCount = ViewBag.Product_List.TotalItemCount;
+                int pageno = (int)ViewData["Page"];
+                int itemperpage = (int)ViewData["PageSize"];
+                int currentno = TotalCount - ((pageno - 1) * itemperpage);
+
+            }
+            @foreach (Dictionary<string, object> list in ViewBag.Product_List)
+            {
+
+                <li id="@list["Product_Id"]">
+                    <a href="javascript:;">
+                        <div class="img_con">
+                            <img src="@list["Main_Image_Url"]" alt="상품 이미지">
+                        </div>
+                        <div class="list_info">
+                            <p class="product_title">
+                                <strong>@list["Product_Name"]</strong>
+                                <span class="line_l">@list["Product_Code"]</span>
+                            </p>
+                            <p class="product_price">@String.Format("{0:#,##0}", @list["Price"].ToString()) 원 @*<span class="product_sale">20%</span>*@</p>
+                            <!-- 상태 badge -->
+                            @*<div class="badge_wrap">
+                                    <span class="badge_new mont">NEW</span>
+                                    <span class="badge_best mont">BEST</span>
+                                </div>*@
+                            <!-- //상태 badge -->
+                        </div>
+                        <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+                        <span class="ico wish @(Convert.ToInt32(@list["Wishcnt"]) > 0 ? "active" : "")">찜하기 아이콘</span>
+                    </a>
+                </li>
+
+            }
+
+            <!--<li>
+            <a href="javascript:;">
+                <div class="img_con">
+                    <img src="../img/product/product_item02.jpg" alt="상품 이미지">
+                </div>
+                <div class="list_info">
+                    <p class="product_title"><strong>Graceful flower Graceful flower</strong></p>
+                    <p class="product_price">30,000원 <span class="product_sale">20%</span></p>-->
+            <!-- 상태 badge -->
+            <!--<div class="badge_wrap">
+                <span class="badge_new mont">NEW</span>
+                <span class="badge_best mont">BEST</span>
+            </div>-->
+            <!-- //상태 badge -->
+            <!--</div>-->
+            <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+            <!--<span class="ico wish">찜하기 아이콘</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="img_con">
+                        <img src="../img/product/product_item03.jpg" alt="상품 이미지">
+                    </div>
+                    <div class="list_info">
+                        <p class="product_title"><strong>Graceful flower Graceful flower</strong></p>
+                        <p class="product_price">30,000원 <span class="product_sale">20%</span></p>-->
+            <!-- 상태 badge -->
+            <!--<div class="badge_wrap">
+                <span class="badge_best mont">BEST</span>
+            </div>-->
+            <!-- //상태 badge -->
+            <!--</div>-->
+            <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+            <!--<span class="ico wish">찜하기 아이콘</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="img_con">
+                        <img src="../img/product/product_item01.jpg" alt="상품 이미지">
+                    </div>
+                    <div class="list_info">
+                        <p class="product_title"><strong>Graceful flower Graceful flower</strong></p>
+                        <p class="product_price">30,000원 <span class="product_sale">20%</span></p>-->
+            <!-- 상태 badge -->
+            <!--<div class="badge_wrap">
+                <span class="badge_best mont">BEST</span>
+            </div>-->
+            <!-- //상태 badge -->
+            <!--</div>-->
+            <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+            <!--<span class="ico wish">찜하기 아이콘</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="img_con">
+                        <img src="../img/product/product_item02.jpg" alt="상품 이미지">
+                    </div>
+                    <div class="list_info">
+                        <p class="product_title"><strong>Graceful flower Graceful flower</strong></p>
+                        <p class="product_price">30,000원 <span class="product_sale">20%</span></p>-->
+            <!-- 상태 badge -->
+            <!--<div class="badge_wrap">
+                <span class="badge_best mont">BEST</span>
+            </div>-->
+            <!-- //상태 badge -->
+            <!--</div>-->
+            <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+            <!--<span class="ico wish">찜하기 아이콘</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="img_con">
+                        <img src="../img/product/product_item03.jpg" alt="상품 이미지">
+                    </div>
+                    <div class="list_info">
+                        <p class="product_title"><strong>Graceful flower Graceful flower</strong></p>
+                        <p class="product_price">30,000원 <span class="product_sale">20%</span></p>-->
+            <!-- 상태 badge -->
+            <!--<div class="badge_wrap">
+                <span class="badge_best mont">BEST</span>
+            </div>-->
+            <!-- //상태 badge -->
+            <!--</div>-->
+            <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+            <!--<span class="ico wish">찜하기 아이콘</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="img_con">
+                        <img src="../img/product/product_item01.jpg" alt="상품 이미지">
+                    </div>
+                    <div class="list_info">
+                        <p class="product_title"><strong>Graceful flower Graceful flower</strong></p>
+                        <p class="product_price">30,000원 <span class="product_sale">20%</span></p>-->
+            <!-- 상태 badge -->
+            <!--<div class="badge_wrap">
+                <span class="badge_best mont">BEST</span>
+            </div>-->
+            <!-- //상태 badge -->
+            <!--</div>-->
+            <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+            <!--<span class="ico wish">찜하기 아이콘</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="img_con">
+                        <img src="../img/product/product_item02.jpg" alt="상품 이미지">
+                    </div>
+                    <div class="list_info">
+                        <p class="product_title"><strong>Graceful flower Graceful flower</strong></p>
+                        <p class="product_price">30,000원 <span class="product_sale">20%</span></p>-->
+            <!-- 상태 badge -->
+            <!--<div class="badge_wrap">
+                <span class="badge_best mont">BEST</span>
+            </div>-->
+            <!-- //상태 badge -->
+            <!--</div>-->
+            <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+            <!--<span class="ico wish">찜하기 아이콘</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="img_con">
+                        <img src="../img/product/product_item03.jpg" alt="상품 이미지">
+                    </div>
+                    <div class="list_info">
+                        <p class="product_title"><strong>Graceful flower Graceful flower</strong></p>
+                        <p class="product_price">30,000원 <span class="product_sale">20%</span></p>-->
+            <!-- 상태 badge -->
+            <!--<div class="badge_wrap">
+                <span class="badge_best mont">BEST</span>
+            </div>-->
+            <!-- //상태 badge -->
+            <!--</div>-->
+            <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+            <!--<span class="ico wish">찜하기 아이콘</span>
+                </a>
+            </li>-->
+        </ul>
+    </div>
+    <!-- //상품 리스트 -->
+    <!-- 페이징 -->
+    @Html.PagedListPager((IPagedList)ViewBag.Product_List, page => Url.Action("Index", new { page, SearchKind = ViewData["SearchKind"], SearchBrand = ViewData["SearchBrand"], SearchViewYn = ViewData["SearchViewYn"], Searchtxt = ViewData["Searchtxt"] })@*,
+        PagedListRenderOptions {
+           LiElementClasses = new string[] { "page-item" },
+           PageClasses = new string[] { "page-link" }*@
+)
+    <!--<div class="paging_wrap">
+    <ul>
+        <li><a href="javascript:;" class="paging_prev">이전페이지 보기</a></li>-->
+    <!-- a class on 추가 시 선택된 현재 페이지 표시 -->
+    <!--<li><a href="javascript:;" class="on">1</a></li>
+            <li><a href="javascript:;">2</a></li>
+            <li><a href="javascript:;">3</a></li>
+            <li><a href="javascript:;">4</a></li>
+            <li><a href="javascript:;">5</a></li>
+            <li><a href="javascript:;" class="paging_next">다음페이지 보기</a></li>
+        </ul>
+    </div>-->
+    <!-- //페이징 -->
+</div>
+
+<script type="text/javascript">
+    function PagingNavigator() {
+        var obj = $(".pagination-container");
+        $(obj).attr("class", "paging_wrap").find(".pagination").removeClass();
+
+        $(obj).find("ul li").each(function () {
+            var classobj = $(this).attr("class");
+
+            if (classobj == "PagedList-skipToPrevious") $(this).find("a").addClass("paging_prev").html("이전페이지 보기");
+
+            else if (classobj == "PagedList-skipToNext") $(this).find("a").addClass("paging_next").html("다음페이지 보기");
+
+            else if (classobj == "active") {
+                var actNum = $(this).find("span").text();
+
+                $(this).find("span").replaceWith(function () {
+                    return $('<a>', { class: "on", text: actNum })
+                });
+            }
+        });
+
+    }
+    PagingNavigator();
+    $(".sub_con_wrap .list_wrap li").each(function (i) {
+        $(this).click(function (e) {
+            Product_PreView_Img($(this).attr("id"));
+        });
+    });
+
+    function Product_PreView_Img(id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/PreView_Url/" + id, //상품ID
+            success: function (result) {
+                // console.log(result);
+                //Product_Info
+                $(result.product_Info).each(function (index, list) {
+                    // console.log(list.Brand_Name);
+                    $(".sub_con_wrap .product_preview .product_location").html(list.Brand_Name);
+                    $(".sub .product_title strong").html(list.Product_Name);
+                    $(".sub_con_wrap .product_info .btn_wrap .btn").attr("href", "/Order/McardStep1/" + list.Product_Id);
+                    $(".preview_box .img_con img").attr("src", list.PreView_Url);
+                });
+            },
+            error: function (result) {
+                // swal({ title: "오류가 발생했습니다. 다시 시도해 주세요", type: "error" });
+            }
+        });
+    }
+
+    // 상품리스트에서 제일 처음 나오는 상품ID의 미리보기 이미지를 노출
+    Product_PreView_Img($(".sub_con_wrap .list_wrap li:eq(0)").attr("id"));
+
+
+    $(document).on("click", ".sub_con_wrap .list_wrap .wish, .category_wrap li", function () {
+
+        if ($(this).hasClass("swiper-slide")) //중분류명 클릭
+        {
+            // console.log($(this).find("a").html());
+            if ($(this).find("a").html().trim() == "전체") {
+                var AllObj = $(this).find("a");
+                $(AllObj).toggleClass("active");
+
+                $(".category_wrap li").each(function (i) {
+                    //console.log($(this).attr("class"));
+
+                    if ($(AllObj).hasClass("active")) {
+                        if (!$(this).find("a").hasClass("active")) {
+                            $(this).find("a").addClass("active");
+                        }
+                    }
+                    else {
+                        $(this).find("a").removeClass("active");
+                    }
+
+                });
+                ///Product/List/1/0/1/0/0/0
+            }
+            else {
+                $(this).find("a").toggleClass("active");
+
+                var AllCnt = $(".category_wrap li").length - 1;
+                var ActiveChkCnt = 0;
+                var NoActiveChkCnt = 0;
+                $(".category_wrap li").each(function (i) {
+
+                    if (i > 0) {
+                        // console.log($(this).find("a").hasClass("active"))
+                        if (!$(this).find("a").hasClass("active")) {
+                            NoActiveChkCnt++;
+                        }
+                        else {
+                            ActiveChkCnt++;
+                        }
+
+                    }
+
+                });
+                //console.log("ActiveChkCnt:" + ActiveChkCnt)
+                //console.log("NoActiveChkCnt:" + NoActiveChkCnt)
+                if (AllCnt == ActiveChkCnt) $(".category_wrap li:eq(0)").find("a").removeClass("active").addClass("active");
+                if (AllCnt == NoActiveChkCnt) $(".category_wrap li:eq(0)").find("a").removeClass("active");
+            }
+
+        }
+        else { // 찜 아이콘 클릭
+
+            $(this).toggleClass("active");
+
+            var Gubun = "I";
+
+            if (!$(this).hasClass("active")) {
+                Gubun = "D";
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Product/Wish_Save/" + $(this).closest("li").attr("id") + "/" + Gubun, //상품ID
+                success: function (result) {
+                    // console.log(result);
+                    //Product_Info
+                    $(result.product_Info).each(function (index, list) {
+                        // console.log(list.Brand_Name);
+                        $(".sub_con_wrap .product_preview .product_location").html(list.Brand_Name);
+                        $(".sub .product_title strong").html(list.Product_Name);
+                        $(".sub_con_wrap .product_info .btn_wrap .btn").attr("href", "/Order/McardStep1/" + list.Product_Id);
+                        $(".preview_box .img_con img").attr("src", list.PreView_Url);
+                    });
+                },
+                error: function (result) {
+                    // swal({ title: "오류가 발생했습니다. 다시 시도해 주세요", type: "error" });
+                }
+            });
+
+
+        }
+
+        //var Sel_Depth2_List = $(".category_wrap .select_wrap:eq(0)");
+
+
+        //중분류 리스트
+        //$(".category_wrap li").each(function () {
+
+        //});
+
+    });
+
+
+
+    function ProductSearch() {
+
+
+    }
+    //$.ajax({
+    //    type: "POST",
+    //    url: "/Product/List/", //상단 메뉴
+    //    success: function (result) {
+
+
+    //    },
+    //    error: function (result) {
+    //        // swal({ title: "오류가 발생했습니다. 다시 시도해 주세요", type: "error" });
+    //    }
+    //});
+</script>

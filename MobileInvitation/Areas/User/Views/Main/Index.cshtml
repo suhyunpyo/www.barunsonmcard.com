@@ -1,0 +1,1568 @@
+﻿@using System.Web;
+@using System.Text;
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+@using MobileInvitation.FunctionHelper;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:url" content="https://www.barunsonmcard.com/" />
+    <meta property="og:title" content="바른손M카드" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.barunsonmcard.com/img/meta_img.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:description" content="모바일카드도 역시 바른손, 모바일초대장, 모바일감사장" />
+
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="~/css/reset.css">
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+    <link rel="preconnect" href="//fonts.gstatic.com">
+    <link href="//fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="~/css/common.css?ver=5.1">
+    <link rel="stylesheet" href="/css/main.css?ver=5.1">
+    <style type="text/css">
+        .swiper-wrapper.disabled {
+            transform: translate3d(0px, 0, 0) !important;
+        }
+
+        .swiper-pagination.disabled {
+            display: none;
+        }
+
+        /* .pc_area .mb_obj {
+            width: 673px;
+            height: 673px;
+        }
+        .set_obj .set_obj_con {
+            width: 343px;
+            height: 430px;
+        }
+        .set .set_con.sc02 .swiper-slide {
+            width: 700px;
+            height: 460px;
+        }*/
+
+
+        /** best **/
+        .my_ico .wish {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+
+
+
+        /** icon style **/
+        .my_ico .wish {
+            width: 20px;
+            height: 19px;
+            background: url(../img/common/wish_icon.svg) no-repeat center;
+        }
+
+            .my_ico .wish .active {
+                background: url(../img/common/wish_icon_ov.svg) no-repeat center;
+            }
+
+        .my_ico .notice {
+            width: 14px;
+            height: 14px;
+            background: url(../img/common/notice_g.svg) no-repeat 0 center;
+        }
+
+        .my_ico.move {
+            width: 16px;
+            height: 16px;
+            background: url(../img/common/move_icon.svg) no-repeat center;
+        }
+
+        .my_ico.delete {
+            width: 15px;
+            height: 15px;
+            background: url(../img/common/delete_icon.svg) no-repeat center;
+        }
+
+        .my_ico.crop {
+            width: 16px;
+            height: 16px;
+            background: url(../img/common/crop_icon.svg) no-repeat center;
+        }
+
+        .my_ico.date {
+            width: 17px;
+            height: 20px;
+            background: url(../img/common/calendar_icon.svg) no-repeat center;
+        }
+
+        .my_ico.user {
+            width: 28px;
+            height: 26px;
+            background: url(../img/common/user_icon_w.svg) no-repeat center
+        }
+
+        .my_ico.download {
+            width: 16px;
+            height: 12px;
+            background: url(../img/common/download.svg) no-repeat center;
+        }
+
+        .my_ico.download_w {
+            width: 16px;
+            height: 12px;
+            background: url(../img/common/download_w.svg) no-repeat center;
+        }
+    </style>
+    <title>BarunsonMcard 모바일 초대장</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.js"></script>
+    <script>
+
+
+
+        //  alert(test);
+
+        //$(".main_banner .swiper-wrapper").html(test);
+    </script>
+</head>
+<body>
+    @{
+        string CateGory_Id = "";
+        string CateGory_Id2 = "";
+    }
+
+
+    <main id="wrap">
+        <!-- header -->
+        <header class="header fixed">
+            <div class="area">
+                <h1><a href="/">barunsonMcard 로고</a></h1>
+                <div class="family_wrap">
+                    <span class="ico family"></span>
+                    <ul class="family_list" style="z-index: 1000;">
+                        <li><a href="https://www.barunsoncard.com/" target="_self">바른손카드</a></li>
+                        <li><a href="https://www.premierpaper.co.kr/" target="_self">프리미어페이퍼</a></li>
+                        <li><a href="https://barunsongshop.com" target="_self">바른손 Gshop</a></li>
+                        <li><a href="https://deardeer.kr/" target="_self">디얼디어</a></li>
+                        <li><a href="https://barunsonbiz.com/" target="_self">바른손비즈</a></li>
+                    </ul>
+                </div>
+                <nav class="menu_nav">
+                    <ul class="menu_depth01 swiper-wrapper"></ul>
+                </nav>
+                <div class="user_wrap">
+                    <a href="#none" class="ico user">마이페이지 아이콘</a>
+                    @*<a href="@Url.Action("Mypage", "Member")" onclick="" class="ico user">마이페이지 아이콘</a>*@
+                    <button type="button" class="ico like">
+                        좋아요 아이콘
+                        <span class="like_count"></span>
+                    </button>
+                    <!-- 모바일 일때 메뉴 아이콘 class true 추가 시 알림 노출 -->
+                    <button type="button" class="ico menu">메뉴 아이콘</button>
+                </div>
+                <div class="user_menu">
+                    <ul>
+                        <li><a href="@Url.Action("Mypage", "Member")">마이페이지</a></li>
+                        <li><a href="/Customer/">고객센터</a></li>
+                        @*<li><a href="@Url.Action("Index", "Customer")">고객센터</a></li>*@
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Users") || User.IsInRole("Guest")))
+                        {
+                            <li><a href="@Url.Action("LogOut", "Member")">로그아웃</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Login", "Member")">로그인</a></li>
+                        }
+
+
+                    </ul>
+                </div>
+            </div>
+            <!-- 전체메뉴 영역 -->
+            <div class="all_menu">
+                <div class="area">
+                    <a href="javascript:;" class="menu_logo">barunsonMcard 로고</a>
+                    <!-- 전체메뉴 리스트 -->
+                    <nav class="all_menu_nav">
+                        <ul class="menu_depth01 m_menu">
+                            <li>
+                                <a href="#none" onclick="location.href ='/member/Mypage';" class="mont">My page</a>
+                            </li>
+                            @if (User.IsInRole("Users"))
+                            {
+                                <li>
+                                    <a asp-action="WishList" asp-controller="Member" class="mont">Wish List</a>
+                                    <span class="mont count point01"></span>
+                                </li>
+                            }
+                        </ul>
+                        <ul class="menu_depth01 menu_list">
+                        </ul>
+                    </nav>
+                    <!-- //전체메뉴 리스트 -->
+                    <div class="search_wrap">
+                        <input type="text" class="search_input" placeholder="상품코드 OR 상품명">
+                        <button type="button" class="search_btn">검색버튼</button>
+                    </div>
+                    <button type="button" class="close_btn">전체메뉴 닫기버튼</button>
+                    <div class="select_wrap">
+                        <select name="" id="" class="mont select">
+                            <option value="">Family site</option>
+                            <option value="">바른손카드</option>
+                            <option value="">프리미어페이퍼</option>
+                            <option value="">더카드</option>
+                            <option value="">디얼디어</option>
+                            <option value="">바른손비즈</option>
+                        </select>
+                    </div>
+                    <!-- 로그인 / 로그아웃 -->
+                    <div class="m_menu log_btn">
+                        <a href="javascript:;" class="spoq"></a>
+                    </div>
+                    <!-- 로그인 / 로그아웃 -->
+
+                </div>
+            </div>
+            <div class="mobile_menu_bg"></div>
+            <!-- //전체메뉴 영역-->
+        </header>
+        <!-- //header -->
+        <!-- main banner -->
+
+        <section class="main_banner">
+            <!-- Slider main container -->
+            <div class="swiper-container">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper"></div>
+                <!-- If we need navigation buttons -->
+
+                <div class="arrow_area">
+                    <div class="swiper-button-prev mb_btn"></div>
+                    <div class="swiper-button-next mb_btn"></div>
+                </div>
+                <!-- 메인배너 하단 페이징 -->
+                <div class="banner_bottom_wrap">
+                    <div class="banner_bottom">
+                        @*Add Pagination*@
+                        <div class="swiper-pagination mb"></div>
+                    </div>
+                </div>
+                <!-- //메인배너 하단 페이징 -->
+            </div>
+        </section>
+
+
+
+
+        <section class="banner_list">
+            <h2 class="blind">
+            </h2>
+            <div class="area">
+                @*@{
+                        int Pc_TotalCount2 = ViewBag.Banner_Pc_List2.Count;
+
+                    }
+                    @foreach (Dictionary<string, object> list in ViewBag.Banner_Pc_List2)
+                    {
+                        @if (list["Banner_Type_Code"].ToString().Equals("BTC01"))
+                        {
+
+                        }
+                    }*@
+            </div>
+        </section>
+
+        <input type="hidden" id="CDNUrl" value="@ViewBag.CDNUrl">
+
+
+        <!-- 메인 상품 연동1 -->
+        @{
+            int Product_ListCount = ViewBag.Product_List.Count;
+
+            List<string> Product_CateName = new List<string>();
+
+            string Product_List = JsonConvert.SerializeObject(ViewBag.Product_List);
+
+            var Product_Array = JArray.Parse(Product_List);
+
+            StringBuilder sb1 = new StringBuilder();
+            StringBuilder sb2 = new StringBuilder();
+
+            //string CateGory_Id = "";
+
+            foreach (JObject item in Product_Array)
+            {
+                Product_CateName.Add(item.GetValue("Category_Name1").ToString());
+            }
+        }
+
+        @{
+            Product_CateName = Product_CateName.Distinct().ToList();
+
+            var Product_Cnt = 1;
+
+        }
+
+        @foreach (var CateName1 in Product_CateName)
+        {
+            @if (Product_Cnt.Equals(1))
+            {
+
+                <section class="best">
+                    <h2 class="mont"> <a style="font-family: unset">@CateName1</a> <a href="javascript:;" class="more_btn">더보기</a></h2>
+                    <div class="area">
+                        <ul class="best_list">
+
+                            @foreach (JObject Product_item1 in Product_Array)
+                            {
+                                @if (CateName1.Equals(Product_item1.GetValue("Category_Name1").ToString()))
+                                {
+                                    var url = new Uri((Uri)ViewBag.CDNUrl, Product_item1.GetValue("Main_Img_Url").ToString());
+
+                                    if (CateGory_Id == "") { CateGory_Id = Product_item1.GetValue("Category_Id").ToString(); }
+
+                                    <li id="@CateGory_Id" style="float:left">
+                                        @*<span class="ico wish  @(Convert.ToInt32(Product_item1.GetValue("Wish_Cnt")) > 0 ? "active" : "")"></span>*@
+                                        <a href="@Url.Action("Detail", "product", new { id =  Product_item1.GetValue("Product_Id")})">
+
+                                            <div class="img_con">
+                                                <img src="@url" alt="베스트 아이템" onerror="this.src='/img/blank.jpg'" />
+                                            </div>
+                                            <div class="item_info">
+                                                @*@Product_item1.GetValue("Product_Name").ToString().Length*@
+                                                <p class="item_category">@Product_item1.GetValue("Product_Code").ToString()</p>
+                                                <p class="item_title">@Product_item1.GetValue("Product_Name").ToString()</p>
+                                            </div>
+
+
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                        <div class="btn_wrap tc">
+                            <a href="javascript:;" class="btn mont">MORE</a>
+                        </div>
+                    </div>
+                </section>
+            }
+            Product_Cnt++;
+        }
+
+        <!-- intro  banner-->
+        <section class="intro">
+            <h2 class="blind">모바일 초대장 소개</h2>
+            <div class="area">
+                <div class="intro_bullet">
+                    <div class="swiper-pagination it"></div>
+                </div>
+                <!-- Slider main container -->
+                <div class="swiper-container intro_slide">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        @{
+                            int Pc_TotalCount3 = ViewBag.Banner_Pc_List3.Count;
+
+                        }
+                        @foreach (Dictionary<string, object> list in ViewBag.Banner_Pc_List3)
+                        {
+                            var url = new Uri((Uri)ViewBag.CDNUrl, (string)list["Image_URL"]);
+                            <div class="swiper-slide">
+                                <div class="slide_con">
+                                    <a>
+
+                                        <div class="img_con">
+                                            <img src="@url" alt="이미지" onerror="this.src='/img/blank.jpg'" />
+                                        </div>
+                                        <div class="text_wrap">
+                                            <h3>#@Html.Raw(StringHelper.HtmlDecode(list["Banner_Main_Description"].ToString()))</h3>
+                                            <p>
+                                                @Html.Raw(StringHelper.HtmlDecode(list["Banner_Add_Description"].ToString()))
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    <!-- If we need navigation buttons -->
+                    <div class="arrow_area">
+                        <div class="swiper-button-prev it_btn"></div>
+                        <div class="swiper-button-next it_btn"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- banner 4-->
+        <section class="set">
+            <h2 class="mont">
+                <a href="/Product/List/1/18/1/1/5_/0" style="font-family: unset"> SET</a>
+                <a href="/Product/List/1/18/1/1/5_/0" class="more_btn">더보기</a>
+            </h2>
+            <div class="area">
+                @{
+                    int Pc_TotalCount4 = ViewBag.Banner_Pc_List4.Count;
+                    string Banner_Main_Description = "", Banner_Add_Description = "";
+                    int i = 0;
+                }
+
+                @*배너 영역*@
+                <div class="set_con sc02">
+                    <!-- Slider main container -->
+                    <div class="swiper-container set_slide">
+                        <!-- Additional required wrapper -->
+                        <div class="swiper-wrapper">
+                            @{ if (Pc_TotalCount4 > 0)
+
+                                    @foreach (Dictionary<string, object> list in ViewBag.Banner_Pc_List4)
+                                    {
+                            <div class="swiper-slide">
+                                    <a href="#" onclick="CountBanner(@list["Banner_Item_ID"],'@list["Link_URL"]','@list["NewPage_YN"]')";>
+                                    <img src="@ViewData[" CDN"]@list["Image_URL2"]" alt="SET 이미지" />
+                                </a>
+                            </div>
+                                        if (i == 0)
+                                        {
+                                            Banner_Main_Description = list["Banner_Main_Description"].ToString();
+                                            Banner_Add_Description = list["Banner_Add_Description"].ToString();
+                                        }
+                                        i++;
+
+                                    }
+                            }
+                            <!-- Slides -->
+                            
+                        </div>
+                        <!-- If we need navigation buttons -->
+                        <div class="arrow_area">
+                            <div class="swiper-button-prev st_btn"></div>
+                            <div class="swiper-button-next st_btn"></div>
+                        </div>
+                        <div class="swiper-pagination st"></div>
+                    </div>
+                </div>
+
+                @*텍스트 영역*@
+                <div class="set_con sc01">
+                    <h3>
+                        @Html.Raw(StringHelper.HtmlDecode(Banner_Main_Description))
+                        
+                    </h3>
+                    <p>
+                        @Html.Raw(StringHelper.HtmlDecode(Banner_Add_Description))
+                    </p>
+                    
+                </div>
+
+
+                <!-- set obj -->
+                <div class="set_obj">
+                    @{ if (Pc_TotalCount4 > 0)
+
+                            @foreach (Dictionary<string, object> list in ViewBag.Banner_Pc_List4)
+                            {
+                                var url = new Uri((Uri)ViewBag.CDNUrl, (string)list["Image_URL"]);
+                                <div class="set_obj_con">
+                                    <a href="@list["Link_URL"]" class="set_detail" target="@list["NewPage_YN"]">상세 보러가기1</a>
+                                    <img src="@url" alt="SET 핸드폰 이미지">
+                                </div>
+                            }
+                    }
+                    
+                </div>
+                <!-- //set obj -->
+            </div>
+        </section>
+
+        <!-- 중간 띠배너 -->
+        <section class="service">
+            <h2 class="blind">중간 띠배너</h2>
+            <div class="middle_banner swiper-container">
+                <ul class="swiper-wrapper">
+
+                </ul> 
+            </div>
+            <!-- 메인배너 하단 페이징 -->
+            <div class="paging_area">
+                <div class="swiper-pagination middle"></div>
+            </div>
+            <!-- //메인배너 하단 페이징 -->
+        </section>
+        <!-- //중간 띠배너 --> 
+
+        @{ Product_Cnt = 1;}
+        @foreach (var CateName2 in Product_CateName)
+        {
+            @if (Product_Cnt.Equals(2))
+            {
+                <section class="new">
+                    <h2 class="mont">
+                        <a style="font-family: unset">
+                            @CateName2</a>
+                        <a href="javascript:;" class="more_btn">더보기</a>
+                    </h2>
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+
+                            @foreach (JObject Product_item2 in Product_Array)
+                            {
+
+                                @if (CateName2.Equals(Product_item2.GetValue("Category_Name1").ToString()))
+                                {
+                                    var url = new Uri((Uri)ViewBag.CDNUrl, Product_item2.GetValue("Main_Img_Url").ToString());
+                                    if (CateGory_Id2 == "") { CateGory_Id2 = Product_item2.GetValue("Category_Id").ToString(); }
+
+                                    <div class="swiper-slide" id="@Product_item2.GetValue("Category_Id").ToString()">
+                                      
+                                        <div class="img_con">
+                                            <a href="@Url.Action("Detail", "product", new { id =  Product_item2.GetValue("Product_Id")})">
+                                                <img src="@url" alt="NEW 이미지" width="182px" height="322px" onerror="this.src='/img/blank.jpg'" />
+                                            </a>
+                                        </div>
+                                       
+                                            <div class="new_item">
+                                                <div class="item_info">
+                                                    <p class="item_category">@Product_item2.GetValue("Product_Code").ToString()</p>
+                                                    <p class="item_title">@Product_item2.GetValue("Product_Name").ToString()</p>
+                                                    <p class="item_text">
+                                                        @Product_item2.GetValue("Product_Description").ToString()
+                                                    </p>
+                                                    <p class="item_price">@Product_item2.GetValue("Price")원</p>
+                                                </div>
+                                            </div>
+                                      
+                                    </div>
+                                }
+
+
+                            }
+
+                        </div>
+                    </div>
+                    <div class="arrow_area">
+                        <div class="swiper-button-prev new_btn"></div>
+                        <div class="swiper-button-next new_btn"></div>
+                    </div>
+                </section>
+
+
+            }
+
+
+
+            Product_Cnt++;
+        }
+
+        <!-- slide button cursor -->
+        <span id="cursor" class="circle mont"></span>
+        <!-- //slide button cursor -->
+        <!-- footer -->
+        <footer class="footer">
+            <div class="footer_nav">
+                <div class="fn_area">
+                    <span class="footer_logo">barunsonMcard 로고</span>
+                    <ul class="footer_menu"></ul>
+                </div>
+            </div>
+            <div class="footer_area clear">
+                <div class="footer_info">
+                    <span class="footer_logo">barunsonMcard 로고</span>
+                    <p><strong>(주)바른컴퍼니</strong> 대표이사 : 박정식</p>
+                    <address>
+                        본사 : 경기도 파주시 회동길 219 | 서울사옥 : 서울 서초구 서운로 142-4 <br />
+                        문의전화 : 1644-0708 | 팩스 : 02-2275-3108 | 개인정보관리책임자 : 원덕규 <br />
+                        통신판매업신고번호 : 2007-00940 | 사업자등록번호 : 221-81-03108
+                    </address>
+                    <small class="copyright">Copyright ⓒ barunsoncard all rights reserved</small>
+                </div>
+                <div class="select_wrap">
+                    <select name="" id="" class="mont select" onchange="GoURL(this);">
+                        <option value="">Family site</option>
+                        <option value="https://www.barunsoncard.com/">바른손카드</option>
+                        <option value="https://www.premierpaper.co.kr/">프리미어페이퍼</option>
+                        <option value="https://barunsongshop.com">바른손 Gshop</option>
+                        <option value="https://deardeer.kr/">디얼디어</option>
+                        <option value="https://barunsonbiz.com/">바른손비즈</option>
+                    </select>
+                </div>
+            </div>
+        </footer>
+        <!-- //footer -->
+        <!-- popup -->
+        <section id="mainPopup" class="pop_wrap" >
+            <div class="layer_pop">
+                <div class="swiper-container">
+                    <ul class="menu_depth01 swiper-wrapper">
+                        
+                    </ul>
+                </div>
+                <div class="btn_wrap type02">
+                    <a href="javascript:closePopupNotToday();" class="btn">오늘은 그만 보기</a>
+                    <a href="javascript:popClose();" class="btn">닫기</a>
+                </div>
+                <div class="pop_arrow">
+                    <div class="swiper-button-prev mp_btn" tabindex="0" role="button" aria-label="Previous slide"></div>
+                    <div class="swiper-button-next mp_btn" tabindex="0" role="button" aria-label="Next slide"></div>
+                </div>
+            </div>
+            <div class="pop_mask"></div>
+        </section>
+
+        <!-- IE 예외처리 -->
+        <section class="not_ie pc_area">
+            <div class="not_area">
+                <p><strong>지원 중단된 브라우저입니다. 최신 브라우저(크롬, 엣지) 사용을 권장합니다.</strong></p>
+                <p>브라우저를 변경하지 않을 시, 일부 기능을 사용하지 못할 수도 있습니다.</p>
+                <a href="javascript:closeIe();" class="not_check">확인</a>
+            </div>
+        </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/js/common/common.js?ver=5.1"></script>
+    <script src="~/js/main.js?ver=5.1"></script>
+    
+    <script>
+        $(function () {
+
+            var UserAgent = navigator.userAgent;
+
+            //접속 디바이스 구분
+            var filter = "win16|win32|win64|mac";
+            if (navigator.platform) {
+                if (filter.indexOf(navigator.platform.toLowerCase()) < 0) { //mobile 접속
+
+                    $('.follow_btn').hide();
+
+                } else { //PC 접속
+                }
+            }
+
+            //마우스 커서 초기 값
+            var mouseX = 0, mouseY = 0;
+
+            //마우스 커서 위치 값 구하기
+            $(document).on('mousemove', function (e) {
+                mouseX = e.clientX || e.pageX;
+                mouseY = e.clientY || e.pageY;
+                $(".circle").css({ left: mouseX - 30 + 'px', top: mouseY - 30 + 'px' });
+            });
+
+            //slide hover cursor event
+            $('.follow_btn').hover(function () {
+                $(".circle").addClass('over');
+                if ($(this).hasClass("swiper-button-next")) {
+                    $('.circle').text('NEXT');
+                } else {
+                    $('.circle').text('PREV');
+                }
+            }, function () {
+                $(".circle").removeClass('over');
+            });
+
+
+
+            var PageNum = 1;
+            var PageSize = 18;
+
+            $.ajax({
+                type: "POST",
+                url: "/User/Menu/CTC02", //상단 메뉴
+                dataType: "json",
+                async: true,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                success: function (result) {
+                    
+                    var Parent_Category_ID = "";
+                    var 중분류Array = [];
+                    $(result.category_menu_list).each(function (index, list) {
+
+                        //대분류
+                        var Parent_Id;
+                        var 대분류리스트 = "";
+                        var 중분류리스트 = "";
+                        var Compare_Id;
+                        var View;
+
+                        if (isEmpty(list.Parent_Category_Id)) {
+                            Parent_Id = list.Category_ID
+                        }
+                        else Parent_Id = list.Parent_Id
+
+                        if (!(Parent_Id == list.Parent_Id)) { //대분류
+
+                            var Depth1_Url = "";
+                            
+                            if (list.Category_ID == "1") {
+                                Depth1_Url = "/Product/List/1/18/1/0/10_/0";
+                            }
+                            else {
+                                Depth1_Url = "/Product/List/1/0/" + list.Category_ID + "/0/0/0";
+                            }
+
+                            Parent_Category_ID = list.Category_ID;
+
+                            if (isEmpty(list.Category_Name_PC_URL)) View = list.Category_Name;
+                            else View = "<img src=\"" + list.Category_Name_PC_URL + "\" style=\"width:54px;height:18px;\">";
+                            //alert(filter.indexOf(navigator.platform.toLowerCase()));
+                            // 대분류 리스트
+                            $(".header .area .menu_nav .menu_depth01:eq(0)").append("<li class=\"swiper-slide\"><a href=\"" + Depth1_Url + "\">" + View + "</a></li>");
+                            $(".header .area .m_nav .menu_depth01:eq(0)").append("<li class=\"swiper-slide\"><a href=\"" + Depth1_Url + "\">" + View + "</a></li>");
+
+                            대분류리스트 = "<li><a href=\"" + Depth1_Url + "\" class=\"mont\">" + View + "</a><ul class=\"menu_depth02\" id=\"" + Parent_Category_ID + "\" style=\"display:none;\"></ul></li>";
+
+                            //alert(filter.indexOf(navigator.platform.toLowerCase()));
+                            //alert(대분류리스트);
+                            $(".all_menu_nav .menu_depth01:eq(1)").append(대분류리스트);
+
+                        }
+                        else {
+                            // alert(Parent_Category_ID);
+                            var Depth2_Url = "/Product/List/" + PageNum + "/" + PageSize + "/" + Parent_Category_ID + "/1/" + list.Category_ID + "_/0";
+
+                            if (list.Parent_Category_Id == Parent_Category_ID) {
+
+                                if (isEmpty(list.Category_Name_PC_URL)) View = list.Category_Name;
+                                else View = "<img src=\"" + list.Category_Name_PC_URL + "\"  style=\"width:54px;height:18px;\">";
+
+                                중분류리스트 = "<li><a href=\"" + Depth2_Url + "\">" + View + "</a></li>";
+
+                                $(".menu_depth02").each(function (index) {
+                                    if ($(this).attr("id") == list.Parent_Category_Id) {
+                                        if (isEmpty($(".menu_depth02").html())) {
+                                            $(this).append("<li><a href=\"/Product/List/1/18/" + Parent_Category_ID + "/0/0/0\">전체</a></li>");
+                                        }
+                                        $(this).append(중분류리스트);
+                                    }
+                                });
+                            }
+                        }
+
+                    });
+
+                    $(result.menu_list).each(function (index, list) {
+                       // console.log(result.menu_list);
+                        var View;
+
+                        if (isEmpty(list.image_URL)) View = list.menu_Name;
+                        else View = "<img src=\"" + list.image_URL + "\" style=\"height: 22px;\">";
+
+                        if (list.menu_Type_Code == "MTC02") { // 풋터 메뉴
+                            $(".footer .footer_menu").append("<li><a href=\"" + list.menu_URL + "\" target=\"_blank\">" + View + "</a></li>"); //메뉴
+                        }
+                        else {
+
+                            var parent_Menu_ID;
+
+                            if (isEmpty(list.parent_Menu_ID)) {
+  
+                                parent_Menu_ID = list.menu_ID
+                            }
+                            else parent_Menu_ID = list.parent_Menu_ID
+
+                            if (!(parent_Menu_ID == list.parent_Menu_ID)) { //대분류
+                                //console.log(list.menu_ID);
+
+                                if (isEmpty(list.image_URL)) View = list.menu_Name;
+                                else View = "<img src=\"" + list.image_URL + "\" style=\"height: 22px;\">";
+
+                                $(".header .area .menu_nav .menu_depth01").append("<li class=\"swiper-slide\"><a href=\"" + list.menu_URL + "\">" + View + "</a></li>");
+
+                                $(".header .area .m_nav .menu_depth01").append("<li class=\"swiper-slide\"><a href=\"" + list.menu_URL + "\">" + View + "</a></li>");
+
+                                대분류리스트 = "<li><a  href=\"" + list.menu_URL + "\" class=\"mont\">" + list.menu_Name + "</a><ul class=\"menu_depth02\" id=\"" + parent_Menu_ID + "\"></ul></li>";
+                                
+
+                                $(".all_menu_nav .menu_depth01:eq(1)").append(대분류리스트);
+                                //alert(filter.indexOf(navigator.platform.toLowerCase()));
+                                
+                            }
+                            else {
+                                if (parent_Menu_ID == list.parent_Menu_ID) {
+
+                                    if (isEmpty(list.image_URL)) View = list.menu_Name;
+                                    else View = "<img src=\"" + list.image_URL + "\" style=\"height: 22px;\">";
+
+                                    중분류리스트 = "<li><a href=\"\">" + View + "</a></li>";
+
+                                    $(".menu_depth02").each(function (index) {
+                                        if ($(this).attr("id") == list.parent_Menu_ID) {
+                                            $(this).append(중분류리스트);
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                        }
+                    });
+
+                },
+                error: function (error) {
+                    //console.log(error);
+                }
+            });
+
+
+            $(".search_input").keypress(function (event) {
+                if (event.which == 13) {
+                    $(".search_btn").click();
+                    return false;
+                }
+            });
+
+
+            $(".search_btn").click(function (e) {
+
+                var SearchKeyword = $(".search_input").val();
+
+                if (isEmpty(SearchKeyword)) {
+                    alert("검색어를 입력해주세요");
+                    $(".search_input").focus();
+                    return;
+                }
+
+                location.href = "/Product/Search/1/18/1/" + encodeURIComponent(SearchKeyword);
+            });
+
+
+        });
+
+
+        var isEmpty = function (val) {
+            if (val === "" || val === null || val === undefined
+                || (val !== null && typeof val === "object" && !Object.keys(val).length)
+            ) {
+                return true
+            } else {
+                return false
+            }
+
+        };
+
+
+        function PagingNavigator() {
+
+            var obj = $(".pagination-container");
+            $(obj).attr("class", "paging_wrap").find(".pagination").removeClass();
+
+            $(obj).find("ul li").each(function () {
+                var classobj = $(this).attr("class");
+
+                if (classobj == "PagedList-skipToPrevious") $(this).find("a").addClass("paging_prev").html("이전페이지 보기");
+
+                else if (classobj == "PagedList-skipToNext") $(this).find("a").addClass("paging_next").html("다음페이지 보기");
+
+                else if (classobj == "active") {
+                    var actNum = $(this).find("span").text();
+
+                    $(this).find("span").replaceWith(function () {
+                        return $('<a>', { class: "on", text: actNum })
+                    });
+                }
+            });
+
+        }
+
+
+        function Wish_Save(Product_Id, Gubun) {
+            var TotalCnt = "";
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Product/Wish_Save/" + Product_Id + "/" + Gubun, //상품ID
+                async: false,
+                success: function (result) {
+                    
+                },
+                error: function (result) {
+                    
+                }
+            });
+
+            Load_Wish_Cnt();
+
+        }
+
+
+
+        function ClickSave(gubun, id) {
+
+            // 배너 클릭수 업데이트
+            $.ajax({
+                type: "POST",
+                url: "/Banner/Click_Update/" + id + "/" + gubun,
+                dataType: "json",
+                async: true,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                success: function (result) {
+
+                }
+            });
+
+        }
+        //ClickSave("banner", 47);
+
+
+        function GoURL(obj) {
+
+            if (!isEmpty($(obj).val())) {
+                //  alert($(obj).val());
+                location.href = $(obj).val();
+                /* window.open($(obj).val(), '_blank');*/
+            }
+        }
+
+        function replaceAll(str, s, t) {
+            while (str.indexOf(s) >= 0) {
+                str = str.replace(s, t);
+            }
+
+            return str;
+        }
+
+
+        function load_mainbanner() {
+            var PCbanner = "";
+            var PCbanner2 = "";
+            var PCbanner3 = "";
+
+            var pc_area = "";
+            var pc_area2 = "";
+            var pc_area3 = "";
+
+            var Mo_area = "";
+            var Mo_area2 = "";
+            var Mo_area3 = "";
+
+            //첫번째 메인배너
+            $.ajax({
+                type: "POST",
+                url: "/User/MainBanner/1",
+                dataType: "json",
+                async: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (result) {
+
+                    var pc_sortnum = "";
+                    $(result.banner).each(function (index, list) {
+
+
+                        if (list.Status == "진행") {
+                            if (list.Banner_Type_Code == "BTC01") {
+                                var cdnListImageUrl = new URL(replaceAll(list.Image_URL, "\\", "/"), $("#CDNUrl").val());
+
+                                pc_area = "           <div class=\"pc_area\">";
+                                pc_area += "                   <div class=\"text_wrap\">";
+                                pc_area += "                       <p class=\"main_text\">";
+                                pc_area += list.Banner_Main_Description;
+                                pc_area += "                       </p>";
+                                pc_area += "                       <p class=\"sub_text\">";
+                                pc_area += list.Banner_Add_Description;
+                                pc_area += "                       </p>";
+                                pc_area += "                   </div>";
+                                pc_area += "                   <div class=\"mb_obj mb_obj01\">";
+                                pc_area += "                       <a href=\"#\" onclick=\"CountBanner(" + list.Banner_Item_ID + ",'" + list.Link_URL + "','" + list.NewPage_YN + "');\" >";
+                                pc_area += "                           <img src=\"" + cdnListImageUrl + "\" alt=\"메인 배너 오브젝트\">";
+                                pc_area += "                       </a>";
+                                pc_area += "                   </div>";
+                                pc_area += "          </div>";
+                                pc_sortnum = list.Sort;
+
+                                $(result.banner).each(function (index1, list2) {
+                                    if (list2.Banner_Type_Code == "BTC02") {
+                                        if (list2.Status == "진행") {
+                                            if (pc_sortnum == list2.Sort) {
+                                                var cdnList2ImageUrl = new URL(replaceAll(list2.Image_URL, "\\", "/"), $("#CDNUrl").val());
+
+                                                Mo_area = "           <div class=\"m_area\">";
+                                                Mo_area += "                   <div class=\"mb_obj mb_obj01\">";
+                                                Mo_area += "                       <a href=\"#\" onclick=\"CountBanner(" + list2.Banner_Item_ID + ",'" + list2.Link_URL + "','" + list2.NewPage_YN + "');\" >";
+                                                Mo_area += "                           <img src=\"" + cdnList2ImageUrl + "\" alt=\"메인 배너 오브젝트\">";
+                                                Mo_area += "                       </a>";
+                                                Mo_area += "                   </div>";
+                                                Mo_area += "                   <div class=\"text_wrap\">";
+                                                Mo_area += "                       <p class=\"main_text\">";
+                                                Mo_area += list2.Banner_Main_Description;
+                                                Mo_area += "                       </p>";
+                                                Mo_area += "                       <p class=\"sub_text\">";
+                                                Mo_area += list2.Banner_Add_Description;
+                                                Mo_area += "                       </p>";
+                                                Mo_area += "                   </div>";
+
+                                                Mo_area += "          </div>";
+
+                                                var backimg = replaceAll(list.Image_URL2, "\\", "/");
+
+                                                PCbanner += " <div class=\"swiper-slide mb_slide01\" style=\"background: url(" + backimg + ") no-repeat center; background-size: cover;\"><div class=\"mb_area\">" + pc_area + Mo_area + "</div></div>";
+
+                                            }
+                                        }
+                                        else {
+                                            if (pc_sortnum == list2.Sort) {
+                                                Mo_area = "           <div class=\"m_area\">";
+                                                Mo_area += "          </div>";
+
+                                                var backimg = replaceAll(list.Image_URL2, "\\", "/");
+                                                PCbanner += " <div class=\"swiper-slide mb_slide01\" style=\"background: url(" + backimg + ") no-repeat center; background-size: cover;\"><div class=\"mb_area\">" + pc_area + Mo_area + "</div></div>";
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+
+
+                        }
+                    });
+
+                    
+                    $(".main_banner .swiper-wrapper").html(PCbanner);
+
+                }
+            });
+
+            //두번째 메인배너(3단)
+            $.ajax({
+                type: "POST",
+                url: "/User/MainBanner/2",
+                dataType: "json",
+                async: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (result) {
+                    //alert("b");
+                    //console.log(result.banner);
+                    var pc_sortnum = "";
+                    var _Pc_Url = "";
+                    var _Pc_Target = "";
+                    var _Mo_Url = "";
+                    var _Mo_Target = "";
+
+                    $(result.banner).each(function (index, list) {
+
+                        if (list.Status == "진행") {
+
+                            if (list.Banner_Type_Code == "BTC01") {
+
+                                _Pc_Url = list.Link_URL;
+                                _Pc_Target = list.NewPage_YN;
+
+                                var cdnListImageUrl = new URL(replaceAll(list.Image_URL, "\\", "/"), $("#CDNUrl").val());
+                                
+
+                                pc_area2 = "        <div class=\"pc_area\" url=\"" + _Pc_Url + "\" target=\"" + _Pc_Target + "\">";
+                                pc_area2 += "             <div class=\"img_con\">";
+                                pc_area2 += "                 <span class=\"banner_badge\">" + list.Banner_Main_Description.split("]")[0].replace("[", "") + "</span>"
+                                pc_area2 += "                         <img src=\"" + cdnListImageUrl + "\" alt=\"무료제작 이미지\"/>";
+                                pc_area2 += "             </div>";
+                                pc_area2 += "             <p><strong>" + list.Banner_Main_Description.split("]")[1].replace("", "") + "</strong></p>";
+                                pc_area2 += "             <p>" + list.Banner_Add_Description + "</p>";
+                                pc_area2 += "        </div>";
+                                pc_sortnum = list.Sort
+                               
+
+                                $(result.banner).each(function (index1, list2) {
+
+                                    if (list2.Banner_Type_Code == "BTC02") {
+
+                                        if (list2.Status == "진행") {
+
+                                            if (pc_sortnum == list2.Sort) {
+
+                                                var cdnList2ImageUrl = new URL(replaceAll(list2.Image_URL, "\\", "/"), $("#CDNUrl").val());
+                                                _Mo_Url = list2.Link_URL;
+                                                _Mo_Target = list2.NewPage_YN;
+
+                                                // console.log("두번째 모바일배너 sort:" + list2.Sort);
+                                                // Mo_area2 = "   <a href=\"" + list2.Link_URL + "\" target=\"" + list2.NewPage_YN + "\">";
+                                                Mo_area2 = "         <div class=\"m_area\" url=\"" + _Mo_Url + "\" target=\"" + _Mo_Target + "\">";
+                                                Mo_area2 += "             <div class=\"img_con\">";
+
+                                                Mo_area2 += "                         <img src=\"" + cdnList2ImageUrl + "\" alt=\"무료제작 이미지\" width=\"95px\" height=\"95px\">";
+                                                Mo_area2 += "             </div>";
+                                                Mo_area2 += "             <dl>";
+                                                Mo_area2 += "                 <dt>" + list2.Banner_Main_Description.split("]")[0].replace("[", "") + "</dt>";
+                                                Mo_area2 += "                 <dd>" + list2.Banner_Main_Description.split("]")[1].replace("[", "") + list2.Banner_Add_Description + "</dd>";
+                                                Mo_area2 += "             </dl>";
+                                                Mo_area2 += "         </div>";
+                                                // Mo_area2 += " </a>";
+                                                //alert(pc_area2);
+                                                //alert(Mo_area2);
+                                                if (isEmpty(_Pc_Url)) {
+                                                    PCbanner2 += "<li><a>" + pc_area2 + Mo_area2 + "</a></li>";
+                                                }
+                                                else {
+                                                    PCbanner2 += "<li><a href=\"#none\" onclick=\"BannerLink(this);\">" + pc_area2 + Mo_area2 + "</a></li>";
+                                                }
+
+                                                //alert(PCbanner2)
+                                            }
+                                        }
+                                        else {
+
+                                            if (pc_sortnum == list2.Sort) {
+                                                // console.log("두번째 모바일배너 sort:" + list2.Sort);
+
+                                                Mo_area2 = "         <div class=\"m_area\">";
+
+                                                Mo_area2 += "         </div>";
+
+                                                // console.log(Mo_area2);
+                                                PCbanner2 += "<li><a>" + pc_area2 + Mo_area2 + "</a></li>";
+                                                //alert(PCbanner2)
+                                            }
+                                        }
+                                    }
+
+                                });
+
+                            }
+
+
+                        }
+                    });
+
+                    $(".banner_list .area").html("<ul>" + PCbanner2 + "</ul>");
+                }
+            });
+
+
+            //메인 띠배너
+            $.ajax({
+                type: "POST",
+                url: "/User/MainBanner/5",
+                dataType: "json",
+                async: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (result) {
+
+                    //console.log(result.banner);
+                    var pc_sortnum = "";
+
+                    $(result.banner).each(function (index, list) {
+                        
+                        var colorArray1 = ["#fcebb0", "#FFF6EF"];
+                        var colorArray2 = ["#FFF5D1", "#FFF6EF"];
+
+                        var pcBgIndex = colorArray1[list.Sort-1];
+                        var moBgIndex = colorArray2[list.Sort-1];
+
+                        if (list.Status == "진행") {
+
+                            if (list.Banner_Type_Code == "BTC01") {
+                                var cdnListImageUrl = new URL(replaceAll(list.Image_URL, "\\", "/"), $("#CDNUrl").val());
+                                
+                                pc_area3 = "        <div class=\"swiper-slide pc_area\" style='background:"+pcBgIndex+"'>";
+                                pc_area3 += "             <div class=\"area\">";
+                                pc_area3 += "                   <a href=\"#\" onclick=\"CountBanner(" + list.Banner_Item_ID + ",'" + list.Link_URL + "','" + list.NewPage_YN + "');\" >";
+                                pc_area3 += "                       <div class=\"service_text\">";
+                                pc_area3 += "                           <h3>" + list.Banner_Main_Description + "</h3>";
+                                pc_area3 += "                           <p>" + list.Banner_Add_Description + "</p>";
+                                pc_area3 += "                       </div>";
+                                pc_area3 += "                   </a>";
+                                pc_area3 += "               <div class=\"img_con\">";
+                                pc_area3 += "                   <a href=\"#\" onclick=\"CountBanner(" + list.Banner_Item_ID + ",'" + list.Link_URL + "','" + list.NewPage_YN + "');\" >";
+                                pc_area3 += "                       <img src=\"" + cdnListImageUrl + "\"  alt=\"오브젝트 이미지\">"
+                                pc_area3 += "                   </a>";
+                                pc_area3 += "               </div>";
+                                pc_area3 += "           </div>";
+                                pc_area3 += "       </div>";
+
+                                pc_sortnum = list.Sort;
+                                
+                                PCbanner3 += pc_area3;
+
+                                //mobile each
+                                $(result.banner).each(function (index1, list2) {
+                                    // alert(list2.Status)
+                                    if (list2.Banner_Type_Code == "BTC02") {
+
+                                        if (list2.Status == "진행") {
+
+                                            if (pc_sortnum == list2.Sort) {
+                                                var cdnList2ImageUrl = new URL(replaceAll(list2.Image_URL, "\\", "/"), $("#CDNUrl").val());
+
+                                                //console.log("두번째 모바일배너 sort:" + list2.Sort);
+                                                Mo_area3 = "         <div class=\"swiper-slide m_area\" style='background:"+moBgIndex+"'>";
+                                                Mo_area3 += "               <div class=\"area\">";
+                                                Mo_area3 += "                   <div class=\"img_con\">";
+                                                Mo_area3 += "                   <a href=\"#\" onclick=\"CountBanner(" + list2.Banner_Item_ID + ",'" + list2.Link_URL + "','" + list2.NewPage_YN + "');\" >";
+                                                Mo_area3 += "                           <img src=\"" + cdnList2ImageUrl + "\"  alt=\"오브젝트 이미지\">";
+                                                Mo_area3 += "                       </a>";
+                                                Mo_area3 += "                   </div>";
+                                                Mo_area3 += "                   <div class=\"service_text\">";
+                                                Mo_area3 += "                   <a href=\"#\" onclick=\"CountBanner(" + list2.Banner_Item_ID + ",'" + list2.Link_URL + "','" + list2.NewPage_YN + "');\" >";
+                                                Mo_area3 += "                       <h3>" + list2.Banner_Main_Description + "</h3>";
+                                                Mo_area3 += "                       <p>" + list2.Banner_Add_Description + "</p>";
+                                                Mo_area3 += "                       </a>";
+                                                Mo_area3 += "                   </div>";
+                                                Mo_area3 += "               </div>";
+                                                Mo_area3 += "           </div>";
+
+                                                // alert(Mo_area3)
+                                                PCbanner3 += Mo_area3;
+                                                //alert(PCbanner2)
+                                                // alert(PCbanner3)
+                                            }
+                                        }
+                                        else {
+                                            if (pc_sortnum == list2.Sort) {
+                                                //console.log("두번째 모바일배너 sort:" + list2.Sort);
+                                                Mo_area3 = "         <div class=\"m_area\">";
+                                                Mo_area3 += "           </div>";
+
+                                                PCbanner3 += Mo_area3;
+                                            }
+
+                                        }
+                                    }
+                                });
+                                ////mobile each
+                                
+                            }
+
+                        }
+                    });
+                    // alert(PCbanner3)
+                    $(".service .swiper-wrapper").append(PCbanner3);
+                }
+            });
+
+        }
+
+
+        function GoBanner(id) {
+            // 배너 클릭수 업데이트
+            $.ajax({
+                type: "POST",
+                url: "/User/Banner/Click_Update/" + id,
+                dataType: "json",
+                async: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (result) {
+
+                }
+            });
+    }
+
+        function CountBanner(id,url,target) {
+            // 배너 클릭수 업데이트
+            $.ajax({
+                type: "POST",
+                url: "/User/Banner/Click_Update/" + id,
+                dataType: "json",
+                async: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (result) {
+                    window.open(url, target);
+                }
+            });
+        }
+
+
+
+
+        function addComma(value) {
+            alert(value);
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return value;
+        }
+
+
+        function isMobile() {
+
+            var UserAgent = navigator.userAgent;
+
+            if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null) {
+
+                return true;
+
+            } else {
+
+                return false;
+
+            }
+
+        }
+
+</script>
+    <script>
+
+        var loginYn = "@User.Identity.IsAuthenticated";
+        var Users = "@User.IsInRole("Users")";
+        var category_id = "@CateGory_Id";
+       // console.log("@ViewData["EnvironmentName"]")
+
+
+        if ($('.best_list li').length < 10) {
+            $('.best .btn_wrap a').hide();
+        }
+        //best list
+        $('.best_list li').each(function () {
+            var bestIdx = $('.best_list li').size();
+            var arr = [bestIdx];
+            $('.best_list li').slice(10, 15).hide();
+        });
+        $('.best .btn_wrap a').on('click', function () {
+
+            if (!$(this).hasClass('active')) {
+                $(this).addClass('active');
+                $('.best_list li').show();
+            } else {
+                //"Product/List/{Page?}/{PageSize?}/{Category_Id?}/{Sort_Gubun?}/{SearchCategoryList?}/{SearchBrandList?}/"
+
+                var Depth1_Url = "/Product/List/1/0/" + category_id + "/0/0/0";
+
+                $(this).attr('href', Depth1_Url);
+            }
+        });
+
+
+        if (Users == "True") {
+            $(".all_menu .log_btn a").text("로그아웃").attr("href", "@Url.Action("LogOut", "Member")");
+        }
+        else {
+            $(".all_menu .log_btn a").text("로그인").attr("href", "@Url.Action("Login", "Member")");
+        }
+
+        $(".header.fixed .ico.like").on("click", function () {
+
+            if (loginYn == "False") {
+                alert("로그인 후 이용해주세요");
+                location.replace("/member/logIn?ReturnUrl=/Member/wishList");
+            }
+            else {
+                if ("@User.IsInRole("Guest")" == "True") {
+                    alert("회원만 이용하실 수 있습니다");
+                    return;
+                }
+                else location.replace("/Member/wishList");
+            }
+        });
+
+        $('.ico.wish').on('click', function () {
+
+            if (loginYn == "False") {
+                alert("로그인 후 이용해주세요");
+                 //return;
+               // $(this).toggleClass("active");
+               location.replace("/member/logIn?ReturnUrl=" + location.href);
+            }
+            else {
+
+                 if ("@User.IsInRole("Guest")" == "True") {
+                    alert("회원만 이용하실 수 있습니다");
+                    return;
+                }
+
+                $(this).toggleClass("active");
+
+
+                var Gubun = "I";
+
+                if (!$(this).hasClass("active")) {
+                    Gubun = "D";
+                }
+                //alert("id:" + $(this).closest("li").find("a").attr("href").split("/")[3] + " / Gubun:" + Gubun)
+                //return;
+                Wish_Save($(this).closest("li").find("a").attr("href").split("/")[3], Gubun);
+
+
+                }
+
+            //$(this).toggleClass('active');
+        });
+
+
+
+
+
+        // 팝업 노출
+        $.ajax({
+            type: "POST",
+            url: "/User/Popup/PTC01",
+            dataType: "json",
+            async: false,
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (result) {
+                $(".pop_arrow").hide();
+               // console.log(result.popup);
+                $(result.popup).each(function (index, list) {
+
+                    if (index > 0) {
+
+                        return;
+                    }
+
+                    var url = new URL(replaceAll(list.Image_URL, "\\", "/"), $("#CDNUrl").val()); 
+                    var Link_URL = list.Link_URL;
+                    var etc = "top = " + parseInt(list.Popup_Location_Top) + ", left = " + parseInt(list.Popup_Location_Left) + ", width = " + parseInt(list.Popup_Width) + ", height = " + parseInt(list.Popup_Height);
+                    //var etc = "top = 5000, left = 200, width = 208, height = 180";
+                    //alert(etc);
+                    // window.open(url, "_blank", etc);
+                   // $(".mainPopup").show();
+
+                    $(".layer_pop .swiper-wrapper").append("<li class=\"swiper-slide\"><a href=\"" + Link_URL + "\"><img src=\"" + url + "\" ></a></li>");
+                });
+
+                //쿠키값이 Y가 아니라면 메인팝업 오픈
+                if (getCookie("notToday") != "Y" && $(".layer_pop .swiper-wrapper .swiper-slide").length > 0) {
+                    $("#mainPopup").show();
+                }
+                else {
+                    $("#mainPopup").hide();
+                }
+            }
+        });
+
+
+
+        load_mainbanner();
+
+
+        function Load_Wish_Cnt() {
+            /* 로그인한 회원의 총 찜 리스트 개수 */
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/Product/Wish_Cnt?" + Math.random(),
+                success: function (result) {
+
+
+                    //var filter = "win16|win32|win64|macintel|mac|";
+                    //pc버전
+                    var cnt = result;
+
+                    //로그인 상태이고, 위시리스트 담은 상품이 1개 이상일 경우만 카운트 노출
+                    if (loginYn == "True" && parseInt(cnt) > 0) {
+
+                        $(".like_count").html(cnt);
+
+                        //모바일버전
+                        $(".point01").html(cnt);
+
+                        if (parseInt(cnt) > 0) {
+
+                            $("#wrap .user_wrap .menu").addClass("true");
+                        }
+                        else {
+                            $("#wrap .user_wrap .menu").removeClass("true");
+                        }
+                        $(".like_count").show();
+                    }
+                    else {
+
+                        $(".like_count").hide(); //상단 우측 위시리스트 카운트 영역 자체 비노출
+                        $("#wrap .user_wrap .menu").removeClass("true"); // 햄버거 메뉴 위시리스트 아이콘 비노출
+                    }
+
+
+                },
+                error: function (result) {
+                    // swal({ title: "오류가 발생했습니다. 다시 시도해 주세요", type: "error" });
+                }
+            });
+
+        }
+
+        function BannerLink(obj) {
+            var _m_Url = $(obj).find(".m_area").attr("url");
+            var _pc_Url = $(obj).find(".pc_area").attr("url");
+
+            //if (isEmpty(_m_Url)) _m_Url = "#none";
+            //if (isEmpty(_pc_Url)) _pc_Url = "#none";
+
+            if (isMobile()) {
+                if (isEmpty(_m_Url)) {}
+                $(obj).attr({ "target": $(obj).find(".m_area").attr("target"), "href": _m_Url});
+
+            }
+            else {
+
+                $(obj).attr({ "target": $(obj).find(".pc_area").attr("target"), "href": _pc_Url });
+
+            }
+//            alert($(obj).find(".pc_area").attr("url"));
+//            alert($(obj).find(".m_area").attr("url"));
+
+        }
+
+
+        function isMobile() {
+
+            var UserAgent = navigator.userAgent;
+
+            if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null) {
+
+                return true;
+
+            } else {
+
+                return false;
+
+            }
+
+        }
+
+
+        Load_Wish_Cnt();
+
+        //alert("@CateGory_Id");
+        var _cate1_Id = "@CateGory_Id";
+        var _cate2_Id = "@CateGory_Id2";
+
+        //BEST
+        if (!isEmpty(_cate1_Id)) {
+            //$("#wrap .best .area .btn_wrap a, #wrap .best .mont a").attr("href", "/Product/Main_Category_List/1/20/" + _cate1_Id + "/1/0/0");
+            $("#wrap .best .area .btn_wrap a, #wrap .best .mont a").attr("href", "/Product/List/1/20/1/1/11_/0");
+        }
+
+        //NEW
+        if (!isEmpty(_cate2_Id)) {
+            $("#wrap .new .mont a").attr("href", "/Product/List/1/20/1/1/10_/0");
+/*            $("#wrap .set .mont a").attr("href", "/Product/Main_Category_List/1/20/" + _cate2_Id + "/1/0/0");*/
+
+
+        }
+
+        //alert($(".menu_depth02").html())
+
+        //$("#wrap .header .mobile .all_menu .menu_depth02").css("display","none");
+
+        function myIP() {
+            if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
+            else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+
+            xmlhttp.open("GET", " http://api.hostip.info/get_html.php ", false);
+            xmlhttp.send();
+
+            hostipInfo = xmlhttp.responseText.split("n");
+
+            for (i = 0; hostipInfo.length >= i; i++) {
+                ipAddress = hostipInfo[i].split(":");
+                if (ipAddress[0] == "IP") return ipAddress[1];
+            }
+
+            return false;
+        }
+
+// console.log(myIP());
+
+    </script>
+
+</body>
+</html>

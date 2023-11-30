@@ -1,0 +1,67 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model M2LocationVIewModel
+
+<!-- 오시는 타이틀 이미지 -->
+@if (Model.LocationTitleArea != null)
+{
+    var bgColor = (Model.LocationTitleArea.Color == null) ? "" : $"background-color: {Model.LocationTitleArea.Color};";
+    <div id="area9" idx="9" class="templatearea bindarea" style="height:@(Model.LocationTitleArea.Height)px; @(bgColor)">
+        @foreach (var item in Model.LocationTitleArea.Items)
+        {
+            <partial name="BaseAreaItem_Partial" model="item" />
+        }
+    </div>
+}
+<!-- 오시는 길 -->
+<div id="area10" idx="10" class="location line">
+    <div class="area">
+        <div class="map_info">
+            <dl class="map_title">
+                <dt>
+                    <span>@(Model.Name)</span>
+                    @if (Model.IsDetailNewLine)
+                    {
+                        <br />
+                    }
+                    <span>@(Model.DetailName)</span>
+                </dt>
+                <dd id="addressDetail">@Html.Raw(Model.Address)</dd>
+                <dd>@(Model.TelNo)</dd>
+            </dl>
+            <div class="location_button_box">
+                
+                @if (Model.LocationUrl != null)
+                {
+                    @if (Model.OutlineTypeCode == "OTC01")
+                    {
+                        var navUrl = $"https://m.map.naver.com/map.naver?lat={Model.Lat}&lng={Model.Lot}&dlevel=20&mapMode=&pinTitle={Html.Encode(Model.Name)}&boundary=&traffic=";
+                        <a href="@navUrl" class="map_btn" target="_blank">지도</a>
+                    }
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.TelNo))
+                {
+                    <a href="tel:@(Model.TelNo)" class="call_btn">전화</a>
+                }
+            </div>
+        </div>
+        @if (Model.LocationUrl != null)
+        {
+            @if (Model.OutlineTypeCode == "OTC01")
+            {
+                <div class="map_wrap">
+                    <iframe id="map" src="@Model.LocationUrl" width="750" height="320" frameborder="0" style="border: 0" allowfullscreen></iframe>
+                </div>
+            }
+            else
+            {
+                <div class="map_wrap">
+                    <img src="@Model.LocationUrl" class="mapImg" id="PreviewMap" style="border: 1px solid #ccc;" onerror="this.style.display='none';" alt="@(Model.Name)" />
+                </div>
+            }
+        }
+        
+    </div>
+</div>

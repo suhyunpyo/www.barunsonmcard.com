@@ -1,0 +1,239 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyKakaoRemitAccountModel
+@{
+	Layout = "Simple_Layout";
+	ViewBag.Title = "축의금 관리";
+}
+@section Heads
+{
+	<style type="text/css">
+		.manage input[type="number"].inp {
+			display: inline-block;
+			height: 42px;
+			padding-left: 10px;
+			width: 180px;
+			box-sizing: border-box;
+		}
+	</style>
+}
+<div id="wrap" class="sub">
+	<section class="manage">
+		<!-- 관리 페이지 타이틀 -->
+		<div class="title_box top">
+			<div class="area">
+				<h1>@ViewBag.Title</h1>
+				<div class="manage_nav">
+					<ul>
+						<li><a asp-action="Calculate" asp-controller="KakaoRemit" asp-route-OrderId="@Model.OrderId" >축의금 내역</a></li>
+						<li><a asp-action="Account" asp-controller="KakaoRemit" asp-route-OrderId="@Model.OrderId" class="active">축의금 설정</a></li>
+						<li><a asp-action="Info" asp-controller="KakaoRemit" asp-route-OrderId="@Model.OrderId">송금 서비스</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="manage_contents">
+			<div class="area">
+				<!-- //관리 페이지 타이틀 -->
+				<!-- 관리 페이지 컨텐츠 -->
+				<div class="manage_content">
+					<div class="title_box tip_box">
+						<span class="step">1</span>
+						<h2>입금 받을 계좌 조회</h2>
+						<span class="ico notice tip_btn">툴팁 아이콘</span>
+						<div class="bn_tip w320">
+							<p>- 입금 받을 계좌번호 입력후, 예금주조회 버튼을 클릭해주세요.</p>
+							<p>- 계좌는 최대 4개까지 설정할 수 있습니다.</p>
+						</div>
+					</div>
+					<div class="con_box">
+						<form name="frmBank" id="frmBank" asp-action="CheckDepositor" asp-controller="KakaoRemit" method="post">
+							<ul class="account_list">
+								<li>
+									<div class="account_con">
+										<span class="select_wrap type01 w300">
+											<select asp-for="AccountTypeCode" asp-items="Model.AccountTypeList" class="select w140"></select>
+											<select asp-for="BankCode" asp-items="Model.BankList" class="select w140 ml15"></select>
+										</span>
+										<input type="number" asp-for="AccountNumber" maxlength="30" class="inp w300 ml15 mr15" placeholder="계좌번호입력( - 없이 숫자만 입력하세요)">
+										<input type="text" asp-for=DepositorName maxlength="40" class="inp w120" placeholder="예금주 입력">
+										<input type="hidden" asp-for="OrderId" />
+										<span class="btn_wrap fr">
+											<button type="button" id="btnCheckAccount" class="btn type03">예금주 조회</button>
+										</span>
+									</div>
+								</li>
+							</ul>
+						</form>
+					</div>
+				</div>
+			
+				<div style="height:50px;"></div>
+				<div class="manage_content">
+					<div class="title_box tip_box">
+						<span class="step">2</span>
+						<h2>입금 받을 계좌 확인</h2>
+						<span class="ico notice tip_btn">툴팁 아이콘</span>
+						<div class="bn_tip w360">
+							<p>- 입금 받을 계좌번호를 다시 확인해 주세요.</p>
+							<p>- 설정한 계좌번호에 입금내역이 있을 경우, 수정 및 삭제가 불가능합니다.</p>
+						</div>
+					</div>
+					<!-- 계좌 값 확인 -->
+					<div class="con_box">
+						<ul class="account_list">
+							@if (Model.DataModel.Count == 0)
+							{
+								<li>
+									<div class="account_con" style="text-align:center;">
+										등록된 계좌가 없습니다.
+									</div>
+								</li>
+							}
+							else
+							{
+								foreach(var Account in Model.DataModel)
+								{
+									<li>
+										<div class="account_con">
+											<span class="account_check w300">
+												<input type="hidden" name="accountID" value="@Account.AccountId" />
+												<input type="text" class="inp w140" value="@Account.AccountTypeName" readonly="readonly">
+												<input type="text" class="inp w140 ml15" value="@Account.BankName" readonly="readonly">
+											</span>
+											<input type="text" class="inp w300 ml15 mr15" value="@Account.AccountNumber" readonly="readonly">
+											<input type="text" class="inp w120" value="@Account.DepositorName" readonly="readonly">
+											<span class="btn_wrap fr">
+												<button type="button" class="btn type02 btndelete" data-href="@Url.Action("DeleteAccount", "KakaoRemit", new { OrderId = Model.OrderId, accountID = Account.AccountId} )">계좌 삭제</button>
+											</span>
+										</div>
+									</li>
+								}
+							}
+						</ul>
+						<div class="btn_wrap account_bottom tc">
+							<a href="javascript:window.close();" class="btn type03">닫기</a>
+						</div>
+					</div>
+					<!-- //계좌 값 확인 -->
+				</div>
+
+				<!-- 유의사항 -->
+				<partial name="FooterNoticePartial" />
+				<!-- //유의사항 -->
+			</div>
+		</div>
+		<div class="pop_wrap wrap_delete">
+			<div class="layer_pop">
+				<p class="pop_text">
+					설정한 계좌번호를 <br />
+					삭제하시겠습니까?
+				</p>
+				<div class="btn_wrap pop_bottom type02 on">
+					<a href="javascript:;" class="btn type03_1" onclick="popClose()">취소</a>
+					<a href="javascript:;" class="btn type03 btnDeleteOk">삭제</a>
+				</div>
+			</div>
+			<div class="pop_mask"></div>
+		</div>
+		<div class="pop_wrap wrap_ok">
+			<div class="layer_pop">
+				<p class="pop_text pop_ok_text">
+					정상 계좌번호 입니다.
+				</p>
+				<div class="btn_wrap pop_bottom type01">
+					<a href="javascript:;" class="btn type03_1 wp100 btnSuccess">확인</a>
+				</div>
+			</div>
+			<div class="pop_mask"></div>
+		</div>
+		<div class="pop_wrap wrap_msg">
+			<div class="layer_pop">
+				<p class="pop_text pop_msg_text">
+					
+				</p>
+				<div class="btn_wrap pop_bottom type01">
+					<a href="javascript:;" class="btn type03_1 wp100" onclick="popClose()">확인</a>
+				</div>
+			</div>
+			<div class="pop_mask"></div>
+		</div>
+	</section>
+</div>
+@section Scripts
+{
+	<script type="text/javascript">
+		$(document).ready(function (e) {
+			
+		});
+		//계좌 확인
+		$("#btnCheckAccount").on('click', function (e) {
+			e.preventDefault();
+
+			$('#btnCheckAccount').attr('disabled', 'disabled');
+			var form = $("#frmBank");
+			var formData = new FormData(form[0]);
+			$.ajax({
+				url: form.attr('action'),
+				data: formData,
+				type: form.attr('method'),
+				processData: false,
+				contentType: false,
+				dataType: 'json',
+				cache: false
+			}).done(function (result) {
+				if (result.status) {
+					$('.wrap_ok').show();
+				} else {
+					$('.pop_msg_text').text(result.message);
+					$('.wrap_msg').show();
+				}
+				$('#btnCheckAccount').removeAttr('disabled');
+			}).fail(function (jqXHR, textStatus, errorThrown) {
+				$('.pop_msg_text').text("오류가 발생하였습니다. 페이지를 새로고침 후 다시 시도 해주세요.");
+				$('.wrap_msg').show();
+			});;
+
+		});
+		//계좌 정상 등록
+		$("a.btnSuccess").on('click', function (e) {
+			e.preventDefault();
+			window.location.reload();
+		});
+
+		//계좌 삭제 버튼
+		$("button.btndelete").on('click', function (e) {
+			e.preventDefault();
+			var url = $(e.currentTarget).data('href');
+			$("a.btnDeleteOk").data('href', url);
+			$('.wrap_delete').show();
+		});
+		//계좌 삭제 실행
+		$("a.btnDeleteOk").on('click', function (e) {
+			e.preventDefault();
+			var url = $(e.currentTarget).data('href');
+			$('.wrap_delete').hide();
+			if (url != "") {
+				$.ajax({
+					url: url,
+					type: 'DELETE',
+					dataType: 'json',
+					cache: false
+				}).done(function (result) {
+					if (result.status) {
+						window.location.reload();
+					} else {
+						$('.pop_msg_text').text(result.message);
+						$('.wrap_msg').show();
+					}
+				}).fail(function (jqXHR, textStatus, errorThrown) {
+					$('.pop_msg_text').text("오류가 발생하였습니다. 페이지를 새로고침 후 다시 시도 해주세요.");
+					$('.wrap_msg').show();
+				});;
+
+			}
+		});
+
+	</script>
+}

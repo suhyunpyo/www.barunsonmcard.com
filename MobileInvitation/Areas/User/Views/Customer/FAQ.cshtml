@@ -1,0 +1,185 @@
+﻿@using MobileInvitation.Models
+@using X.PagedList.Mvc.Core; @*페이징툴을 이용...*@
+@using X.PagedList.Mvc; @*페이징툴을 이용...*@
+@using X.PagedList; @*페이징툴을 이용...*@
+@using MobileInvitation.FunctionHelper;
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/customer.css">
+<script src="/js/customer/customer.js"></script>
+<style type="text/css">
+    .trSize {
+        height: 58px;
+    }
+
+    .tdSize {
+        width: 8.5%;
+        background: #f8f8f8
+    }
+
+
+    .tdRight {
+        text-align: right;
+    }
+
+    .tdLeft {
+        text-align: left;
+    }
+
+    .tdCenter {
+        text-align: center;
+    }
+</style>
+<!-- sub contents -->
+<section class="customer">
+    <div class="sub_con_wrap">
+        <aside class="mypage_list">
+            <div class="mypage_box">
+                <p><strong>고객센터</strong></p>
+                <ul>
+                    <li><a href="/Customer/Notice">공지사항</a></li>
+                    <li><a href="/Customer/Faq" class="active">FAQ</a></li>
+                    <li><a href="/Customer/Ask">1:1 문의</a></li>
+                </ul>
+            </div>
+        </aside>
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents">
+            <!-- 고객센터 검색영역 -->
+            <div class="cs_center">
+                <div class="cs_top">
+                    <h2>CS Center</h2>
+                    <p>1644-0708 <span>평일 09:00 ~ 18:00 (점심 12:00 ~ 13:00)</span></p>
+                </div>
+                <form action="/Customer/Faq" id="FaqList" method="post">
+                    @*@using (Html.BeginForm("Faq", "/Customer", FormMethod.Post, new { id = "FaqList" }))
+            {*@
+                    <div class="cs_content">
+                        <div class="area">
+                            <div class="cs_search">
+                                <input type="text" name="SearchTxt" class="inp" placeholder="궁금하신 내용을 검색해 보세요" value="@ViewData["SearchTxt"]" />
+                                <button type="button" name="SearchGo">검색버튼</button>
+                            </div>
+                            <div class="cs_con_bottom">
+                                <p>혹시 원하는 답변을 찾지 못하셨나요?</p>
+                                <a href="/Customer/Ask_Reg" class="spoq">1:1 문의 ></a>
+                            </div>
+                        </div>
+                    </div>
+                    @*}*@
+                    </form>
+            </div>
+            <!-- //고객센터 검색영역 -->
+            <!-- 고객센터 카테고리 메뉴 -->
+            <div class="cs_category" style="display:">
+                <!--<ul>-->
+                <!-- li class on 추가 시 선택효과 -->
+                <!--<li class="on"><a href="javascript:;">전체</a></li>
+            <li><a href="javascript:;">제작</a></li>
+            <li><a href="javascript:;">결제</a></li>
+            <li><a href="javascript:;">회원정보</a></li>
+            <li><a href="javascript:;">사용법</a></li>
+            <li><a href="javascript:;">송금</a></li>
+            <li><a href="javascript:;">감사장</a></li>
+        </ul>-->
+            </div>
+            <!-- //고객센터 카테고리 메뉴 -->
+            <!-- 고객센터 FAQ 리스트 -->
+            <div class="table_wrap cs_table_wrap">
+                <table class="table list faq">
+                    <caption>고객센터 FAQ 리스트</caption>
+                    <colgroup>
+                        @*<col style="width:252px;">*@
+                        <col style="width:100%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>제목</th>
+                            @*<th>내용</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int TotalCount = ViewBag.Faq_List.TotalItemCount;
+
+                            int pageno = (int)ViewData["page"];
+                            int itemperpage = (int)ViewData["pageSize"];
+                            int currentno = TotalCount - ((pageno - 1) * itemperpage);
+
+                        }
+                        @if (TotalCount == 0)
+                        {
+
+                            <tr>
+                                <td colspan="1" style="text-align: center">리스트가 없습니다</td>
+                            </tr>
+
+                        }
+                        else
+                        {
+                            @foreach (TB_Board list in ViewBag.Faq_List)
+                            {
+                                <tr id="@list.Board_ID">
+                                    @*<td></td>*@
+                                    <td class="tl">
+                                        <div class="faq_con_title">
+                                            <a href="javascript:;"> @list.Title</a>
+                                        </div>
+                                        <div class="faq_con_text">
+                                            @Html.Raw(StringHelper.HtmlDecode(list.Content))
+                                            @*청첩장 리스트에서 마음에 드는 스킨을 선택하신 후, <br />
+        '제작하기' 버튼을 누르면 모바일청첩장을 제작하실 수 있습니다. <br />
+        결제까지 모든 과정을 완료하셔야 사용하실 수 있으니, 이 점 참고바랍니다.*@
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- //고객센터 FAQ 리스트 -->
+            <!-- 페이징 -->
+            @if (TotalCount > 0)@Html.PagedListPager((IPagedList)ViewBag.Faq_List, page => Url.Action("Index", new { page }))
+            <!--<div class="paging_wrap">
+        <ul>
+            <li><a href="javascript:;" class="paging_prev">이전페이지 보기</a></li>-->
+            <!-- a class on 추가 시 선택된 현재 페이지 표시 -->
+            <!--<li><a href="javascript:;" class="on">1</a></li>
+            <li><a href="javascript:;">2</a></li>
+            <li><a href="javascript:;">3</a></li>
+            <li><a href="javascript:;">4</a></li>
+            <li><a href="javascript:;">5</a></li>
+            <li><a href="javascript:;" class="paging_next">다음페이지 보기</a></li>
+        </ul>
+    </div>-->
+            <!-- //페이징 -->
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+</section>
+<!-- //sub contents -->
+<script>
+    PagingNavigator();
+
+
+
+    $("[name=SearchTxt]").keypress(function (event) {
+        if (event.which == 13) {
+            $("[name=SearchGo]").click();
+            return false;
+        }
+    });
+
+    //검색
+    $("[name=SearchGo]").click(function () {
+        $("#FaqList").submit();
+
+    });
+
+</script>

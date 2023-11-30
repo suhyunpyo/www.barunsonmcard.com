@@ -1,0 +1,113 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+
+@*<style type="text/css">
+    a, a:link, a:visited, a:active, a:hover {
+        text-decoration: none;
+        font-family: "SpoqaHanSansNeo","Open Sans","Spoqa Han Sans",sans-serif;
+    }
+</style>*@
+<link rel="stylesheet" href="/css/event.css">
+<!-- //header -->
+<section class="event onsil">
+    <!-- 배너 -->
+    <div class="event_banner">
+        <!-- pc 배너 -->
+        <div class="event_pc">
+            <div class="onsil_banner"></div>
+        </div>
+        <!-- mobile 배너 -->
+        <div class="event_m">
+            <img src="/img/event/onsil/m_event_banner.jpg" alt="신규 모바일 청첩장 출시 사진온실 할인권을 드립니다." />
+        </div>
+    </div>
+    <!-- //배너 -->
+    <!-- Our moment -->
+    <div class="event_con event01">
+        <h2 class="blind">Our moment promotion</h2>
+        <div class="area">
+            <div class="event_pc tc">
+                <img src="/img/event/onsil/event_img01.png" alt="Our moment Promotion 쿠폰" />
+            </div>
+            <div class="event_m tc">
+                <img src="/img/event/onsil/m_event_img01.jpg" alt="Our moment Promotion 쿠폰" />
+            </div>
+        </div>
+    </div>
+    <!-- //Our moment coupon -->
+    <!-- Our moment -->
+    <div class="event_con event02">
+        <div class="event_pc tc">
+            <h2 class="img_tit">
+                <a href="https://www.barunsonmcard.com/Product/Detail/59" target="_blank"><img src="/img/event/onsil/event02_title.png" alt="오직 바른손엠카드에서만 만날 수 있는 특별한 감성의 모바일초대장 바로가기" /></a>
+            </h2>
+            <div class="area">
+                <img src="/img/event/onsil/event_img02.gif" alt="모바일 청첩장 이미지" class="wp100" />
+            </div>
+        </div>
+        <div class="event_m tc">
+            <div class="area">
+                <h2 class="img_tit">
+                    <a href="https://www.barunsonmcard.com/Product/Detail/59"><img src="/img/event/onsil/m_event02_title.jpg" alt="오직 바른손엠카드에서만 만날 수 있는 특별한 감성의 모바일초대장 바로가기" /></a>
+                </h2>
+                <img src="/img/event/onsil/m_event_img02.gif" alt="모바일 청첩장 이미지" />
+            </div>
+            <img src="/img/event/onsil/m_event_img02_text.jpg" alt="사진온실 장점" />
+        </div>
+    </div>
+    <!-- //Our moment -->
+    <!-- brand stroy -->
+    <div class="event_con event03">
+        <h2 class="blind">사진온실 브랜드스토리</h2>
+        <div class="event_pc tc" style="padding: 0 3%;">
+            <a href="https://www.sazinonsil.com/index" target="_blank"><img src="/img/event/onsil/event_img03.png" alt="거울셀프사진관 사진온실" style="max-width:100%" /></a>
+        </div>
+        <div class="event_m tc">
+            <a href="https://www.sazinonsil.com/index" target="_blank"><img src="/img/event/onsil/m_event_img03.jpg" alt="거울셀프사진관 사진온실" /></a>
+        </div>
+    </div>
+    <!-- //brand stroy -->
+    <!-- 유의사항 -->
+    <div class="event_notice">
+        <div class="event_con notice_con">
+            <div class="area">
+                <h2>이벤트 유의사항</h2>
+                <div class="notice_text">
+                    <p> 할인권 관련 안내 및 발송의 원활함을 위해 당첨자 정보는 사진온실에 제공됩니다.</p>
+                    <p>
+                        바른손M카드에서 'Our moment'를 <span>실 구매한 고객 대상으로 진행</span>되는 이벤트이며, <span>당첨자 본인에 한해서 할인권이 사용 가능</span>합니다.
+                    </p>
+                    <p>해당 이벤트는 선착순 증정 이벤트로, 사은품 수량 소진시 자동 종료됩니다.</p>
+                    <p>결제일 기준으로, 환불 가능 기간에 환불 진행시 이벤트 당첨이 어려우므로 참고 바랍니다.</p>
+                    <p>당첨 고객에게는 당첨 안내 LMS가 발송될 예정이며, <span>발송 시점은 결제일로부터 3일 이후 발송됩니다.</span> </p>
+                    <p>LMS가 발송되었으나 주문을 취소할 경우 촬영 패키지 사용이 어렵습니다.</p>
+                    <p>
+                        <span>증정되는 할인권에 대한 문의 및 예약은 위에 ‘사진온실’로 문의 바랍니다.</span> <br />
+                        <em>(사진온실 문의 및 예약 : 상단 스튜디오 소개에 안내되어 있는 연락처 or LMS에 안내된 문의처)</em>
+                    </p>
+                    <p>
+                        LMS 재발송 불가 안내 <br />
+                        <em>① LMS 삭제 및 미보관 등의 본인 부주의로 인한 사유</em> <br />
+                        <em>② 바른손M카드 고객센터 번호 1644-0708 를 스팸으로 지정하여 LMS 수신/확인이 불가한 경우</em>
+                    </p>
+                    <p>
+                        <span>당첨된 촬영 할인권은 양도 및 판매가 불가</span>하므로
+                        <span>사전 양도/판매 내역이 확인</span>되거나
+                        <span>촬영 당일 'Our moment' 모바일 초대장 구매 고객이 아닌, 타인이 촬영</span>을 할 경우
+                        <span>할인권 사용이 불가하거나 비용이 발생</span>될 수 있습니다.
+                    </p>
+                    <p>본 이벤트는 당사 혹은 스튜디오측의 사정으로 인하여 사전 고지 없이 종료 될 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //유의사항 -->
+</section>
+
+
+<script src="/js/event.js"></script>

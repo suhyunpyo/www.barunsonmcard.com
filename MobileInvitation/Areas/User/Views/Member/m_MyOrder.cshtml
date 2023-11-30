@@ -1,0 +1,85 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyPageOrderViewModel
+@{
+    Layout = "User_Layout_m";
+    Model.IsMobileView = true;
+}
+@section Heads
+{
+    <link rel="stylesheet" href="/css/m_mypage.css" asp-append-version="true">
+}
+<section class="mypage">
+    <div class="sub_con_wrap tab_wrap">
+        <div class="sub_title_box">
+            <div class="area">
+                <h2><a asp-action="Mypage" asp-controller="Member">마이 페이지</a></h2>
+                <div class="tab_box">
+                    <!-- tab list -->
+                    <ul class="tab_list">
+                        <li class="@((Model.TabId == 0) ? "active": "")">
+                            <span class="ord_count">@Model.MakingCount</span>
+                            <a asp-action="MyOrder" asp-controller="Member" asp-route-tabid="0" class="myorderstatus">제작 중</a>
+                            
+                        </li>
+                        <li class="@((Model.TabId == 1) ? "active": "")">
+                            <span class="ord_count">@Model.CompleteCount</span>
+                            <a asp-action="MyOrder" asp-controller="Member" asp-route-tabid="1" class="myorderstatus">제작 완료</a>
+                            
+                        </li>
+                        <li class="@((Model.TabId == 2) ? "active": "")">
+                            <span class="ord_count">@Model.CancelCount</span>
+                            <a asp-action="MyOrder" asp-controller="Member" asp-route-tabid="2" class="myorderstatus">취소/환불</a>
+                        </li>
+                    </ul>
+                    <!-- //tab list -->
+                </div>
+            </div>
+        </div>
+        <div class="tc_wrap mypage_service">
+            @if (Model.TabId == 0)
+            {
+                @await Html.PartialAsync("MyOrderTab0Partial", Model)
+            }
+            else if (Model.TabId == 1)
+            {
+                @await Html.PartialAsync("MyOrderTab1Partial", Model)
+            }
+            else if (Model.TabId == 2)
+            {
+                @await Html.PartialAsync("MyOrderTab2Partial", Model)
+            }
+        </div>
+    </div>
+
+</section>
+@section Scripts
+{
+    <script src="/js/member/mypage.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function (e) {
+        });
+
+        $(document).on('click', 'a.info_del', function (e) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            var url = $(e.currentTarget).attr('href');
+            var result = confirm('삭제시 복구가 불가능합니다. 정말 삭제하시겠습니까?');
+
+            if (result) {
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    async: false,
+                    success: function (result) {
+                        location.reload();
+                    }
+                });
+            }
+        });
+
+
+    </script>
+}

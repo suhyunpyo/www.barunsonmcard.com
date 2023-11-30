@@ -1,0 +1,144 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyCouponViewModel
+@{
+    Layout = "User_Layout";
+   
+}
+
+@section Heads
+{
+    <link rel="stylesheet" href="/css/mypage.css" asp-append-version="true" />
+
+    <style type="text/css">
+        #wrap .bn_tip p {
+            font-size: 18px;
+            color: #757575;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        #wrap .bn_tip a {
+            position: relative;
+            font-size: 14px;
+            color: blue;
+            letter-spacing: -0.35px;
+            font-weight: 400;
+            padding-right: 12px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+    </style>
+}
+<!-- sub contents -->
+<section class="mypage">
+    <div class="sub_con_wrap">
+        <aside class="mypage_list fixed">
+            @await Html.PartialAsync("MyPageMenuPartial", "couponList")
+        </aside>
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents">
+            <div class="list_wrap">
+                <form asp-action="SetCouponProcess" asp-controller="Member" method="post" id="frmSetCouponProcess">
+                    <div class="list_count_result">
+                        <p>사용 가능한 쿠폰이 <span>@Model.UseCouponCount.ToString("#,##0")</span>개 있습니다.</p>
+                        <div class="list_coupon_search btn_wrap type03" >
+                            <input type="text" name="coupon_number" class="inp type02 w200" placeholder="쿠폰 번호 입력" />
+                            <button type="button" class="btn type03 w60">확인</button>
+                        </div>
+                    </div>
+                </form>
+                <ul class="coupon_list">
+
+                    @if (Model.Count == 0)
+                    {
+                        <li class="coupon_none">
+                            <p class="empty_text">쿠폰이 없습니다</p>
+                        </li>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.DataModel)
+                        {
+                            <li>
+
+                                <div class="coupon_box">
+                                    <div class="box_top">
+                                        <p class="coupon_title">@item.CouponName</p>
+                                        <span class="coupon_price @(item.IsCopuponUsing ? "" : "off")">@item.DiscountViewText</span>
+                                    </div>
+      
+                                    <p class="coupon_date">@item.DateViewText</p>
+                                    <div class="box_bottom tip_box">
+                                        <a href="javascript:;">사용조건 보기</a>
+                                        <div class="bn_tip w280" name="test"><pre>@item.Description</pre></div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    }
+                </ul>
+            </div>
+            <!-- //쿠폰리스트 -->
+            <!-- 페이징 -->
+            @if (Model.Count > 0)
+            {
+                await Html.RenderPartialAsync("_PaginationPartial", Model);
+            }
+            else
+            {
+                <div class="paging_wrap"></div>
+            }
+
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+</section>
+@section Scripts
+{
+    <script src="/js/member/mypage.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+   
+
+        $('.list_coupon_search button').on('click', function () {
+            var coupon_number = $('.list_coupon_search input').val();
+
+            if (coupon_number != "") {
+                var form = $("#frmSetCouponProcess");
+                var url = form.attr('action');
+                var formData = form.serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    async: false,
+                    data: formData,
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.success == "Y") {
+                            alert("정상적으로 등록했습니다.");
+                            location.reload();
+                        } else {
+                            alert("쿠폰번호가 유효하지 않습니다.\n다시 확인해 주세요.");
+                            $('.list_coupon_search input').focus();
+                        }
+                    }
+                });
+            } else {
+                alert("쿠폰번호를 입력해주세요.");
+                $('.list_coupon_search input').focus();
+            }
+        });
+
+
+        $("[name=coupon_number]").keypress(function (event) {
+            if (event.which == 13) {
+                $('.list_coupon_search button').click();
+                return;
+            }
+        });
+
+    </script>
+}

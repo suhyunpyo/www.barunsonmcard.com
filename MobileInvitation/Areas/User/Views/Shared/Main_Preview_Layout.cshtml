@@ -1,0 +1,74 @@
+﻿@using MobileInvitation.Models;
+@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=0.5,maximum-scale=2.0,user-scalable=yes">
+    <META NAME="ROBOTS" CONTENT="NOINDEX">
+
+
+    <title>바른손카드 모바일초대장</title>
+    <link rel="stylesheet" type="text/css" href="/css/loader.css" asp-append-version="true">
+    <link rel="stylesheet" href="/dist/css/photoswipe.css">
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"><!--Noto Sans-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet"><!--나눔 고딕-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet"><!--나눔 고딕 코딩-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet"><!--나눔 명조-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet"> <!--나눔 펜 스크립트-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet"> <!--나눔 브러쉬 스크립트-->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"> <!--Cinzel-->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300" rel="stylesheet">
+    @*나눔바른펜*@
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-pen.css" rel="stylesheet">
+    @*나눔바른고딕*@
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
+    @*나눔스퀘어라운드*@
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
+    @*나눔스퀘어라이트*@
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/css/extra_font.css" asp-append-version="true">
+    <link rel="stylesheet" type="text/css" href="/css/style.css" asp-append-version="true">
+
+
+    <style>
+        body {
+            width: 100%;
+        }
+
+        #wrap {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader_main_preview">
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    </div>
+    <div id="wrap">
+        @RenderBody()
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="/js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="/dist/js/photoswipe.js"></script>
+    <script type="text/javascript" src="/dist/js/photoswipe-ui-default.min.js"></script>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script type="text/javascript" src="/js/sns.js"></script>
+
+    <script language="javascript" src="/js/preview/preview.js" asp-append-version="true" type="text/javascript"></script>
+
+    <script type="text/javascript" src="/dist/js/photoswipe-gallery.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

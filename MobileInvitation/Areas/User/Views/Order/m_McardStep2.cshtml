@@ -1,0 +1,349 @@
+﻿@using MobileInvitation.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "User_Layout_m";
+}
+<link rel="stylesheet" href="/css/m_order.css?ver=5.1">
+<link rel="stylesheet" href="/css/cropper.min.css">
+<style>
+    textarea {
+        display: block;
+        width: 100%;
+        height: 154px;
+        border: 1px solid #ebebeb;
+        resize: none;
+        box-sizing: border-box;
+        padding: 10px;
+        margin-bottom: 5px;
+    }
+
+    .gallery_list .file_box {
+        background-color: #FFFFFF;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column; /*수직 정렬*/
+        align-items: center;
+        justify-content: center;
+    }
+
+    .file_box .img_preview .img {
+        width: initial !important;
+    }
+
+    li .no_img .edit {
+        visibility: hidden;
+    }
+
+    #popErrors {
+        border: 1px #888 solid;
+        display: none;
+        position: relative;
+        height: 80px;
+        font-size: 12px;
+    }
+
+        #popErrors p {
+            color: #aaa;
+            line-height: 18px;
+            margin: 0px;
+        }
+
+    .popErrors {
+        left: 50%;
+        top: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 95%;
+    }
+</style>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "galForm", enctype = "multipart/form-data" }))
+{
+    <input type="hidden" id="Order_Id" value="@ViewData["Order_Id"]" />
+    <input type="hidden" id="Invitation_Id" value="@ViewData["Invitation_Id"]" />
+    <input type="hidden" id="Gallery_Use_YN" value="@ViewData["Gallery_Use_YN"]" />
+    <input type="hidden" id="Gallery_Type_Code" value="@ViewData["Gallery_Type_Code"]" />
+    <input type="hidden" id="Invitation_Video_Use_YN" value="@ViewData["Invitation_Video_Use_YN"]" />
+    <input type="hidden" id="Invitation_Video_Type_Code" value="@ViewData["Invitation_Video_Type_Code"]" />
+    <input type="hidden" id="Invitation_Video_URL" value="@ViewData["Invitation_Video_URL"]" />
+    <input type="hidden" id="GalleryPreventPhoto_YN" value="@ViewData["GalleryPreventPhoto_YN"]" />
+    <input type="hidden" id="upload_path" value="@ViewData["upload_path"]" />
+    <input type="hidden" id="x1" />
+    <input type="hidden" id="y1" />
+    <input type="hidden" id="x2" />
+    <input type="hidden" id="y2" />
+    <section class="order mc">
+        <div class="sub_con_wrap">
+            <!-- 주문 제작단계 -->
+            <div class="step_view">
+                <ol>
+                    <!--
+                        li class ="on" 추가 시 현재 단계 표시
+                    -->
+                    <li class="on">
+                        <span>1</span>
+                        <p><strong>정보입력</strong></p>
+                    </li>
+                    <li class="on">
+                        <span>2</span>
+                        <p><strong>영상/이미지 등록</strong></p>
+                    </li>
+                    <li>
+                        <span>3</span>
+                        <p><strong>제작 완료</strong></p>
+                    </li>
+                </ol>
+            </div>
+            <!-- //주문 제작단계 -->
+            <!-- 주문제작 영역 -->
+            <div class="order_area area">
+                <!-- 초대 영상 -->
+                <div class="order_con">
+                    <div class="con_title">
+                        <h2>초대 영상</h2>
+                        <div class="radio_box">
+                            <input type="radio" id="Invitation_Video_Use_Y" class="btn_use" name="Invitation_Video_Use_YN" idx="6" checked>
+                            <label for="Invitation_Video_Use_Y">사용함</label>
+                            <input type="radio" id="Invitation_Video_Use_N" name="Invitation_Video_Use_YN" idx="6" class="btn_unuse">
+                            <label for="Invitation_Video_Use_N" class="ml25">사용안함</label>
+                        </div>
+                    </div>
+                    <div class="order_detail">
+                        <ul class="video_list">
+                            <li>
+                                <div class="radio_box">
+                                    <input type="radio" id="VTC01" name="Invitation_Video_Type_Code">
+                                    <label for="VTC01">YouTube</label>
+                                    <span class="ico notice ml5" onclick="layerPopOpen('youtube_info_pop')"></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio_box">
+                                    <input type="radio" id="VTC02" name="Invitation_Video_Type_Code">
+                                    <label for="VTC02">Vimeo</label>
+                                    <span class="ico notice ml5" onclick="layerPopOpen('vimeo_info_pop')"></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio_box">
+                                    <input type="radio" id="VTC03" name="Invitation_Video_Type_Code">
+                                    <label for="VTC03">FEELMAKER</label>
+                                    <span class="ico notice ml5" onclick="layerPopOpen('feelmaker_info_pop')"></span>
+                                </div>
+                            </li>
+                        </ul>
+                        <table class="order_table type01">
+                            <caption>초대 영상 URL 입력</caption>
+                            <tr id="tr_VTC01" style="display:none;">
+                                <th>URL 입력</th>
+                                <td>
+                                    <div class="fl_wrap btn_wrap">
+                                        <input type="text" class="inp wp75 url_input" id="url_VTC01">
+                                        <a href="javascript:;" class="btn type03 fr wp23" onclick="fn_apply('VTC01');return false;">적용하기</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="tr_VTC02" style="display:none;">
+                                <th>소스입력</th>
+                                <td>
+                                    <div class="fl_wrap btn_wrap">
+                                        <textarea rows="7" id="url_VTC02" class="inp wp100 url_input"></textarea>
+                                        <a href="javascript:;" class="btn type03 fr wp23" onclick="fn_apply('VTC02');return false;">적용하기</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="tr_VTC03" style="display:none;">
+                                <th>소스입력</th>
+                                <td>
+                                    <div class="fl_wrap btn_wrap">
+                                        <textarea rows="7" id="url_VTC03" class="inp wp100 url_input"></textarea>
+                                        <a href="javascript:;" class="btn type03 fr wp23" onclick="fn_apply('VTC03');return false;">적용하기</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- 초대영상 유튜브 팝업 -->
+                        <div class="pop_wrap pop_l video_pop youtube_info_pop">
+                            <div class="layer_pop">
+                                <h3 class="tl">YouTube</h3>
+                                <div class="img_con">
+                                    <img src="/img/common/video_yutube.jpg" alt="YouTube" />
+                                </div>
+                                <p class="pop_text">
+                                    1. 첨부하고자 하는 YouTube 영상을 실행합니다.  <br />
+                                    2. 메뉴에서 '공유' 버튼을 클릭합니다. <br />
+                                    3. URL을 복사하여 모바일 청첩장에 붙여넣기(Ctrl + V) 합니다
+                                </p>
+                                <div class="btn_wrap type01">
+                                    <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                </div>
+                            </div>
+                            <div class="pop_mask"></div>
+                        </div>
+                        <!-- //초대영상 유튜브 팝업 -->
+                        <!-- 초대영상 비메오 팝업 -->
+                        <div class="pop_wrap pop_l video_pop vimeo_info_pop">
+                            <div class="layer_pop">
+                                <h3 class="tl">Vimeo</h3>
+                                <div class="img_con">
+                                    <img src="/img/common/video_vimeo.jpg" alt="Viemo" />
+                                </div>
+                                <p class="pop_text">
+                                    1. 첨부하고자 하는 Vimeo 영상을 실행합니다. <br />
+                                    2. 메뉴에서 '공유하기' 버튼을 클릭합니다. <br />
+                                    3. 임베드 코드를 복사하여 모바일 청첩장에 붙여넣기(Ctrl + V) 합니다. <br />
+                                    <strong>※ 영상의 제목이 노출되지 않으려면 iframe까지만 복사합니다.</strong>
+                                </p>
+                                <div class="btn_wrap type01">
+                                    <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                </div>
+                            </div>
+                            <div class="pop_mask"></div>
+                        </div>
+                        <!-- //초대영상 비메오 팝업 -->
+                        <!-- 초대영상 필메이커 팝업 -->
+                        <div class="pop_wrap pop_l video_pop feelmaker_info_pop">
+                            <div class="layer_pop">
+                                <h3 class="tl">FEELMAKER</h3>
+                                <div class="img_con">
+                                    <img src="/img/common/video_feelmaker.jpg" alt="FEELMAKER" />
+                                </div>
+                                <p class="pop_text">
+                                    1. 첨부하고자 하는 FEELMAKER 영상의 URL을 복사합니다. <br />
+                                    2. 복사하여 모바일 청첩장에 붙여넣기(Ctrl + V) 합니다.
+                                </p>
+                                <div class="btn_wrap type01">
+                                    <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                </div>
+                            </div>
+                            <div class="pop_mask"></div>
+                        </div>
+                        <!-- //초대영상 필메이커 팝업 -->
+                    </div>
+                </div>
+                <!-- //초대 영상 -->
+                <!-- 이미지 관리 -->
+                <div class="order_con">
+                    <div class="con_title">
+                        <h2>이미지 관리</h2>
+                        <div class="radio_box">
+                            <input type="radio" id="Gallery_Use_Y" class="btn_use" name="Gallery_Use_YN" idx="5" checked>
+                            <label for="Gallery_Use_Y">사용함</label>
+                            <input type="radio" id="Gallery_Use_N" name="Gallery_Use_YN" idx="5" class="btn_unuse">
+                            <label for="Gallery_Use_N" class="ml25">사용안함</label>
+                        </div>
+                    </div>
+                    <div class="order_detail">
+                        <ul class="img_type_list">
+                            <li><a href="javascript:;" id="GTC02" class="img_type type02">바둑판 타입</a></li>
+                            <li><a href="javascript:;" id="GTC03" class="img_type type03">리스트 타입</a></li>
+                            <li><a href="javascript:;" id="GTC01" class="img_type type01">슬라이드 타입</a></li>
+                        </ul>
+                        <div class="img_drag file_box">
+                            <label for="gallery_file" name="file">이미지 업로드</label>
+                        </div>
+                        <!-- 이미지 리스트 -->
+                        <div class="sort_wrap sort_drag">
+                            <div class="sort_select check_box type02">
+                                <input type="checkbox" id="imgCheckAll" name="imgCheckAll" class="check_all">
+                                <label for="imgCheckAll">전체선택</label>
+                                <a href="javascript:;" class="select_del_btn">선택 삭제</a>
+                            </div>
+                            <ul id="sort_list" class="sort_list ui-sortable">
+                                @foreach (TB_Gallery item in ViewBag.Gallery)
+                                {
+                                    var guid = Guid.NewGuid();
+                                    <li class="gallery_list" id="gl_@item.Gallery_ID">
+                                        <div class="file_box">
+                                            <div class="img_preview">
+                                                <img class="gallery_img" orgimg="@item.Image_URL" src="@item.Image_URL" style="max-width:130px; max-height:130px;">
+                                            </div>
+                                        </div>
+                                        <div class="btn_wrap edit">
+                                            <a href="javascript:;" class="crop ico"></a>
+                                            <a href="javascript:;" class="move ico ui-sortable-handle"></a>
+                                            <a href="javascript:;" class="delete ico"></a>
+                                        </div>
+                                    </li>
+                                }
+                                <li class="no_img">
+                                    <div class="file_box">
+                                        <label for="gallery_file" name="file">업로드</label>
+                                        <input type="file" id="gallery_file" name="gallery_file" class="ex_file" multiple="multiple" accept=".jpg,.jpeg,.png">
+                                    </div>
+                                    <div class="btn_wrap edit">
+                                        <a href="javascript:;" class="crop ico"></a>
+                                        <a href="javascript:;" class="move ico ui-sortable-handle"></a>
+                                        <a href="javascript:;" class="delete ico"></a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <!-- 이미지 크롭 팝업 -->
+                            <div class="pop_wrap crop">
+                                <div class="layer_pop">
+                                    <h3>이미지 편집</h3>
+                                    <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                    <div class="img_box">
+                                        <img id="crop_img" style="max-width:570px; max-height:570px;" />
+                                    </div>
+                                    <div class="btn_wrap type02">
+                                        <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                        <a href="javascript:;" class="btn type03" onclick="CompleteCrop();">확인</a>
+                                    </div>
+                                </div>
+                                <div class="pop_mask"></div>
+                                <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_img_org" /></div>
+                            </div>
+                            <!-- //이미지 크롭 팝업 -->
+                            <!-- 이미지 크롭 팝업 -->
+                            <div class="pop_wrap upload">
+                                <div class="layer_pop">
+                                    <h3>이미지 업로드</h3>
+                                    <!-- progress bar -->
+                                    <div id="popProgress" style="height:1px; margin-top:20px; margin-bottom:30px; background-color:#98a3f4; width:0%;"></div>
+                                    <div id="popErrors">
+                                        <div class="popErrors">
+                                        </div>
+                                    </div>
+                                    <div class="btn_wrap type01">
+                                        <a href="javascript:;" class="btn type03" onclick="popClose_p()">닫기</a>
+                                    </div>
+                                </div>
+                                <div class="pop_mask"></div>
+                            </div>
+                            <!-- //이미지 크롭 팝업 -->
+                        </div>
+                        <div class="check_box type02" style="margin-bottom:30px;">
+                            <input type="checkbox" id="PreventPhoto" name="PreventPhoto" class="preventPhoto">
+                            <label for="PreventPhoto">이미지 확대 방지 (리스트 타입만 적용됩니다.)</label>
+                        </div>
+                        <!-- //이미지 리스트 -->
+                        <div class="img_upload_info text_info_box">
+                            <p>jpg, png 파일만 등록이 가능합니다.</p>
+                            <p>넓은면이 1000px이상의 사진을 권장합니다.</p>
+                            <p>최소 1컷 이상, 최대 18컷, 13MB이하의 파일만 업로드가 가능합니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- //이미지 관리 -->
+            </div>
+            <!-- //주문제작 영역 -->
+            <!-- 다음 단계로 이동 버튼 -->
+            <div class="btn_wrap next_wrap bottom type02 clear">
+                <a href="javascript:" id="btn_prev" class="btn type03_1">이전 단계로 이동</a>
+                <a href="javascript:" id="btn_next" class="btn type03">제작 완료</a>
+            </div>
+            <!-- 다음 단계로 이동 버튼 -->
+        </div>
+    </section>
+}
+
+@section Scripts
+{
+    <script src="/js/common.js"></script>
+    <script src="/js/cropper.min.js"></script>
+    <script src="/js/jquery.fileupload.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/js/step/m_step2.js" asp-append-version="true"></script>
+    <script src="/js/step/m_mcardstep2.js" asp-append-version="true"></script>
+}

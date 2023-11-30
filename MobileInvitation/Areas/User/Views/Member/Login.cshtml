@@ -1,0 +1,444 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "바른컴퍼니 모바일 초대장";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+    <link rel="preconnect" href="//fonts.gstatic.com">
+    <link href="//fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/common.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/login.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/loader.css" asp-append-version="true">
+    <title>BarunsonMcard 모바일 초대장 - 로그인</title>
+    <style type="text/css">
+        .pop_wrap .layer_pop .btn_wrap, .find_pop .tab_wrap .tab_con.id_con {
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header class="header">
+            <div class="area">
+                <h1><a href="/">barunsonMcard 로고</a></h1>
+            </div>
+        </header>
+        <!-- //header -->
+        <div class="sub_contents">
+            <!-- login -->
+            <section class="login">
+                <div class="login_box">
+                    <div class="title_box">
+                        <h2>로그인</h2>
+                        <p class="sub_text">바른컴퍼니 통합아이디로 이용이 가능합니다.</p>
+                    </div>
+                    <!-- tab contents -->
+                    <div class="tab_wrap type02">
+                        <!-- tab list -->
+                        <ul class="tab_ul">
+                            <li><a href="javascript:;">회원 로그인</a></li>
+                            @if ((bool)ViewData["IsOrder"])
+                            {
+                                <li><a href="javascript:;">비회원 주문하기</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="javascript:;">비회원 주문조회</a></li>
+                            }
+                        </ul>
+                        <!-- //tab list -->
+                        <div class="tc_wrap">
+                            <!-- 회원 로그인 영역 -->
+                            <div class="tab_con">
+                                <form id="frmLoginMember" asp-action="LoginMember" asp-controller="Member" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="user">
+                                    <div class="form_box">
+                                        <div class="inp_box">
+                                            <input type="text" name="UserId" placeholder="아이디" class="inp">
+                                            <input type="password" name="Password" placeholder="비밀번호" class="inp">
+                                        </div>
+                                        <div class="check_box clear">
+                                            <span class="find_info">
+                                                <button type="button" class="showfindid">아이디</button> / <button type="button" class="showfindpw">비밀번호 찾기</button>
+                                            </span>
+                                        </div>
+                                        <p class="fail_text"><strong></strong></p>
+                                        <!-- //login fail text -->
+                                        <div class="btn_wrap type01">
+                                            <button type="submit" class="btn type01">로그인</button>
+                                            <a href="https://www.barunnfamily.com/Member/Agreement.aspx?site_code=barunsonmcard" class="btn type01_1" target="_blank">회원가입</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- //회원 로그인 영역 -->
+                            <!-- 비회원 주문조회 영역 -->
+                            <div class="tab_con">
+                                @if ((bool)ViewData["IsOrder"])
+                                {
+                                    <form id="frmLoginNonUserOrder" asp-action="LoginNonUserOrder" asp-controller="Member" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="user">
+                                        <div class="form_box">
+                                            <div class="inp_box">
+                                                <p class="info_text mb5">
+                                                    비회원 고객은 쿠폰 할인, 이벤트 참여 등 각종 서비스 <br /> 혜택이 제한됩니다.
+                                                </p>
+                                                <p class="info_text mb30">
+                                                    비회원으로 주문하실 경우 <strong>'비회원 주문하기'</strong> 버튼을 <br>클릭해주세요.
+                                                </p>
+                                            </div>
+                                            <div class="check_box">
+                                                <input type="checkbox" name="agree" id="agree" value="true" />
+                                                <label for="agree">개인정보 수집 및 이용 동의합니다.</label>
+                                                <button type="button" class="fr point03 agree_btn">약관보기</button>
+                                            </div>
+                                            <p class="fail_text"><strong>개인정보 수집 및 이용에 동의해주세요.</strong></p>
+                                            <div class="btn_wrap type01">
+                                                <button type="submit" class="btn type01">비회원 주문하기</button>
+                                                <a href="https://www.barunnfamily.com/Member/Agreement.aspx?site_code=barunsonmcard" class="btn type01_1" target="_blank">회원가입</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form id="frmLoginNonUser" asp-action="LoginNonUser" asp-controller="Member" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="user">
+                                        <div class="form_box">
+                                            <div class="inp_box">
+                                                <input type="text" name="Name" placeholder="이름" class="inp">
+                                                <input type="text" name="Email" placeholder="이메일 주소" class="inp">
+                                            </div>
+                                            <p class="fail_text"><strong></strong></p>
+                                            <div class="btn_wrap type01">
+                                                <button type="submit" class="btn type01">주문조회</button>
+                                                <a href="https://www.barunnfamily.com/Member/Agreement.aspx?site_code=barunsonmcard" class="btn type01_1" target="_blank">회원가입</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                }
+                                
+                            </div>
+                            <!-- //비회원 주문조회 영역 -->
+                        </div>
+                        
+                    </div>
+
+                    <!-- //tab contents -->
+                </div>
+            </section>
+            <!-- //login -->
+            <!-- popup -->
+            <section class="find_pop">
+                <div class="pop_wrap">
+                    <div class="layer_pop">
+                        <a href="javascript:popClose();" class="popup_close">팝업창 닫기</a>
+                        <div class="tab_wrap type02">
+                            <!-- tab list -->
+                            <ul class="tab_ul">
+                                <li><button type="button" class="tabfindid">아이디 찾기</button></li>
+                                <li><button type="button" class="tabfindpw">비밀번호 찾기</button></li>
+                            </ul>
+                            <!-- //tab list -->
+                            <div class="tc_wrap">
+                                <!-- 아이디 찾기 영역 -->
+                                <div class="tab_con id_con">
+                                    <div class="btn_wrap type01">
+                                        <button type="button" class="btn type00 findaction1">휴대폰 인증</button>
+                                    </div>
+                                </div>
+                                <!-- //아이디 찾기 영역 -->
+                                <!-- 비밀번호 찾기 -->
+                                <div class="tab_con pw_con">
+                                    <div class="btn_wrap type01">
+                                        <input type="text" id="searchID" name="searchID" placeholder="아이디를 입력하세요" class="inp" style="height: 40px; margin-top:20px;" />
+                                        <button type="button" class="btn type00 findaction2" style="margin-top: 15px;">휴대폰 인증</button>
+                                    </div>
+                                    <!-- //비밀번호 찾기 결과  -->
+                                </div>
+                                <!-- //비밀번호 찾기 -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pop_mask"></div>
+                </div>
+            </section>
+            <!-- 비회원 약관동의 팝업 -->
+            <div class="pop_wrap agree_pop">
+                <div class="layer_pop">
+                    <a href="javascript:popClose();" class="popup_close">팝업창 닫기</a>
+                    <div class="pop_text">
+                        <dl>
+                            <dt>총칙</dt>
+                            <dd>
+                                개인정보란 생존하는 개인에 관한 정보로서 당해 정보에 포함되어 있는 성명, 생년월일 등의 사항에 의하여 당해 개인을 식별할 수 있는 정보(당해 정보만
+                                으로는 특정 개인을 식별할 수 없더라도 다른 정보와 용이하게 결합하여 식별할 수 있는 것을 포함합니다)를 말합니다.
+                            </dd>
+                            <dd>
+                                ㈜바른컴퍼니가 운영하는 바른손모바일카드 (www.barunsonmcard.com) ( 이하 회사)는 귀하의 개인정보보호를 매우 중요시하며, 『정보통신망 이용촉진
+                                및정보보호에관한법률』 상의 개인정보보호규정 및 정보통신부가 제정한 『개인 정보보호지침』을 준수하고 있습니다. 회사는 개인정보보호정책을 통하여 귀하
+                                께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며 개인 정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다.
+                            </dd>
+                            <dd>
+                                본 개인정보 수집 및 이용 동의서 상의 용어 정의는 '바른손모바일카드 개인정보처리방침'에서 준용합니다.
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>[개인정보의 수집목적 및 이용목적]</dt>
+                            <dd>
+                                회사는 다음과 같은 목적을 위해 개인정보를 수집하고 있습니다.
+                                <span>
+                                    가. 성명, 아이디 , 비밀번호 : 회원제 서비스 이용에 따른 본인 식별 절차에 이용 <br />
+                                    나. 이메일주소, (휴대)전화번호 : 고지사항 전달, 본인 의사 확인, 불만 처리 등 원활한 의사소통 경로의 확보, 새로운 서비스/신상품이나 이벤트 정보의 안내 <br />
+                                    다. 은행계좌정보(입력), 신용카드정보(입력) : 유료정보 이용에 대한 요금 결제 <br />
+                                    라. 주소, 전화번호 : 상품배송, 청구서, 경품과 쇼핑 물품배송에 대한 정확한 배송지의 확보 <br />
+                                    마. 생년월일, 주소 : 인구통계학적 분석 자료(이용장의 연령별, 성별, 지역별 통계분석) <br />
+                                    바. 그 외 선택항목 : 개인맞춤 서비스를 제공하기 위한 자료
+                                </span>
+                            </dd>
+                            <dd>
+                                단, 이용자의 기본적 인권 침해의 우려가 있는 민감한 개인정보(인종 및 민족, 사상 및 신조, 출신지 및 본적지, 정치적 성향 및 범죄기록, 건강상태 및 성생활 등)는 수집하지 않습니다.
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>[개인정보의 수집항목]</dt>
+                            <dd>
+                                필수항목: 성명, 아이디, 비밀번호, 생년월일, 주소, 전화번호(일반 및 휴대전화), 이메일주소, 예식정보(예식장, 예식일자, 예식일시), 은행계좌정보, 신용카
+                                드정보 IP Address, 방문 일시, 서비스 이용기록
+                            </dd>
+                            <dd>선택항목: 양가부모이름, 인사말 등 청첩장, 감사장 제작 시 기입정보 및 기타</dd>
+                        </dl>
+                        <dl>
+                            <dt>[개인정보의 보유 및 이용기간]</dt>
+                            <dd>
+                                귀하의 개인정보는 다음과 같이 개인정보의 수집목적 또는 제공받은 목적이 달성되면 파기됩니다. 단, 상법 등 관련법령의 규정에 의하여 다음과 같이 거
+                                래 관련 권리 의무 관계의 확인 등을 이유로 일정기간 보유하여야 할 필요가 있을 경우에는 일정기간 보유합니다.
+                                <span>
+                                    가. 회원가입정보의 경우, 회원을 탈퇴하거나 회원에서 제명된 경우 등 사전 보유목적, 기간 및 보유하는 개인정보 항목을 명시하여 동의를 구합니다. <br />
+                                    나. 계약 또는 청약철회 등에 관한 기록: 5년 <br />
+                                    다. 대금결제 및 재화 등의 공급에 관한 기록: 5년 <br />
+                                    라. 소비자의 불만 또는 분쟁처리에 관한 기록: 3년 <br />
+                                </span>
+                            </dd>
+                            <dd>귀하의 동의를 받아 보유하고 있는 거래정보 등을 귀하가 열람을 요구하는 경우  회사는 귀하의 정보를 열람ㆍ확인 할 수 있도록 조치합니다.</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="pop_mask"></div>
+            </div>
+            <!-- //popup -->
+        </div>
+    </div>
+
+    <div class="loader">
+        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+    <input type="hidden" id="linkfindwindow" value="@Url.Action("FindIdPwd","Member")" />
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.js"></script>
+    <script src="/js/common/common.js"></script>
+    <script src="/js/common/front_common_helper.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+             $(".loader").hide();
+        });
+
+        //약관팝업
+        $("button.agree_btn").on('click', function (e) {
+            e.preventDefault();
+            $('div.agree_pop').show();
+        });
+
+        //ID 찾기
+        $("button.showfindid").on('click', function (e) {
+            e.preventDefault();
+            var $popWrap = $('.find_pop .pop_wrap');
+            $popWrap.show();
+            $("button.tabfindid").click();
+        });
+        //비번찾기
+        $("button.showfindpw").on('click', function (e) {
+            e.preventDefault();
+            var $popWrap = $('.find_pop .pop_wrap');
+            $popWrap.show();
+            $("button.tabfindpw").click();
+        });
+        $("button.tabfindid").on('click', function (e) {
+            e.preventDefault();
+            var $popWrap = $('.find_pop .pop_wrap');
+            $popWrap.find('li').removeClass('active');
+            $popWrap.find('div.tab_con').hide();
+
+            $(this).parents('li').addClass('active');
+            $popWrap.find('div.tab_con.id_con').show();
+        });
+        $("button.tabfindpw").on('click', function (e) {
+            e.preventDefault();
+            var $popWrap = $('.find_pop .pop_wrap');
+            $popWrap.find('li').removeClass('active');
+            $popWrap.find('div.tab_con').hide();
+
+            $(this).parents('li').addClass('active');
+            $popWrap.find('div.tab_con.pw_con').show();
+        });
+
+        //회원 로그인
+        $("#frmLoginMember").on('submit', function(e) {
+            e.preventDefault();
+            var form = $("#frmLoginMember");
+            $(form).find('p.fail_text strong').text("");
+            $(form).find('p.fail_text').hide();
+
+            if ($(form).find('input[name=UserId]').val() == "") {
+                $(form).find('p.fail_text strong').text("아이디를 입력하세요.");
+                $(form).find('p.fail_text').show();
+                $(form).find('input[name=UserId]').focus();
+                return;
+            }
+            if ($(form).find('input[name=Password]').val() == "") {
+                $(form).find('p.fail_text strong').text("비밀번호를 입력하세요.");
+                $(form).find('p.fail_text').show();
+                $(form).find('input[name=Password]').focus();
+                return;
+            }
+            var formData = $(form).serialize();
+            $(".loader").show();
+            $.ajax({
+                url: $(form).attr('action'),
+                data: formData,
+                type: $(form).attr('method'),
+            }).done(function (result) {
+                if (result.status) {
+                    location.href = result.message;
+                } else {
+                    $(form).find('p.fail_text strong').text(result.message);
+                    $(form).find('p.fail_text').show();
+                    $(".loader").hide();
+                }
+            }).fail(function () {
+                alert("오류가 발생했습니다. 다시 시도해 주세요 ");
+                location.reload();
+            });
+        });
+        //비회원 로그인
+        $("#frmLoginNonUser").on('submit', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $(form).find('p.fail_text strong').text("");
+            $(form).find('p.fail_text').hide();
+
+            if ($(form).find('input[name=Name]').val() == "") {
+                $(form).find('p.fail_text strong').text("이름을 입력하세요.");
+                $(form).find('p.fail_text').show();
+                $(form).find('input[name=Name]').focus();
+                return;
+            }
+            if ($(form).find('input[name=Email]').val() == "") {
+                $(form).find('p.fail_text strong').text("이메일 주소를 입력하세요.");
+                $(form).find('p.fail_text').show();
+                $(form).find('input[name=Email]').focus();
+                return;
+            }
+            var formData = $(form).serialize();
+
+            $(".loader").show();
+            $.ajax({
+                url: $(form).attr('action'),
+                data: formData,
+                type: $(form).attr('method'),
+            }).done(function (result) {
+                if (result.status) {
+                    location.href = result.message;
+                } else {
+                    $(form).find('p.fail_text strong').text(result.message);
+                    $(form).find('p.fail_text').show();
+                    $(".loader").hide();
+                }
+            }).fail(function () {
+                alert("오류가 발생했습니다. 다시 시도해 주세요 ");
+                location.reload();
+            });
+        });
+        //비회원 주문
+        $("#frmLoginNonUserOrder").on('submit', function (e) {
+            e.preventDefault();
+            var form = $(this);
+
+            $(form).find('p.fail_text strong').text("");
+            $(form).find('p.fail_text').hide();
+
+            var chk = $(form).find('input:checkbox[name=agree]').is(":checked");
+            if (!chk) {
+                $(form).find('p.fail_text strong').text("개인정보 수집 및 이용에 동의해주세요.");
+                $(form).find('p.fail_text').show();
+                return;
+            }
+            
+            var formData = $(form).serialize();
+            $(".loader").show();
+            $.ajax({
+                url: $(form).attr('action'),
+                data: formData,
+                type: $(form).attr('method'),
+            }).done(function (result) {
+                if (result.status) {
+                    location.href = result.message;
+                } else {
+                    $(form).find('p.fail_text strong').text(result.message);
+                    $(form).find('p.fail_text').show();
+                    $(".loader").hide();
+                }
+            }).fail(function () {
+                alert("오류가 발생했습니다. 다시 시도해 주세요 ");
+                location.reload();
+            });
+        });
+
+        $("input[name=UserId], input[name=Password]").on('keypress', function (event) {
+            if (event.which == 13) {
+                $("#frmLoginMember").submit();
+                return;
+            }
+        });
+        $("input[name=Name], input[name=Email]").on('keypress', function (event) {
+            if (event.which == 13) {
+                $("#frmLoginNonUser").submit();
+                return;
+            }
+        });
+
+
+        $("button.findaction1").on('click', function(e){
+            e.preventDefault();
+            findWindowsOpen();
+
+        });
+        $("button.findaction2").on('click', function (e) {
+            e.preventDefault();
+            if (isEmpty($("#searchID").val())) {
+                alert("아이디를 입력해주세요");
+                return;
+            }
+            findWindowsOpen("pw");
+        });
+
+        function findWindowsOpen(searchType){
+            var url = $("#linkfindwindow").val();
+            if (searchType == "pw") {
+                url += "?userID=" + $("#searchID").val();
+            }
+            window.open(url, 'popupCPClient', 'width=500, height=461, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+        }
+
+    </script>
+
+   
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<M2BabyInfoModel>
+
+<div class="baby_area">
+    @foreach(var babyitem in Model)
+    {
+        <div>
+            @if (babyitem.TitleArea != null)
+            {
+                var bgColor = (babyitem.TitleArea.Color == null) ? "" : $"background-color: {babyitem.TitleArea.Color};";
+                <div class="templatearea bindarea" style="height:@(babyitem.TitleArea.Height)px; @(bgColor)">
+                    @foreach (var item in babyitem.TitleArea.Items)
+                    {
+                        <partial name="BaseAreaItem_Partial" model="item" />
+                    }
+                </div>
+            }
+        </div>
+        <div>
+            @if (babyitem.BodyArea != null)
+            {
+                var bgColor = (babyitem.BodyArea.Color == null) ? "" : $"background-color: {babyitem.BodyArea.Color};";
+                <div class="templatearea bindarea" style="height:@(babyitem.BodyArea.Height)px; @(bgColor)">
+                    @foreach (var item in babyitem.BodyArea.Items)
+                    {
+                        <partial name="BaseAreaItem_Partial" model="item" />
+                    }
+                </div>
+            }
+        </div>
+        <div>
+            @foreach (var infoArea in babyitem.infoArea)
+            {
+                var bgColor = (infoArea.Color == null) ? "" : $"background-color: {infoArea.Color};";
+                <div id="area19" idx="19" class="templatearea bindarea" style="height:@(infoArea.Height)px; @(bgColor)">
+                    @foreach (var item in infoArea.Items)
+                    {
+                        <partial name="BaseAreaItem_Partial" model="item" />
+                    }
+                </div>
+            }
+        </div>
+        <div>
+            @if (babyitem.FooterArea != null)
+            {
+                var bgColor = (babyitem.FooterArea.Color == null) ? "" : $"background-color: {babyitem.FooterArea.Color};";
+                <div class="templatearea bindarea" style="height:@(babyitem.FooterArea.Height)px; @(bgColor)">
+                    @foreach (var item in babyitem.FooterArea.Items)
+                    {
+                        <partial name="BaseAreaItem_Partial" model="item" />
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,235 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/intro.css">
+<section class="intro thanks">
+    <!-- 배너 -->
+    <div class="banner_wrap">
+        <!-- pc 배너 -->
+        <div class="intro_pc">
+            <img src="/img/intro/thanks/intro_banner.png" alt="감사의 마음을 담아 전합니다 모바일 감사장 특별한날, 소중한 시간을 함께해 주셔서 진심으로 감사합니다." />
+        </div>
+        <!-- mobile 배너 -->
+        <div class="intro_m">
+            <img src="/img/intro/thanks/m_intro_banner.png" alt="감사의 마음을 담아 전합니다 모바일 감사장 특별한날, 소중한 시간을 함께해 주셔서 진심으로 감사합니다." />
+        </div>
+    </div>
+    <!-- //배너 -->
+    <!-- 단계 -->
+    <div class="intro_con intro01 step_list">
+        <h2>
+            <span>힘든 발걸음 해주신 고마운 분들께</span>
+            <strong>진심을 담아 전하는 감사장 주문 방법</strong>
+        </h2>
+        <div class="area">
+            <ol>
+                <li>
+                    <div>
+                        <h3>STEP 1</h3>
+                        <p class="info_text">
+                            감사장 디자인을 꼼꼼히 보고 <br />
+                            <strong>원하는 감사장을 선택</strong>하세요.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>STEP 2</h3>
+                        <p class="info_text">
+                            감사장에 <strong>필요한 내용을 기입</strong>하여 <br />
+                            제작하세요.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>STEP 3</h3>
+                        <p class="info_text">
+                            기입 완료 후 결제가 진행되면 <br />
+                            <strong>작성하신 내용으로 감사장이 제작</strong> 됩니다.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>STEP 4</h3>
+                        <p class="info_text">
+                            제작이 완료되면 <strong>마이 페이지에서 </strong> <br />
+                            <strong>바로 확인 및 사용</strong>이 가능합니다.
+                        </p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- //단계 -->
+    <!-- 모바일 감사장 -->
+    <div class="intro_con intro02">
+        <h2><strong>모바일 감사장</strong></h2>
+        <div class="area">
+            <!-- 슬라이드 -->
+            <div class="skin_banner">
+                <!-- Slider main container -->
+                <div class="swiper-container">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper item_list">
+                        <!-- Slides -->
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/7" target="_blank">
+                                    <img src="https://resources.barunsonmcard.com/upload/template/MC1204/39702050-8cd5-4005-842b-c3996438ac95.png" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">꽃 같은 마음 <span>MT1204</span></p>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/1" target="_blank">
+                                    <img src="https://resources.barunsonmcard.com/upload/template/MC1201/801791b5-3235-4b64-b93c-e638e64b4f7f.png" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">감사와 존경 <span>MT1201</span></p>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/5" target="_blank">
+                                    <img src="https://resources.barunsonmcard.com/upload/template/MC1203/4eda4618-f2ac-4c0f-8531-c67858f521c2.png" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                                <p class="item_name">감사의 마음 <span>MT1203</span></p>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/65" target="_blank">
+                                    <img src="https://resources.barunsonmcard.com/upload/product/MC1233/c76c09db-c8e9-4cac-809f-72b552521fa9.gif" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">THANKS TO <span>MT1205</span></p>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://www.barunsonmcard.com/Product/Detail/4" target="_blank">
+                                    <img src="https://resources.barunsonmcard.com/upload/template/MC1202/906a5ee2-cee3-4043-8308-7d716b3641fa.png" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">존경의 마음 <span>MT1202</span></p>
+                        </div>
+                    </div>
+                    <!-- //Additional required wrapper -->
+                    <!-- 페이징 -->
+                    <div class="swiper-pagination sk"></div>
+                </div>
+                <!-- //Slider main container -->
+                <div class="arrow_area">
+                    <div class="swiper-button-prev sk"></div>
+                    <div class="swiper-button-next sk"></div>
+                </div>
+            </div>
+            <!-- //슬라이드 -->
+        </div>
+    </div>
+    <!-- //모바일 감사장 -->
+    <!-- BEST 종이 감사장 -->
+    <div class="intro_con intro03">
+        <h2>
+            <span>진심을 전하는 또 다른 방법</span>
+            <strong>BEST 종이 감사장</strong>
+        </h2>
+        <div class="area">
+            <!-- 슬라이드 -->
+            <div class="paper_thanks">
+                <!-- Slider main container -->
+                <div class="swiper-container">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper item_list">
+                        <!-- Slides -->
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://www.barunsoncard.com/product/detail.asp?card_seq=33526" target="_blank">
+                                    <img src="/img/intro/thanks/w1150.jpg" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">리페이(Repay) <span>W1150</span></p>
+                            <p class="item_brand">바른손카드</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://www.barunsoncard.com/product/detail.asp?card_seq=36765" target="_blank">
+                                    <img src="/img/intro/thanks/bh8257.jpg" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">흰너울 <span>BH8257</span></p>
+                            <p class="item_brand">바른손카드</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://www.premierpaper.co.kr/product/product_detail.asp?card_seq=38604&cardkind_seq=3" target="_blank">
+                                    <img src="/img/intro/thanks/bc2607.jpg" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">기쁨의 마음 <span>BC2607</span></p>
+                            <p class="item_brand">프리미어페이퍼</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://www.premierpaper.co.kr/product/product_detail.asp?card_seq=36730&cardkind_seq=3" target="_blank">
+                                    <img src="/img/intro/thanks/bh8821.jpg" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">따뜻한 마음 <span>BH8821</span></p>
+                            <p class="item_brand">프리미어페이퍼</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://deardeer.kr/goods/detail/1290" target="_blank">
+                                    <img src="/img/intro/thanks/ddt0201.jpg" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">마음을 담아 <span>DDT0201</span></p>
+                            <p class="item_brand">디얼디어</p>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="img_con">
+                                <a href="https://deardeer.kr/goods/detail/1547" target="_blank">
+                                    <img src="/img/intro/thanks/ddt.jpg" alt="상품 이미지" onerror="this.src='/img/blank.jpg'">
+                                </a>
+                            </div>
+                            <p class="item_name">너를 만나기 위해 <span>DDT0201</span></p>
+                            <p class="item_brand">디얼디어</p>
+                        </div>
+                    </div>
+                    <!-- //Additional required wrapper -->
+                    <!-- 페이징 -->
+                    <div class="swiper-pagination pt"></div>
+                </div>
+                <!-- //Slider main container -->
+                <div class="arrow_area">
+                    <div class="swiper-button-prev pt"></div>
+                    <div class="swiper-button-next pt"></div>
+                </div>
+            </div>
+            <!-- //슬라이드 -->
+        </div>
+    </div>
+    <!-- //BEST 종이 감사장 -->
+    <!-- 종이 감사장 더 보러 가기 -->
+    <div class="intro_con intro04">
+        <h2><strong>종이 감사장 더 보러 가기</strong></h2>
+        <div class="area brand_list">
+            <button type="button" onclick="window.open('https://www.barunsoncard.com/product/list_thanks.asp?currentPage=1&recordPerPage=30&orderby=new&ordernum=300')"><i class="ico type01">바른손카드 BI</i>바른손카드</button>
+            <!--<button type="button" onclick="window.open('https://www.thecard.co.kr/event/event_2018thankscoupon.asp')"><i class="ico type02">더카드 BI</i>더카드</button>-->
+            <button type="button" onclick="window.open('https://www.premierpaper.co.kr/product/product_list.asp?prod_div=thanks')"><i class="ico type03">프리미어페이퍼 BI</i>프리미어페이퍼</button>
+            <button type="button" onclick="window.open('https://deardeer.kr/category/addition/36')"><i class="ico type04">디얼디어 BI</i>디얼디어</button>
+        </div>
+    </div>
+    <!-- //종이 감사장 더 보러 가기 -->
+
+</section>
+
+
+<script src="/js/intro.js"></script>

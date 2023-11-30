@@ -1,0 +1,18 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<TB_Invitation_Detail_Etc>
+<!-- 기타정보 -->
+<div id="area11" idx="11" class="etcarea">
+    <div class="etc_info">
+        <ul>
+            @foreach(var item in Model)
+            {
+                <li>
+                    <strong>@Html.Raw(item.Etc_Title)</strong>
+                    <span>@Html.Raw(item.Information_Content?.Replace("\n", "<br />"))</span>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

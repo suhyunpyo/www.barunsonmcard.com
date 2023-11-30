@@ -1,0 +1,381 @@
+﻿@using MobileInvitation.Models
+@{
+    Layout = "User_Layout_m";
+}
+<link rel="stylesheet" href="/css/m_order.css?ver=5.1">
+<link rel="stylesheet" href="/css/cropper.min.css">
+<style>
+    .file_box {
+        background-color: #FFFFFF;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column; /*수직 정렬*/
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pop_wrap.sns_pop .layer_pop h3 {
+        margin: 0px;
+    }
+
+    .pop_wrap.sns_pop .layer_pop p {
+        margin: 0px;
+        padding: 10px 5px 10px 5px;
+    }
+
+    .pop_wrap.main_pop .layer_pop h3 {
+        margin: 0px;
+    }
+
+    .pop_wrap.main_pop .layer_pop p {
+        margin: 0px;
+        padding: 10px 5px 10px 5px;
+    }
+    .number_box {
+        position: relative;
+    }
+</style>
+<section class="order thanks">
+    <div class="sub_con_wrap">
+        <!-- 주문 제작단계 -->
+        <div class="step_view">
+            <ol>
+                <li class="on">
+                    <span>1</span>
+                    <p><strong>정보입력</strong></p>
+                </li>
+                <li>
+                    <span>2</span>
+                    <p><strong>제작 완료</strong></p>
+                </li>
+            </ol>
+        </div>
+        <!-- //주문 제작단계 -->
+        <!-- 주문제작 영역 -->
+        <div class="order_area area">
+            <!-- 주문자 정보 -->
+            <div class="order_con">
+                <h2>주문자 정보</h2>
+                <table class="order_table type01">
+                    <caption>주문자 정보</caption>
+                    <tr>
+                        <th>주문자명</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp name_inp wp100" id="Name" placeholder="홍길동" value="@ViewData["Name"]">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>휴대폰 번호</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp num_inp wp100" placeholder="'-'없이 숫자만 입력하세요." id="CellPhone_Number" inputmode="numeric" value="@ViewData["CellPhone_Number"]">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>이메일 주소</th>
+                        <td>
+                            <div style="position:relative;">
+                                <div class="clear">
+                                    <input type="text" class="inp type02 wp45 fl" id="Email_Account" value="@ViewData["Email_Account"]">
+                                    <span class="select_wrap type01 fr wp45 self_add">
+                                        <select id="selEmail" class="select wp100">
+                                            <option>직접 입력</option>
+                                            <option>naver.com</option>
+                                            <option>nate.com</option>
+                                            <option>hotmail.com</option>
+                                            <option>hanmail.com</option>
+                                            <option>daum.net</option>
+                                            <option>gmail.com</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="add_text mt10">
+                                    <input type="text" class="inp type02 email_inp wp100" id="Email_Address" value="@ViewData["Email_Address"]">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- //주문자 정보 -->
+            <!-- 기본 정보 -->
+            <div class="order_con default_info">
+                <h2>기본 정보</h2>
+                <table class="order_table type01">
+                    <caption>기본 정보</caption>
+                    <tr>
+                        <th>감사장 URL</th>
+                        <td>
+                            <div class="url_wrap">
+                                <p class="bf_url"><strong>https://www.barunsonmcard.com/m/</strong></p>
+                                <div class="url_check wp100">
+                                    <input type="text" autocomplete="off" id="Invitation_URL" class="inp wp100" placeholder="영문, 숫자, 특수문자( _ , - )조합 사용(최대 12자)" maxlength="12" value="@ViewData["Invitation_URL"]">
+                                    <span class="url_text"></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th onclick="layerPopOpen('thanks_title_pop')">감사장 제목 <span class="ico notice">툴팁 아이콘</span></th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" id="Invitation_Title" class="inp wp100" placeholder="진심으로 감사드립니다." value="@ViewData["Invitation_Title"]">
+                            </div>
+                            <!-- 초대장 제목 안내 팝업 -->
+                            <div class="pop_wrap tip_pop pop_l thanks_title_pop">
+                                <div class="layer_pop">
+                                    <h3>감사장 제목</h3>
+                                    <div class="img_con">
+                                        <img src="/img/order/title_img.jpg" alt="감사장 제목 안내 이미지" />
+                                    </div>
+                                    <p class="pop_text">SNS공유시 카카오톡,페이스북등의 <strong>메인텍스트</strong>로 사용됩니다.</p>
+                                    <div class="btn_wrap type01">
+                                        <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                    </div>
+                                </div>
+                                <div class="pop_mask"></div>
+                            </div>
+                            <!-- //초대장 제목 안내 팝업 -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="vt">감사 인사말</th>
+                        <td>
+                            <div class="btn_wrap">
+                                <a href="javascript:popGreetingSample();" class="btn type03 sample_btn wp100">인사말 샘플보기</a>
+                            </div>
+                            <div class="text_area_wrap" style="position:relative;">
+                                <textarea idx="2" id="Greetings" cols="30" rows="10" class="input_match">@ViewData["Greetings"]</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- 포토형 청첩장인 경우에만 해당 영역 출력 -->
+                    <tr>
+                        <th class="vt img_help" onclick="layerPopOpen('share_img_pop')">
+                            공유 이미지
+                            <span class="ico notice">툴팁 아이콘</span>
+                        </th>
+                        <td>
+                            <!-- 공유 이미지 안내 팝업 -->
+                            <div class="pop_wrap pop_l share_img_pop">
+                                <div class="layer_pop">
+                                    <h3>공유 이미지</h3>
+                                    <div class="img_con">
+                                        <img src="/img/order/share_img.jpg" alt="공유 이미지 안내 이미지" />
+                                    </div>
+                                    <p class="pop_text" style="color:#333;">카카오톡, 문자(SMS) 공유 시 사용되는 이미지입니다.</p>
+                                    @*<p class="pop_text">카카오톡, 문자(SMS) <strong>메인 이미지</strong> 공유 시 사용됩니다</p>*@
+                                    <div class="text_info_box mt10">
+                                        <p>이미지 용량은 1MB 이하의 파일 업로드를 권장합니다.</p>
+                                        <p>
+                                            가로형 사진을 권장하며, 세로형 사진의 경우 등록 후 편집 버튼을 통해
+                                            가로형으로 편집 바랍니다.
+                                        </p>
+                                        <p>
+                                            공유하시는 SNS(카카오톡, 문자 등)에 따라 이미지 출력 형태가 각기 다르니,
+                                            최대한 중앙에 피사체를 놓는 것을 권장합니다
+                                        </p>
+                                        <p>
+                                            <strong style="font-weight:bold;">공유이미지 변경 시</strong>, 카카오 서버와 네트워크 상황에 따라 반영이 늦어질 수 있습니다. (최대 24시간)
+                                        </p>
+                                    </div>
+                                    <div class="btn_wrap type01">
+                                        <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                    </div>
+                                </div>
+                                <div class="pop_mask"></div>
+                            </div>
+                            <!-- //공유 이미지 안내 팝업 -->
+                            <div class="sort_wrap" style="padding-top:5px;">
+                                <ul class="sort_list sns">
+                                    <li id="sns_img">
+                                        <div class="file_box">
+                                            <div class="img_preview" style="display:none;">
+                                                <img class="sns_img" orgimg="@ViewData["SNS_Image_URL"]" src="@ViewData["SNS_Image_URL"]" style="max-width:159px;max-height:159px;">
+                                            </div>
+                                            <label name="file" onclick="fn_add_SNS_Image();"></label>
+                                        </div>
+                                        <div class="btn_wrap" style="position:relative;">
+                                            <a href="javascript:;" class="crop ico"></a>
+                                            <a href="javascript:;" class="delete ico"></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- 이미지 크롭 팝업 -->
+                                <div class="pop_wrap sns_pop">
+                                    <div class="layer_pop">
+                                        <h3>이미지 편집</h3>
+                                        <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                        <div class="img_box">
+                                        </div>
+                                        <div class="btn_wrap type02">
+                                            <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                            <a href="javascript:;" class="btn type03" onclick="CompleteCrop('sns');">확인</a>
+                                        </div>
+                                    </div>
+                                    <div class="pop_mask"></div>
+                                    <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_sns_img_org" /></div>
+                                </div>
+                                <!-- //이미지 크롭 팝업 -->
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="isPhotoYn">
+                        <th onclick="layerPopOpen('representative_img_pop')">
+                            대표 이미지
+                            <span class="ico notice">툴팁 아이콘</span>
+                        </th>
+                        <td>
+                            <!-- 대표 이미지 안내 팝업 -->
+                            <div class="pop_wrap pop_l representative_img_pop">
+                                <div class="layer_pop">
+                                    <h3>대표 이미지</h3>
+                                    <div class="img_con">
+                                        <img src="/img/order/representative_img.jpg" alt="대표 이미지 안내 이미지" />
+                                    </div>
+                                    <p class="pop_text"><strong>포토형 감사장 메인</strong>에 사용되는 이미지입니다.</p>
+                                    <div class="btn_wrap type01">
+                                        <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                    </div>
+                                </div>
+                                <div class="pop_mask"></div>
+                            </div>
+                            <!-- //대표 이미지 안내 팝업 -->
+                            <div class="sort_wrap" style="padding-top:5px;">
+                                <ul class="sort_list">
+                                    <li id="main_img">
+                                        <div class="file_box">
+                                            <div class="img_preview" style="display:none;">
+                                                <img class="main_img" orgimg="@ViewData["Delegate_Image_URL"]" src="@ViewData["Delegate_Image_URL"]" style="max-width:159px;max-height:159px;">
+                                            </div>
+                                            <label name="file" onclick="fn_add_Main_Image();"></label>
+                                        </div>
+                                        <div class="btn_wrap" style="position:relative;">
+                                            <a href="javascript:;" class="crop ico"></a>
+                                            <a href="javascript:;" class="delete ico"></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- 이미지 크롭 팝업 -->
+                                <div class="pop_wrap main_pop">
+                                    <div class="layer_pop">
+                                        <h3>이미지 편집</h3>
+                                        <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                        <div class="img_box">
+                                        </div>
+                                        <div class="btn_wrap type02">
+                                            <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                            <a href="javascript:;" class="btn type03" onclick="CompleteCrop('main');">확인</a>
+                                        </div>
+                                    </div>
+                                    <div class="pop_mask"></div>
+                                    <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_main_img_org" /></div>
+                                </div>
+                                <!-- //이미지 크롭 팝업 -->
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- //포토형 청첩장인 경우에만 해당 영역 출력 -->
+                </table>
+            </div>
+            <!-- //기본 정보 -->
+            <!-- 신랑신부 정보 -->
+            <div class="order_con wedd_info">
+                <h2>신랑신부 정보</h2>
+                <table class="order_table type01">
+                    <caption>신랑신부 정보</caption>
+                    <tr>
+                        <th>신랑</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp wp100" placeholder="이름" id="Groom_Name" value="@ViewData["Groom_Name"]">
+                            </div>
+                            <div class="number_box">
+                                <span class="inp_box">
+                                    <input type="text" class="inp w50 mr5 call_val" id="Groom_Global_Phone_Number" inputmode="numeric" value="@ViewData["Groom_Global_Phone_Number"]" @(ViewData["Groom_Global_Phone_YN"] != null && ViewData["Groom_Global_Phone_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                    <input type="text" class="inp wp70" placeholder="'-'없이 숫자만 입력하세요." inputmode="numeric" id="Groom_Phone" value="@ViewData["Groom_Phone"]">
+                                </span>
+                                <span class="check_box tip_box">
+                                    <input type="checkbox" id="Groom_Global_Phone_YN" name="check" @(ViewData["Groom_Global_Phone_YN"] != null && ViewData["Groom_Global_Phone_YN"].ToString() == "Y" ? "checked='true'" : "") />
+                                    <label for="Groom_Global_Phone_YN" class="ml0">국제전화</label>
+                                    <span class="bn_tip w240 right">
+                                        <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                        <p>
+                                            ex) 대한민국 : +82 <br />
+                                            미국/캐나다 : +1 <br />
+                                            베트남 : +84 <br />
+                                            영국 : +44
+                                        </p>
+                                    </span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>신부</th>
+                        <td>
+                            <div style="position:relative;">
+                                <input type="text" class="inp wp100" placeholder="이름" id="Bride_Name" value="@ViewData["Bride_Name"]">
+                            </div>
+                            <div class="number_box">
+                                <span class="inp_box">
+                                    <input type="text" class="inp w50 mr5 call_val" id="Bride_Global_Phone_Number" inputmode="numeric" value="@ViewData["Bride_Global_Phone_Number"]" @(ViewData["Bride_Global_Phone_YN"] != null && ViewData["Bride_Global_Phone_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                    <input type="text" class="inp wp70" placeholder="'-'없이 숫자만 입력하세요." inputmode="numeric" id="Bride_Phone" value="@ViewData["Bride_Phone"]">
+                                </span>
+                                <span class="check_box tip_box">
+                                    <input type="checkbox" id="Bride_Global_Phone_YN" name="check" @(ViewData["Bride_Global_Phone_YN"] != null && ViewData["Bride_Global_Phone_YN"].ToString() == "Y" ? "checked='true'" : "") />
+                                    <label for="Bride_Global_Phone_YN" class="ml0">국제전화</label>
+                                    <span class="bn_tip w240 right">
+                                        <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                        <p>
+                                            ex) 대한민국 : +82 <br />
+                                            미국/캐나다 : +1 <br />
+                                            베트남 : +84 <br />
+                                            영국 : +44
+                                        </p>
+                                    </span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- //신랑신부 정보 -->
+        </div>
+        <!-- //주문제작 영역 -->
+        <!-- 다음 단계로 이동 버튼 -->
+        <div class="btn_wrap next_wrap bottom">
+            <a href="javascript:;" id="btn_next" class="btn type03 wp100">제작 완료</a>
+        </div>
+        <!-- 다음 단계로 이동 버튼 -->
+    </div>
+</section>
+<div style="display:none" id="Objects">@ViewData["Objects"]</div>
+<form id="uploadFrm" enctype="multipart/form-data" method="post">
+    <div class="modal-body">
+        <input type="file" id="mainfile" name="files" accept=".jpg,.jpeg,.png" style="display:none">
+        <input type="file" id="snsfile" name="files" accept=".jpg,.jpeg,.png" style="display:none">
+    </div>
+</form>
+<input type="hidden" id="Order_Id" value="@ViewData["Order_Id"]" />
+<input type="hidden" id="Invitation_Id" value="@ViewData["Invitation_Id"]" />
+<input type="hidden" id="upload_path" value="@ViewData["upload_path"]" />
+<input type="hidden" id="Photo_YN" value="@ViewData["Photo_YN"]" />
+<input type="hidden" id="SNS_Image_Height" value="@ViewData["SNS_Image_Height"]" />
+<input type="hidden" id="SNS_Image_Width" value="@ViewData["SNS_Image_Width"]" />
+<input type="hidden" id="Delegate_Image_URL" value="@ViewData["Delegate_Image_URL"]" />
+<input type="hidden" id="Delegate_Image_Height" value="@ViewData["Delegate_Image_Height"]" />
+<input type="hidden" id="Delegate_Image_Width" value="@ViewData["Delegate_Image_Width"]" />
+
+<input type="hidden" id="photo_width" />
+<input type="hidden" id="photo_height" />
+
+@section Scripts
+{
+
+    <script src="/js/cropper.min.js"></script>
+    <script src="/js/step/m_mthanksstep1.js?ver=5.1"></script>
+}

@@ -1,0 +1,221 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model M2ViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- 전화번호 a 태그로 자동 인식되는 현상 방지 -->
+    <meta name="format-detection" content="telephone=no">
+    @if (Model.GalleryPreventPhotoYN)
+    {
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=no">
+        <style>
+            body { touch-action: pan-y; }
+        </style>
+    }
+    else
+    {
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes">
+    }
+    <META NAME="ROBOTS" CONTENT="NOINDEX">
+    <meta property="og:url" content="@Model.FullUrl" />
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:type" content="website" />
+    @if (Model.SNSImageInfo != null)
+    {
+        <meta property="og:image" content="@Model.SNSImageInfo.ImageUrl" />
+        <meta property="og:image:width" content="@Model.SNSImageInfo.Width" />
+        <meta property="og:image:height" content="@Model.SNSImageInfo.Height" />
+    }
+    <meta property="og:description" content="@Model.Descriptions[Model.ProductCategoryCode]" />
+    <meta property="fb:app_id" content="555274031340396" />
+
+    <title>@Model.Descriptions[Model.ProductCategoryCode]</title>
+
+    <link rel="stylesheet" href="/dist/css/photoswipe.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"><!--Noto Sans-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet"><!--나눔 고딕-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet"><!--나눔 고딕 코딩-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet"><!--나눔 명조-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet"> <!--나눔 펜 스크립트-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet"> <!--나눔 브러쉬 스크립트-->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"> <!--Cinzel-->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300" rel="stylesheet">
+    @*나눔바른펜*@
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-pen.css" rel="stylesheet">
+    @*나눔바른고딕*@
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
+    @*나눔스퀘어라운드*@
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
+    @*나눔스퀘어라이트*@
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/css/extra_font.css" asp-append-version="true">
+    <link rel="stylesheet" type="text/css" href="/css/style.css" asp-append-version="true">
+    <link rel="stylesheet" type="text/css" href="/css/loader.css" asp-append-version="true">
+    <link rel="stylesheet" type="text/css" href="/css/jquery.mCustomScrollbar.min.css" asp-append-version="true">
+    <link rel="stylesheet" type="text/css" href="/css/m2page.css" asp-append-version="true" />
+
+    @*사용자 정의 Style*@
+    @if (Model.CustomCssUrl != null)
+    {
+        <link rel="stylesheet" type="text/css" href="@Model.CustomCssUrl">
+    }
+</head>
+<body>
+    <div id="wrap">
+        <input type="hidden" id="eventDateTime" value="@Model.EventDateTime" />
+        <input type="hidden" id="eventDate" value="@Model.EventDate" />
+        @if (Model.ProductCategoryCode == "PCC01")  //초대장
+        {
+            <partial name="PCC01Page_Partial" model="Model.PCC01DataModel" />
+        }
+        @if (Model.ProductCategoryCode == "PCC02")  //감사장
+        {
+            <partial name="PCC02Page_Partial" model="Model.PCC02DataModel" />
+        }
+        @if (Model.ProductCategoryCode == "PCC03")  //돌잔치
+        {
+            <partial name="PCC03Page_Partial" model="Model.PCC03DataModel" />
+        }
+        <!-- 안내문구 팝업 -->
+        <div class="toast"></div>
+
+        <!-- footer -->
+        <footer class="footer">
+            <input type="hidden" id="url" value="https://www.barunsonmcard.com/m/@(ViewBag.Path)" />
+            <ul class="sns_list">
+                <li><a href="https://www.facebook.com/sharer/sharer.php?u=@(@Model.FullUrl)" target="_blank"><img src="/img/skin/facebook_icon.png" width="12" alt="페이스북"></a></li>
+                @if (Model.ProductCategoryCode == "PCC01" || Model.ProductCategoryCode == "PCC03")
+                {
+                    <li><a href="javascript:;" id="kakao-link-btn"><img src="/img/skin/kakao_icon.png" width="40" alt="카카오톡"></a></li>
+                }
+                else
+                {
+                    <li></li>
+                }
+                <li><a href="@(@Model.FullUrl)" class="copy_url"><img src="/img/skin/linkcopy_icon.png" width="24" alt="링크복사"></a></li>
+            </ul>
+            <div class="dvfooter">
+                <a href="https://www.barunsonmcard.com" target="_blank"><img src="https://static.barunsoncard.com/barunsonmcard/invitation/barunson_logo.png"></a>
+            </div>
+        </footer>
+        <!-- //footer -->
+    </div>
+
+
+    <div class="loader_mcard">
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="/dist/js/photoswipe.js"></script>
+    <script type="text/javascript" src="/dist/js/photoswipe-ui-default.min.js"></script>
+    <script type="text/javascript" src="/dist/js/photoswipe-gallery.js"></script>
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" src="/js/m2page.js" asp-append-version="true"></script>
+    @*사용자 정의 JS*@
+    @if (Model.CustomJsUrl != null)
+    {
+        <script type="text/javascript" src="@Model.CustomJsUrl" asp-append-version="true"></script>
+    }
+    @if (Model.ProductCategoryCode == "PCC01" || Model.ProductCategoryCode == "PCC03")
+    {
+        <script type="text/javascript">
+            $(document).ready(function (e) {
+                var _url = $('meta[property="og:url"]').attr('content');
+                var _title = $('meta[property="og:title"]').attr('content');
+                var _desc = $('meta[property="og:description"]').attr('content');
+                var _image = $('meta[property="og:image"]').attr('content');
+                var _imgWidth = $('meta[property="og:image:width"]').attr('content');
+                var _imgHeight = $('meta[property="og:image:height"]').attr('content');
+                var _eventDateTime = $("#eventDateTime").val();
+                var _addressDetail = $("#addressDetail").text();
+                // 카카오링크 버튼
+                var kakaoDesc = _desc;
+                if (_eventDateTime.length > 0) {
+                    kakaoDesc = _eventDateTime + "\n" + _desc;
+                }
+                Kakao.init('94a08cfa99972d4a71c99401069b1311');
+                //Kakao.isInitialized();
+                if ((_addressDetail != null && _addressDetail.length > 0) &&
+                    (_image != null && _image.length > 0)) {
+                    Kakao.Link.createDefaultButton({
+                        container: '#kakao-link-btn',   // 버튼 id
+                        objectType: 'location',         // 카카오톡 링크 타입
+                        content: {
+                            title: _title,              // 타이틀
+                            description: kakaoDesc,
+                            imageUrl: _image,           // 이미지
+                            link: {
+                                mobileWebUrl: _url,     // 모바일 주소
+                                webUrl: _url            // 웹 주소
+                            },
+                            imageWidth: parseInt(_imgWidth == null ? 0 : _imgWidth),
+                            imageHeight: parseInt(_imgHeight == null ? 0 : _imgWidth)
+                        },
+                        address: _addressDetail
+
+                    });
+                    //공유할 예식장 주소가 없으면
+                } else if ((_addressDetail.length == 0) && (_image != null && _image.length > 0)) {
+                    Kakao.Share.createDefaultButton({
+                        container: '#kakao-link-btn',
+                        objectType: 'feed',
+                        content: {
+                            title: _title,
+                            description: kakaoDesc,
+                            imageUrl: _image,
+                            link: {
+                                mobileWebUrl: _url,
+                                webUrl: _url,
+                            },
+                            imageWidth: parseInt(_imgWidth == null ? 0 : _imgWidth),
+                            imageHeight: parseInt(_imgHeight == null ? 0 : _imgWidth)
+                        },
+                        buttons: [
+                            {
+                                title: '자세히 보기',
+                                link: {
+                                    mobileWebUrl: _url,
+                                    webUrl: _url,
+                                },
+                            }
+                        ],
+                    });
+                }else {
+                    $("#kakao-link-btn").hide();
+                }
+
+                //축의금 내용이 없으면 버튼 숨김
+                const idxs = [];
+                $(".account_pop").each(function (i) {
+                    idxs.push($(this).attr("data-idx"));
+                });
+
+                //신랑
+                if (idxs.indexOf("1") == -1){
+                    $(".groom").hide();
+                }
+
+                //신부
+                if (idxs.indexOf("2") == -1) {
+                    $(".bride").hide();
+                }
+            });
+
+        </script>
+    }
+</body>
+</html>

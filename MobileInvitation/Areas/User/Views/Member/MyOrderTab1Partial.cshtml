@@ -1,0 +1,182 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyPageOrderViewModel
+@{
+    Layout = null;
+}
+<div class="tab_con">
+    @if (Model.DataModels.Count == 0)
+    {
+        <p class="empty_text">주문정보가 없습니다.</p>
+    }
+    else
+    {
+        <ul class="order_check type02">
+            @foreach (var item in Model.DataModels)
+            {
+                var orderStepActionname = "McardStep1";
+                if (item.ProductCategoryCode == "PCC01") //청첩장
+                    orderStepActionname = "McardStep1";
+                else if (item.ProductCategoryCode == "PCC02") //감사장
+                    orderStepActionname = "MthanksStep1";
+                else if (item.ProductCategoryCode == "PCC03") //돌잔치
+                    orderStepActionname = "MDollStep1";
+                <li>
+                    @if (Model.IsMobileView)
+                    {
+                        //Mobile
+                        <div class="order_info">
+                            <!-- 상품 타이틀 및 주문번호 -->
+
+                            <div class="order_title">
+                                @if (item.PaymentStatusCode == "PSC04") //입금대기
+                                {
+                                    <a asp-action="@orderStepActionname" asp-controller="Order" asp-route-Order_Id="@item.OrderID" class="order_title_detail" target="_self">
+                                        <strong>주문번호</strong>@item.OrderCode
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-action="Order_Detail" asp-controller="Member" asp-route-Order_Id="@item.OrderID" class="order_title_detail" target="_self">
+                                        <strong>주문번호</strong>@item.OrderCode
+                                    </a>
+                                }
+                                <span class="check_badge @item.BadgeStatus">@item.BadgeMent</span>
+                            </div>
+
+                            <div class="order_detail">
+                                <!-- 상품 타이틀 및 주문번호 -->
+                                <div class="img_con">
+                                    <img src="@item.MainImageUrlFull" alt="상품 썸네일 이미지" />
+                                </div>
+                                <div class="info_box">
+                                    <dl>
+                                        <dt>주문 상품</dt>
+                                        <dd>@item.ProductName /@item.ProductCode</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>상품 유형</dt>
+                                        <dd>@item.ProductCategoryName</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>결제 일시</dt>
+                                        <dd>@item.PaymentDateTime?.ToString("yyyy-MM-dd HH:mm")</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>결제 금액</dt>
+                                        <dd>@(item.PaymentPrice.HasValue ? item.PaymentPrice.Value.ToString("#,##0원") : "0원")</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>결제 수단</dt>
+                                        @if (item.PaymentStatusCode == "PSC04") //입금대기
+                                        {
+                                            <dd>@item.PaymentMethodName <br />@item.FinanceName  @item.AccountNumber</dd>
+                                        }
+                                        else if (item.PaymentMethodName.IndexOf("기타") >= 0)
+                                        {
+                                            <dd> @item.PaymentMethodName</dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>@item.PaymentMethodName <br />@item.FinanceName  @item.AccountNumber</dd>
+                                        }
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="btn_wrap type02 bottom2">
+                            <!-- //상품 상세정보 -->
+                                @if (item.isFlower)
+                                {
+                                    <a href="@item.FlowerUrl" class="btn type03_1" target="_blank">축하 화환 관리</a>
+                                }
+                                @if (item.IsMoneyGift && User.IsInRole("Users"))
+                                {
+                                    <a href="@item.MoneyGiftUrl" class="btn type03_1" target="_blank">축의금 관리</a>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        //PC
+                        <!-- 썸네일 이미지 영역 -->
+                        <div class="img_con">
+                            <!-- 상태 뱃지
+                                1. class type01 : 노출
+                                2. class type02 : 기간만료
+                                3. class type03 : 노출중지
+                            -->
+                            <span class="check_badge @item.BadgeStatus">@item.BadgeMent</span>
+                            <!-- //상태 뱃지 -->
+                            <img src="@item.MainImageUrlFull" alt="상품 썸네일 이미지" />
+                        </div>
+                        <!-- //썸네일 이미지 영역 -->
+                        <div class="order_info">
+                            <!-- 상품 타이틀 및 주문번호 -->
+                            <div class="order_title">
+                                <p><strong>@item.ProductName /@item.ProductCode</strong></p>
+                                <dl>
+                                    <dt>주문번호</dt>
+                                    <dd>@item.OrderCode</dd>
+                                </dl>
+                                @if (item.PaymentStatusCode == "PSC04") //입금대기
+                                {
+                                    <a asp-action="@orderStepActionname" asp-controller="Order" asp-route-Order_Id="@item.OrderID" class="detail_btn spoq" target="_self">제작하기 &nbsp;&gt;</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="Order_Detail" asp-controller="Member" asp-route-Order_Id="@item.OrderID" class="detail_btn spoq" target="_self">상세보기 &nbsp;&gt;</a>
+                                }
+                            </div>
+                            <!--// 상품 타이틀 및 주문번호 -->
+                            <!-- 상품 상세정보 -->
+                            <div class="order_detail">
+                                <dl>
+                                    <dt>상품 유형</dt>
+                                    <dd>@item.ProductCategoryName</dd>
+                                </dl>
+                                <dl>
+                                    <dt>결제 일시</dt>
+                                    <dd>@item.PaymentDateTime?.ToString("yyyy-MM-dd HH:mm")</dd>
+                                </dl>
+                                <dl>
+                                    <dt>결제 금액</dt>
+                                    <dd>@(item.PaymentPrice.HasValue ? item.PaymentPrice.Value.ToString("#,##0원") : "0원")</dd>
+                                </dl>
+                                <dl>
+                                    <dt>결제 수단</dt>
+
+                                    @if (item.PaymentStatusCode == "PSC04") //입금대기
+                                    {
+                                        <dd>@item.PaymentMethodName / <br />@item.FinanceName /   @item.AccountNumber</dd>
+                                    }
+                                    else if (item.PaymentMethodName.IndexOf("기타") >= 0)
+                                    {
+                                        <dd> @item.PaymentMethodName</dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@item.PaymentMethodName / <br />@item.FinanceName /   @item.AccountNumber</dd>
+                                    }
+
+                                </dl>
+                            </div>
+                            <!-- //상품 상세정보 -->
+                            <div class="btn_wrap type02 bottom">
+                                @if (item.isFlower)
+                                {
+                                    <a href="@item.FlowerUrl" class="btn type04_1" target="_blank">축하 화환 관리</a>
+                                }
+                                @if (item.IsMoneyGift && User.IsInRole("Users"))
+                                {
+                                    <a href="@item.MoneyGiftUrl" class="btn type04_1" target="_blank">축의금 관리</a>
+                                }
+                            </div>
+                        </div>
+                    }
+                </li>
+            }
+        </ul>
+    }
+</div>

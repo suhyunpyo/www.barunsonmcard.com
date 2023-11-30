@@ -1,0 +1,1369 @@
+﻿@using MobileInvitation.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "User_Layout";
+}
+<link rel="stylesheet" href="/css/order.css">
+<link rel="stylesheet" href="/css/imgareaselect-default.css">
+<link rel="stylesheet" href="/css/datepicker3.css">
+<link rel="stylesheet" href="/css/cropper.min.css">
+<style>
+    .file_box {
+        background-color: #FFFFFF;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column; /*수직 정렬*/
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    label.etc_text {
+        font-size: 18px;
+        color: #333;
+        text-align: left;
+        padding: 18px 0 0;
+    }
+
+    .info_reg_list textarea {
+        display: block;
+        min-height: 42px;
+        max-height: 100px;
+        border: 1px solid #ebebeb;
+        box-sizing: border-box;
+        padding: 10px;
+        resize: vertical;
+        float: right;
+    }
+
+    .line_del_btn {
+        float: right !important;
+        width: 60px !important;
+        line-height: 42px !important;
+        background: #757575 !important;
+        color: #fff !important;
+        text-align: center !important;
+    }
+
+    .del_btn {
+        padding-left: 10px !important;
+    }
+
+    .date_box .ico.date {
+        position: absolute;
+        right: 15px;
+        cursor: auto !important;
+    }
+
+
+
+    .pop_wrap.sns_pop .layer_pop h3 {
+        margin: 0px;
+    }
+
+    .pop_wrap.sns_pop .layer_pop p {
+        padding: 10px 5px 20px 5px;
+    }
+
+    .pop_wrap.main_pop .layer_pop h3 {
+        margin: 0px;
+    }
+
+    .pop_wrap.main_pop .layer_pop p {
+        padding: 10px 5px 20px 5px;
+    }
+
+
+    element.style {
+    }
+
+    .order_con.money_account .order_detail p {
+        font-size: 16px;
+        line-height: 24px;
+        color: #757575;
+        margin: 38px 0 18px;
+    }
+
+
+    .account_guide {
+        font-size: 14px !important;
+        text-align: left;
+        margin: 10px 0px 0px 0px !important;
+    }
+
+    .order_con.money_account.div {
+        margin-bottom: 90px;
+    }
+
+    .order_con.money_account.all {
+        margin-bottom: 90px;
+    }
+
+    #preview_frame::-webkit-scrollbar,
+    .frame_wrap::-webkit-scrollbar { display: none; width:30px;}
+
+</style>
+<!-- sub contents -->
+<section class="order mc">
+    <div class="sub_con_wrap">
+        <!-- 우측 상품 미리보기 -->
+        <aside class="product_preview fixed">
+            <div class="sticky_box">
+                <!-- 주문 제작단계 -->
+                <div class="step_view">
+                    <ol>
+                        <!--
+                            li class ="on" 추가 시 현재 단계 표시
+                        -->
+                        <li class="on">
+                            <span>1</span>
+                            <p><strong>정보입력</strong></p>
+                        </li>
+                        <li>
+                            <span>2</span>
+                            <p><strong>영상/이미지 등록</strong></p>
+                        </li>
+                        <li>
+                            <span>3</span>
+                            <p><strong>제작 완료</strong></p>
+                        </li>
+                    </ol>
+                </div>
+                <!-- //주문 제작단계 -->
+                <div class="product_info">
+                    <!-- 미리보기 이미지 영역 -->
+                    <!-- 상품 이미지 영역 -->
+                    <div class="product_img">
+                        <div class="preview_box" style="background-color:#FFFFFF;">
+                            <div class="img_con">
+                                <iframe id="preview_frame" class="viewPort" src="~/Invitation/@ViewData["Invitation_Id"]/1" frameborder="0" width="100%" marginwidth="0" marginheight="0" onload="previewCalcHeight();"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //상품 이미지 영역 -->
+                </div>
+            </div>
+        </aside>
+        <!-- //우측 상품 미리보기 -->
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents">
+            <div class="order_area">
+                <!-- 주문자 정보 -->
+                <div class="order_con">
+                    <h2>주문자 정보</h2>
+                    <table class="order_table type01">
+                        <caption>주문자 정보</caption>
+                        <colgroup>
+                            <col style="width:145px;">
+                            <col style="width:615px">
+                        </colgroup>
+                        <tr>
+                            <th>주문자명</th>
+                            <td>
+                                <input type="text" class="inp name_inp w200" id="Name" placeholder="홍길동" value="@ViewData["Name"]" maxlength="50" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>휴대폰 번호</th>
+                            <td>
+                                <input type="text" class="inp num_inp w200" id="CellPhone_Number" value="@ViewData["CellPhone_Number"]" onkeyup="chkNumber(this);" maxlength="20">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>이메일 주소</th>
+                            <td>
+                                <input type="text" class="inp w200" id="Email_Account" value="@ViewData["Email_Account"]" maxlength="30">
+
+                                <span class="select_wrap type01">
+                                    &#64;
+                                    <select id="selEmail" class="select w170 ml5">
+                                        <option>직접 입력</option>
+                                        <option>naver.com</option>
+                                        <option>nate.com</option>
+                                        <option>hotmail.com</option>
+                                        <option>hanmail.com</option>
+                                        <option>daum.net</option>
+                                        <option>gmail.com</option>
+                                    </select>
+                                </span>
+                                <input type="text" class="inp email_inp w170" id="Email_Address" value="@ViewData["Email_Address"]" maxlength="20">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- //주문자 정보 -->
+                <!-- 기본 정보 -->
+                <div class="order_con default_info">
+                    <h2>기본 정보</h2>
+                    <table class="order_table type01">
+                        <caption>기본 정보</caption>
+                        <colgroup>
+                            <col style="width:145px;">
+                            <col style="width:40%">
+                            <col style="width:145px;">
+                            <col style="width:auto">
+                        </colgroup>
+                        <tr>
+                            <th>초대장 url</th>
+                            <td colspan="3">
+                                <div class="url_wrap">
+                                    <p class="bf_url"><strong>https://www.barunsonmcard.com/m/</strong></p>
+                                    <span class="url_check" style="width:260px">
+                                        <input type="text" id="Invitation_URL" autocomplete="off" class="inp wp100" placeholder="영문, 숫자, 특수문자( _ , - )조합 사용(최대 12자)" maxlength="12" value="@ViewData["Invitation_URL"]">
+                                        <span class="url_text"></span>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                초대장 제목
+                                <span class="ico notice" onclick="layerPopOpen('invitation_title_pop')">툴팁 아이콘</span>
+                            </th>
+                            <td colspan="3">
+                                <input type="text" id="Invitation_Title" class="inp wp100 input_match" placeholder="준서♡은재 결혼식에 초대합니다." value="@ViewData["Invitation_Title"]" maxlength="200" >
+                                <!-- 초대장 제목 안내 팝업 -->
+                                <div class="pop_wrap pop_l invitation_title_pop">
+                                    <div class="layer_pop">
+                                        <h3>초대장 제목</h3>
+                                        <div class="img_con">
+                                            <img src="/img/order/title_img.jpg" alt="초대장 제목 안내 이미지" />
+                                        </div>
+                                        <p class="pop_text">SNS공유시 카카오톡,페이스북등의 <strong>메인텍스트</strong>로 사용됩니다.</p>
+                                        <div class="btn_wrap type01">
+                                            <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                        </div>
+                                    </div>
+                                    <div class="pop_mask"></div>
+                                </div>
+                                <!-- //초대장 제목 안내 팝업 -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="vt">인사말</th>
+                            <td colspan="3">
+                                <div class="btn_wrap">
+                                    <a href="javascript:layerPopOpen('greetings_pop');" class="btn type03 sample_btn">인사말 샘플보기</a>
+                                </div>
+                                <div class="text_area_wrap">
+                                    <textarea idx="2" id="Greetings" cols="30" rows="10" maxlength="500" class="input_match">@ViewData["Greetings"]</textarea>
+                                </div>
+                                <!-- 인사말 선택 팝업 -->
+                                <div id="greetingsPop" class="pop_wrap pop_l greetings_pop">
+                                    <div class="layer_pop">
+                                        <h3>인사말 선택</h3>
+                                        <div class="pop_contents">
+                                            <div class="pop_area">
+                                                <!-- pop_menu_list -->
+                                                <div class="pop_menu_list">
+                                                    <div class="swiper-container">
+                                                        <!-- Additional required wrapper -->
+                                                        <div class="swiper-wrapper">
+                                                            <!-- Slides -->
+                                                            <div class="swiper-slide">
+                                                                <!--
+                                                        class active 추가 시 선택효과
+                                                    -->
+                                                                <a href="javascript:;" class="active">베스트</a>
+                                                            </div>
+                                                            <div class="swiper-slide">
+                                                                <a href="javascript:;">정중한</a>
+                                                            </div>
+                                                            <div class="swiper-slide">
+                                                                <a href="javascript:;">재밌는</a>
+                                                            </div>
+                                                            <div class="swiper-slide">
+                                                                <a href="javascript:;">미사/예배</a>
+                                                            </div>
+                                                            <div class="swiper-slide">
+                                                                <a href="javascript:;">계절</a>
+                                                            </div>
+                                                        </div>
+                                                        <!-- //Additional required wrapper -->
+                                                    </div>
+                                                </div>
+                                                <!-- //pop_menu_list -->
+                                                <!-- 인사말 샘플 텍스트 -->
+                                                <div class="sample_contents">
+                                                    <!-- 베스트 -->
+                                                    <div class="sample_con">
+                                                        <ol>
+                                                            <li>
+                                                                <div class="sample_num">01</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        서로가 마주 보며 다져온 사랑을<br />이제 함께 한곳을 바라보며<br />걸어갈 수 있는 큰 사랑으로 키우고자 합니다.<br />저희 두 사람이 사랑의 이름으로<br />지켜나갈 수 있게 앞날을<br />축복해 주시면 감사하겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">02</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        오랜 기다림 속에서 저희 두 사람,<br />한마음 되어 참된 사랑의<br />결실을 맺게 되었습니다.<br />오셔서 축복해 주시면 큰 기쁨이겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">03</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        두 사람이 사랑으로 만나<br />진실과 이해로써 하나를 이루려 합니다.<br />이 두 사람을 지성으로 아끼고 돌봐주신<br />여러 어른과 친지를 모시고<br />서약을 맺고자 하오니<br />바쁘신 가운데 두 사람의 장래를<br />가까이에서 축복해 주시면 고맙겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">04</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        저희에게 오늘이 있기까지<br />보내주신 따뜻한 사랑과 깊은 관심에<br />진심으로 감사하오며,<br />저희 두 사람은 여러분의 축복을 받으며<br />진실한 가약을 맺고자 합니다.<br />부디 참석하시어 기쁨의 자리를<br />축복으로 더욱 빛내 주시길 바랍니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">05</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        새로운 마음과 새 의미를 간직하며<br />저희 두 사람이 새 출발의<br />첫걸음을 내딛습니다.<br />좋은 꿈, 바른 뜻으로 올바르게 살 수 있도록<br />축복과 격려 주시면<br />더없는 기쁨으로 간직하겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                    </div>
+                                                    <!-- //베스트 -->
+                                                    <!-- 정중한 -->
+                                                    <div class="sample_con">
+                                                        <ol>
+                                                            <li>
+                                                                <div class="sample_num">01</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        저희에게 오늘이 있기까지<br />보내주신 따뜻한 사랑과 깊은 관심에<br />진심으로 감사하오며,<br />저희 두 사람은 여러분의 축복을 받으며<br />진실한 가약을 맺고자 합니다.<br />축복으로 더욱 빛내 주시길 바랍니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">02</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        평생을 같이하고 싶은 사람을 만났습니다.<br />서로 아껴주고 이해하며<br />사랑 베풀며 살고 싶습니다.<br />저희 약속 위에 따뜻한 격려로 축복해 주셔서<br />힘찬 출발의 디딤이 되어 주십시오.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">03</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        새로이 시작하는 작은 사랑이<br />보다 깊고 향 짙게 꽃 피려 합니다.<br />저희의 뜻깊은 백 년의 약속의 날<br />함께 하셔서 축복해 주십시오.<br />사랑으로 가득 채워 즐거움은 나누고<br />어려움은 이겨내는<br />함께 나아가는 삶을 꾸리겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">04</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        기쁨이 가득한 날<br />하나의 매듭이 되고<br />하나의 길이 되어<br />하나의 보금자리를 이루려 합니다.<br />변함없는 믿음과 사랑으로<br />축복해 주십시오.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">05</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        저희 두 사람이 사랑과 믿음으로<br />한 가정을 이루게 되었습니다.<br />바쁘시더라도 부디 오셔서<br />저희의 앞날을 축복해 주시고<br />격려해 주시면 더없는 기쁨이 되겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                    </div>
+                                                    <!-- //정중한 -->
+                                                    <!-- 재밌는 -->
+                                                    <div class="sample_con">
+                                                        <ol>
+                                                            <li>
+                                                                <div class="sample_num">01</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        매일 저녁 헤어지지 않아도 돼요.<br />밤새도록 전화하지 않아도 돼요.<br />아침에 눈 뜨면 보고 싶은 얼굴이<br />바로 내 옆에 있어요.<br />우리 결혼해요.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">02</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        젊고 발랄한 두 청춘 남녀가 만났습니다.<br />그리고 이제..<br />아름다운 결혼 이야기를 만들어 나가려고 합니다.<br />그 이야기가 시작되는 순간에…<br />꼭 오셔서 축하해 주세요~!
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                    </div>
+                                                    <!-- //재밌는 -->
+                                                    <!-- 미사/예배 -->
+                                                    <div class="sample_con">
+                                                        <ol>
+                                                            <li>
+                                                                <div class="sample_num">01</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        귀 가정에 하나님의 사랑과 주 예수 그리스도의<br />은혜가 함께하시길 기원합니다.<br />주님의 높으신 뜻에<br />저희 두 사람이 믿음과 사랑의<br />보금자리를 마련하게 되었습니다.<br />오셔서 지켜봐 주시고 앞날을 축복해 주십시오.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">02</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        하나님의 사랑으로 만난 두 사람이<br />이제 새로운 가정을 이루는<br />아름다운 약속을 하려 합니다.<br />언제나 아름답고 주위에 사랑을 나누는<br />행복한 가정을 이루도록<br />오셔서 축복해 주시고 지켜봐 주십시오.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">03</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        소망이 축복 속에서 기쁨으로 이루어지는 날<br />저희 두 사람이 하나가 될<br />뜻깊은 날을 맞게 되었습니다.<br />소중하고 힘찬 내디딤이 될 수 있도록<br />꼭 오셔서 지켜봐 주시면 감사하겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">04</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        하나님의 은혜와 평강이<br />가내에 충만하시길 기원합니다.<br />저희 두 사람은 사랑으로 만나<br />하나님의 약정하신 규례에 따라<br />성스러운 혼인 예식을 올리고자 하오니<br />오셔서 축복해 주시면 감사하겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                    </div>
+                                                    <!-- //미사/예배 -->
+                                                    <!-- 계절 -->
+                                                    <div class="sample_con">
+                                                        <ol>
+                                                            <li>
+                                                                <div class="sample_num">01</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        살랑이는 바람결에<br />사랑이 묻어나는 계절입니다.<br />여기 곱고 예쁜 두 사람이 사랑을 맺어<br />인생의 반려자가 되려 합니다.<br />새 인생을 시작하는 이 자리에 오셔서<br />축복해 주시면 감사하겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">02</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        새봄을 맞이하여 저희 두 사람의 작은 사랑이<br />보다 크고 깊은 사랑이 되려 합니다.<br />함께 자리하시어 사랑의 말씀,<br />삶의 지혜로 밑거름이 되어 주십시오.<br />꼭 모시고 싶습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">03</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        봄의 여운이 살짝 비껴간<br />싱그러운 초여름의 계절에<br />평생 희로애락을 함께하는<br />인생의 첫 출발을 내딛게 되었습니다.<br />가까이 오셔서 축복해 주시고 격려해 주시면<br />보다 힘찬 시작이 되겠습니다.<br />
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">04</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        물빛 푸른 여름날에<br />두 사람이 하나가 되어 새 삶을 시작합니다.<br />즐겁고 어려움을 함께하는 사랑을 배우며<br />행복으로 가득 채우겠습니다.<br />오셔서 축복해 주시면 더없는 기쁨이 되겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">05</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        눈부시게 푸른 하늘 아래<br />저희 두 사람이 하나의 인생으로 새 출발 하는<br />언약의 시간을 갖고자 합니다.<br />이제 한마음으로 즐거움은 나누고 어려움은 이겨내는<br />동고동락의 행복한 삶을 꾸려 나가겠으니<br />오셔서 축복해 주시면 더없는 기쁨이 되겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="sample_num">06</div>
+                                                                <div class="sample_text">
+                                                                    <p>
+                                                                        눈꽃송이 기다리는 계절에,<br />뽀얀 눈송이 같은 순수한 사랑 모아<br />저희 두 사람 하나가 되는 약속의 시간에<br />여러분을 모시고자 합니다.<br />서로 보듬으며 세상을 아름답게 살겠습니다.
+                                                                    </p>
+                                                                    <a href="javascript:;" class="sample_save">적용하기</a>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                    </div>
+                                                    <!-- //계절 -->
+                                                </div>
+                                                <!-- //인사말 샘플 텍스트 -->
+                                            </div>
+                                        </div>
+                                        <div class="btn_wrap type01">
+                                            <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                        </div>
+                                    </div>
+                                    <div class="pop_mask"></div>
+                                </div>
+                                <!-- //인사말 선택 팝업 -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="tip_box">
+                                방명록 기능
+                                <span class="ico notice tip_btn">툴팁 아이콘</span>
+                                <div class="bn_tip m_tip w320" style="z-index:99;">
+                                    <p>방명록 작성은 실명제가 아니며, 익명으로도 작성할 수 있습니다. </p>
+                                    <p>방명록에 등록되는 글은 당사에서 관리하거나 책임지지 않습니다. </p>
+                                </div>
+                            </th>
+                            <td colspan="3">
+                                <div class="radio_box">
+                                    <input type="radio" id="GuestBook_Use_Y" name="GuestBook_Use_YN" class="btn_use" idx="1" checked>
+                                    <label for="GuestBook_Use_Y">사용함</label>
+                                    <input type="radio" id="GuestBook_Use_N" name="GuestBook_Use_YN" class="btn_unuse" idx="1">
+                                    <label for="GuestBook_Use_N" class="ml30">사용안함</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- 포토형 청첩장인 경우에만 해당 영역 출력 -->
+                        <tr>
+                            <td>
+                                <div class="vt tip_box img_help pt30" style="font-size:18px;">
+                                    공유 이미지
+                                    <span class="ico notice" onclick="layerPopOpen('share_img_pop')">툴팁 아이콘</span>
+                                </div>
+                                <div class="sort_wrap" style="height:240px">
+                                    <ul class="sort_list sns">
+                                        <li id="sns_img">
+                                            <div class="file_box">
+                                                <div class="img_preview" style="display:none;">
+                                                    <img class="sns_img" orgimg="@ViewData["SNS_Image_URL"]" src="@ViewData["SNS_Image_URL"]" style="max-width:159px;max-height:159px;">
+                                                </div>
+                                                <label name="file" onclick="fn_add_SNS_Image();"></label>
+                                            </div>
+                                            <div class="btn_wrap">
+                                                <a href="javascript:;" class="crop ico">자르기</a>
+                                                <a href="javascript:;" class="delete ico">삭제</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 공유 이미지 안내 팝업 -->
+                                    <div class="pop_wrap pop_l share_img_pop">
+                                        <div class="layer_pop">
+                                            <h3>공유 이미지</h3>
+                                            <div class="img_con">
+                                                <img src="/img/order/share_img.jpg" alt="공유 이미지 안내 이미지" />
+                                            </div>
+                                            <p class="pop_text" style="color:#333;">카카오톡, 문자(SMS) 공유 시 사용되는 이미지입니다.</p>
+                                            @*<p class="pop_text">카카오톡, 문자(SMS) <strong>메인 이미지</strong> 공유 시 사용됩니다</p>*@
+                                            <div class="text_info_box mt10">
+                                                <p>이미지 용량은 1MB 이하의 파일 업로드를 권장합니다.</p>
+                                                <p>
+                                                    가로형 사진을 권장하며, 세로형 사진의 경우 등록 후 편집 버튼을 통해 <br />
+                                                    가로형으로 편집 바랍니다.
+                                                </p>
+                                                <p>
+                                                    공유하시는 SNS(카카오톡, 문자 등)에 따라 이미지 출력 형태가 각기 다르니, <br />
+                                                    최대한 중앙에 피사체를 놓는 것을 권장합니다
+                                                </p>
+                                                <p>
+                                                    <strong style="font-weight:bold;">공유이미지 변경 시</strong>, 카카오 서버와 네트워크 상황에 따라 반영이 늦어질 수 있습니다. (최대 24시간)
+                                                </p>
+                                            </div>
+                                            <div class="btn_wrap type01">
+                                                <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                            </div>
+                                        </div>
+                                        <div class="pop_mask"></div>
+                                    </div>
+                                    <!-- //공유 이미지 안내 팝업 -->
+                                    <!-- 이미지 크롭 팝업 -->
+                                    <div class="pop_wrap sns_pop">
+                                        <div class="layer_pop">
+                                            <h3>이미지 편집</h3>
+                                            <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                            <div class="img_box">
+                                            </div>
+                                            <div class="btn_wrap type02">
+                                                <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                                <a href="javascript:;" class="btn type03" onclick="CompleteCrop('sns');">확인</a>
+                                            </div>
+                                        </div>
+                                        <div class="pop_mask"></div>
+                                        <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_sns_img_org" /></div>
+                                    </div>
+                                    <!-- //이미지 크롭 팝업 -->
+                                </div>
+                            </td>
+                            <td class="isPhotoYn">
+                                <div class="vt tip_box img_help isPhotoYn pt30" style="font-size:18px;">
+                                    대표 이미지
+                                    <span class="ico notice" onclick="layerPopOpen('representative_img_pop')">툴팁 아이콘</span>
+                                </div>
+                                <div class="sort_wrap" style="height:240px">
+                                    <ul class="sort_list">
+                                        <li id="main_img">
+                                            <div class="file_box">
+                                                <div class="img_preview" style="display:none;">
+                                                    <img class="main_img" orgimg="@ViewData["Delegate_Image_URL"]" src="@ViewData["Delegate_Image_URL"]" style="max-width:159px;max-height:159px;">
+                                                </div>
+                                                <label name="file" onclick="fn_add_Main_Image();"></label>
+                                            </div>
+                                            <div class="btn_wrap">
+                                                <a href="javascript:;" class="crop ico">자르기</a>
+                                                <a href="javascript:;" class="delete ico">삭제</a>
+                                            </div>
+                                        </li>
+                                        <li style="border:0; margin-top:8px;">
+                                            <div style="padding:5px 0px;font-size:13px;color:#98a3f4;text-decoration:underline;">(사이즈 : <span class="mainSize" style="color:#98a3f4;text-decoration:underline;">@Convert.ToInt32(ViewData["Photo_Max_Width"])px X @Convert.ToInt32(ViewData["Photo_Max_Height"])px)</span></div>
+                                        </li>
+                                    </ul>
+                                    <!-- 대표 이미지 안내 팝업 -->
+                                    <div class="pop_wrap pop_l representative_img_pop">
+                                        <div class="layer_pop">
+                                            <h3>대표 이미지</h3>
+                                            <div class="img_con">
+                                                <img src="/img/order/representative_img.jpg" alt="대표 이미지 안내 이미지" />
+                                            </div>
+                                            <p class="pop_text"><strong>포토형 초대장 메인</strong>에 사용되는 이미지입니다.</p>
+                                            <div class="btn_wrap type01">
+                                                <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                            </div>
+                                        </div>
+                                        <div class="pop_mask"></div>
+                                    </div>
+                                    <!-- //대표 이미지 안내 팝업 -->
+                                    <!-- 이미지 크롭 팝업 -->
+                                    <div class="pop_wrap main_pop">
+                                        <div class="layer_pop">
+                                            <h3>이미지 편집</h3>
+                                            <p>사진의 원하는 부분을 드래그해서 편집해 주세요</p>
+                                            <div class="img_box">
+                                            </div>
+                                            <div class="btn_wrap type02">
+                                                <a href="javascript:;" class="btn type03_1" onclick="popClose();">취소</a>
+                                                <a href="javascript:;" class="btn type03" onclick="CompleteCrop('main');">확인</a>
+                                            </div>
+                                        </div>
+                                        <div class="pop_mask"></div>
+                                        <div style="visibility:hidden;overflow:hidden;height:0px;"><img id="crop_main_img_org" /></div>
+                                    </div>
+                                    <!-- //이미지 크롭 팝업 -->
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- //포토형 청첩장인 경우에만 해당 영역 출력 -->
+                    </table>
+                </div>
+                <!-- //기본 정보 -->
+                <!-- 신랑신부 정보 -->
+                <div class="order_con wedd_info">
+                    <h2>신랑신부 정보</h2>
+                    <table class="order_table type01">
+                        <caption>신랑신부 정보</caption>
+                        <colgroup>
+                            <col style="width:145px;">
+                            <col style="width:615px">
+                        </colgroup>
+                        <tr>
+                            <th>신랑</th>
+                            <td>
+                                <input type="text" class="inp w180 input_match" idx="1" id="Groom_Name" placeholder="이름" value="@ViewData["Groom_Name"]" maxlength="100">
+                                <span class="number_box">
+                                    <input type="text" class="inp w60 ml20 mr5 call_val input_match_ex1" id="Groom_Global_Phone_Number" value="@ViewData["Groom_Global_Phone_Number"]" @(ViewData["Groom_Global_Phone_YN"] != null && ViewData["Groom_Global_Phone_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                    <input type="text" class="inp w180 input_match_ex1" idx="1" id="Groom_Phone" onkeyup="chkNumber(this);" placeholder="'-'없이 숫자만 입력하세요." value="@ViewData["Groom_Phone"]" maxlength="20">
+                                    <span class="check_box tip_box">
+                                        <input type="checkbox" id="Groom_Global_Phone_YN" name="check" class="input_match_ex1" @(ViewData["Groom_Global_Phone_YN"] != null && ViewData["Groom_Global_Phone_YN"].ToString() == "Y" ? "checked='true'" : "") />
+                                        <label for="Groom_Global_Phone_YN">국제전화</label>
+                                        <span class="bn_tip w240">
+                                            <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                            <p>
+                                                ex) 대한민국 : +82 <br />
+                                                미국/캐나다 : +1 <br />
+                                                베트남 : +84 <br />
+                                                영국 : +44
+                                            </p>
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>신부</th>
+                            <td>
+                                <input type="text" class="inp input_match" idx="1" id="Bride_Name" placeholder="이름" value="@ViewData["Bride_Name"]" maxlength="100">
+                                <span class="number_box">
+                                    <input type="text" class="inp w60 ml20 mr5 call_val input_match_ex1" id="Bride_Global_Phone_Number" value="@ViewData["Bride_Global_Phone_Number"]" @(ViewData["Bride_Global_Phone_YN"] != null && ViewData["Bride_Global_Phone_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                    <input type="text" class="inp w180 input_match_ex1" idx="1" id="Bride_Phone" onkeyup="chkNumber(this);" placeholder="'-'없이 숫자만 입력하세요." value="@ViewData["Bride_Phone"]" maxlength="20">
+                                    <span class="check_box tip_box">
+                                        <!--
+                                임시 id, name, for 입니다.
+                                작업 시 id와 for값 맞춰주세요!
+                            -->
+                                        <input type="checkbox" id="Bride_Global_Phone_YN" class="input_match_ex1" @(ViewData["Bride_Global_Phone_YN"] != null && ViewData["Bride_Global_Phone_YN"].ToString() == "Y" ? "checked='true'" : "")>
+                                        <label for="Bride_Global_Phone_YN">국제전화</label>
+                                        <span class="bn_tip w240">
+                                            <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                            <p>
+                                                ex) 대한민국 : +82 <br />
+                                                미국/캐나다 : +1 <br />
+                                                베트남 : +84 <br />
+                                                영국 : +44
+                                            </p>
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- //신랑신부 정보 -->
+                <!-- 혼주 정보 -->
+                <div class="order_con honju_info">
+                    <div class="con_title">
+                        <h2>혼주 정보</h2>
+                        <!--
+                임시 id, name, for 입니다.
+                작업 시 id와 for값 맞춰주세요!
+            -->
+                        <div class="radio_box">
+                            <input type="radio" id="Parents_Information_Use_Y" class="btn_use" idx="2" name="Parents_Information_Use_YN" checked>
+                            <label for="Parents_Information_Use_Y">사용함</label>
+                            <input type="radio" id="Parents_Information_Use_N" name="Parents_Information_Use_YN" class="btn_unuse" idx="2">
+                            <label for="Parents_Information_Use_N" class="ml25">사용안함</label>
+                        </div>
+                    </div>
+                    <!-- 신랑측 -->
+                    <div class="order_detail">
+                        <h3>신랑측</h3>
+                        <table class="order_table type01">
+                            <caption>신랑측 정보</caption>
+                            <colgroup>
+                                <col style="width:145px;">
+                                <col style="width:615px">
+                            </colgroup>
+                            <tr>
+                                <th>
+                                    <div class="select_wrap type01 w128">
+                                        <select class="select seltitle" name="" id="sel_g1">
+                                            <option value="아버지" selected>아버지</option>
+                                            <option value="어머니">어머니</option>
+                                            <option value="직접입력">직접입력</option>
+                                            <option value="입력안함">입력안함</option>
+                                        </select>
+                                    </div>
+                                </th>
+                                <td>
+                                    <!-- 직접입력 선택한 경우 노출 -->
+                                    <input type="text" id="Groom_Parents1_Title" class="inp w80 mr10 sel_g1 input_match" placeholder="관계 입력" style="display:none;" value="@ViewData["Groom_Parents1_Title"]">
+                                    <!-- //직접입력 선택한 경우 노출 -->
+                                    <input type="text" class="inp w120  input_match" placeholder="이름" idx="4" id="Groom_Parents1_Name" value="@ViewData["Groom_Parents1_Name"]" maxlength="100">
+                                    <span class="number_box">
+                                        <input type="text" class="inp w60 ml20 mr5 call_val input_match_ex1" id="Groom_Parents1_Global_Phone_Number" value="@ViewData["Groom_Parents1_Global_Phone_Number"]" @(ViewData["Groom_Parents1_Global_Phone_Number_YN"] != null && ViewData["Groom_Parents1_Global_Phone_Number_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                        <input type="text" class="inp w180 input_match_ex1" placeholder="'-'없이 숫자만 입력하세요." idx="4" id="Groom_Parents1_Phone" onkeyup="chkNumber(this);" value="@ViewData["Groom_Parents1_Phone"]" maxlength="20">
+                                        <span class="check_box tip_box">
+                                            <input type="checkbox" id="Groom_Parents1_Global_Phone_Number_YN" class="input_match_ex1" @(ViewData["Groom_Parents1_Global_Phone_Number_YN"] != null && ViewData["Groom_Parents1_Global_Phone_Number_YN"].ToString() == "Y" ? "checked='true'" : "")>
+                                            <label for="Groom_Parents1_Global_Phone_Number_YN">국제전화</label>
+                                            <span class="bn_tip w240">
+                                                <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                                <p>
+                                                    ex) 대한민국 : +82 <br />
+                                                    미국/캐나다 : +1 <br />
+                                                    베트남 : +84 <br />
+                                                    영국 : +44
+                                                </p>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="select_wrap type01 w128">
+                                        <select class="select seltitle" name="" id="sel_g2">
+                                            <option value="아버지">아버지</option>
+                                            <option value="어머니" selected>어머니</option>
+                                            <option value="직접입력">직접입력</option>
+                                            <option value="입력안함">입력안함</option>
+                                        </select>
+                                    </div>
+                                </th>
+                                <td>
+                                    <!-- 직접입력 선택한 경우 노출 -->
+                                    <input type="text" id="Groom_Parents2_Title" class="inp w80 mr10 sel_g2 input_match" placeholder="관계 입력" style="display:none;" value="@ViewData["Groom_Parents2_Title"]">
+                                    <!-- //직접입력 선택한 경우 노출 -->
+                                    <input type="text" class="inp w120  input_match" placeholder="이름" idx="4" id="Groom_Parents2_Name" value="@ViewData["Groom_Parents2_Name"]" maxlength="100">
+                                    <span class="number_box">
+                                        <input type="text" class="inp w60 ml20 mr5 call_val input_match_ex1" id="Groom_Parents2_Global_Phone_Number" value="@ViewData["Groom_Parents2_Global_Phone_Number"]" @(ViewData["Groom_Parents2_Global_Phone_Number_YN"] != null && ViewData["Groom_Parents2_Global_Phone_Number_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                        <input type="text" class="inp w180 input_match_ex1" placeholder="'-'없이 숫자만 입력하세요." idx="4" id="Groom_Parents2_Phone" onkeyup="chkNumber(this);" value="@ViewData["Groom_Parents2_Phone"]" maxlength="20">
+                                        <span class="check_box tip_box">
+                                            <!--
+                                    임시 id, name, for 입니다.
+                                    작업 시 id와 for값 맞춰주세요!
+                                -->
+                                            <input type="checkbox" id="Groom_Parents2_Global_Phone_Number_YN" class="input_match_ex1" @(ViewData["Groom_Parents2_Global_Phone_Number_YN"] != null && ViewData["Groom_Parents2_Global_Phone_Number_YN"].ToString() == "Y" ? "checked='true'" : "")>
+                                            <label for="Groom_Parents2_Global_Phone_Number_YN">국제전화</label>
+                                            <span class="bn_tip w240">
+                                                <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                                <p>
+                                                    ex) 대한민국 : +82 <br />
+                                                    미국/캐나다 : +1 <br />
+                                                    베트남 : +84 <br />
+                                                    영국 : +44
+                                                </p>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- //신랑측 -->
+                    <!-- 신부측 -->
+                    <div class="order_detail">
+                        <h3>신부측</h3>
+                        <table class="order_table type01">
+                            <caption>신부측 정보</caption>
+                            <colgroup>
+                                <col style="width:145px;">
+                                <col style="width:615px">
+                            </colgroup>
+                            <tr>
+                                <th>
+                                    <div class="select_wrap  type01 w128">
+                                        <select class="select seltitle" name="" id="sel_b1">
+                                            <option value="아버지" selected>아버지</option>
+                                            <option value="어머니">어머니</option>
+                                            <option value="직접입력">직접입력</option>
+                                            <option value="입력안함">입력안함</option>
+                                        </select>
+                                    </div>
+                                </th>
+                                <td>
+                                    <!-- 직접입력 선택한 경우 노출 -->
+                                    <input type="text" id="Bride_Parents1_Title" class="inp w80 mr10 sel_b1 input_match" placeholder="관계 입력" style="display:none;" value="@ViewData["Bride_Parents1_Title"]">
+                                    <!-- //직접입력 선택한 경우 노출 -->
+                                    <input type="text" class="inp b1 w120 input_match" placeholder="이름" idx="4" id="Bride_Parents1_Name" value="@ViewData["Bride_Parents1_Name"]" maxlength="100">
+                                    <span class="number_box">
+                                        <input type="text" class="inp w60 ml20 mr5 call_val input_match_ex1" id="Bride_Parents1_Global_Phone_Number" value="@ViewData["Bride_Parents1_Global_Phone_Number"]" @(ViewData["Bride_Parents1_Global_Phone_Number_YN"] != null && ViewData["Bride_Parents1_Global_Phone_Number_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                        <input type="text" class="inp w180 input_match_ex1" placeholder="'-'없이 숫자만 입력하세요." idx="4" id="Bride_Parents1_Phone" onkeyup="chkNumber(this);" value="@ViewData["Bride_Parents1_Phone"]" maxlength="20">
+                                        <span class="check_box tip_box">
+                                            <!--
+                                    임시 id, name, for 입니다.
+                                    작업 시 id와 for값 맞춰주세요!
+                                -->
+                                            <input type="checkbox" id="Bride_Parents1_Global_Phone_Number_YN" class="input_match_ex1" @(ViewData["Bride_Parents1_Global_Phone_Number_YN"] != null && ViewData["Bride_Parents1_Global_Phone_Number_YN"].ToString() == "Y" ? "checked='true'" : "")>
+                                            <label for="Bride_Parents1_Global_Phone_Number_YN">국제전화</label>
+                                            <span class="bn_tip w240">
+                                                <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                                <p>
+                                                    ex) 대한민국 : +82 <br />
+                                                    미국/캐나다 : +1 <br />
+                                                    베트남 : +84 <br />
+                                                    영국 : +44
+                                                </p>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="select_wrap  type01 w128">
+                                        <select class="select seltitle" name="" id="sel_b2">
+                                            <option value="아버지">아버지</option>
+                                            <option value="어머니" selected>어머니</option>
+                                            <option value="직접입력">직접입력</option>
+                                            <option value="입력안함">입력안함</option>
+                                        </select>
+                                    </div>
+                                </th>
+                                <td>
+                                    <!-- 직접입력 선택한 경우 노출 -->
+                                    <input type="text" id="Bride_Parents2_Title" class="inp w80 mr10 sel_b2 input_match" placeholder="관계 입력" style="display:none;" value="@ViewData["Bride_Parents2_Title"]">
+                                    <!-- //직접입력 선택한 경우 노출 -->
+                                    <input type="text" class="inp w120 input_match" placeholder="이름" idx="4" id="Bride_Parents2_Name" value="@ViewData["Bride_Parents2_Name"]" maxlength="100">
+                                    <span class="number_box">
+                                        <input type="text" class="inp w60 ml20 mr5 call_val input_match_ex1" id="Bride_Parents2_Global_Phone_Number" value="@ViewData["Bride_Parents2_Global_Phone_Number"]" @(ViewData["Bride_Parents2_Global_Phone_Number_YN"] != null && ViewData["Bride_Parents2_Global_Phone_Number_YN"].ToString() == "Y" ? "" : "readonly='readonly'")>
+                                        <input type="text" class="inp w180 input_match_ex1" placeholder="'-'없이 숫자만 입력하세요." idx="4" id="Bride_Parents2_Phone" onkeyup="chkNumber(this);" value="@ViewData["Bride_Parents2_Phone"]" maxlength="20">
+                                        <span class="check_box tip_box">
+                                            <!--
+                                    임시 id, name, for 입니다.
+                                    작업 시 id와 for값 맞춰주세요!
+                                -->
+                                            <input type="checkbox" id="Bride_Parents2_Global_Phone_Number_YN" class="input_match_ex1" @(ViewData["Bride_Parents2_Global_Phone_Number_YN"] != null && ViewData["Bride_Parents2_Global_Phone_Number_YN"].ToString() == "Y" ? "checked='true'" : "")>
+                                            <label for="Bride_Parents2_Global_Phone_Number_YN">국제전화</label>
+                                            <span class="bn_tip w240">
+                                                <h4>"+"를 포함한 국제전화 코드를 입력해주세요.</h4>
+                                                <p>
+                                                    ex) 대한민국 : +82 <br />
+                                                    미국/캐나다 : +1 <br />
+                                                    베트남 : +84 <br />
+                                                    영국 : +44
+                                                </p>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- //신부측 -->
+                </div>
+                <!-- //혼주 정보 -->
+                <!-- 예식장 정보 -->
+                <div class="order_con wedd_info">
+                    <h2>예식장 정보</h2>
+                    <table class="order_table type01">
+                        <caption>예식장 정보</caption>
+                        <colgroup>
+                            <col style="width:145px;">
+                            <col style="width:615px">
+                        </colgroup>
+                        <tr>
+                            <th>예식 일시</th>
+                            <td>
+                                <span class="date_box">
+                                    <input type="text" class="inp date_inp w230" id="Calendar">
+                                    <input type="hidden" class="input_match" idx="1" id="WeddingYY" value="@ViewData["WeddingYY"]">
+                                    <input type="hidden" class="input_match" idx="1" id="WeddingMM" value="@ViewData["WeddingMM"]">
+                                    <input type="hidden" class="input_match" idx="1" id="WeddingDD" value="@ViewData["WeddingDD"]">
+                                    <input type="hidden" class="input_match" idx="1" id="WeddingWeek" value="@ViewData["WeddingWeek"]">
+                                    <input type="hidden" class="input_match" idx="1" id="Time_Type_Code" value="@ViewData["Time_Type_Code"]" />
+                                    <input type="hidden" class="input_match" idx="1" id="Time_Type_Name" value="@ViewData["Time_Type_Code"]" />
+                                    <input type="hidden" class="input_match" idx="1" id="WeddingWeekName" value="@ViewData["WeddingWeek"]" />
+                                    <input type="hidden" id="WeddingDate" value="@ViewData["WeddingDate"]" />
+
+                                    <span class="ico date">달력 아이콘</span>
+                                </span>
+                                <span class="time_box">
+                                    <span class="radio_box wedd_time">
+                                        <input type="radio" id="AM" kname="오전" name="Time_Type_Code" checked>
+                                        <label for="AM">오전</label>
+                                        <input type="radio" id="PM" kname="오후" name="Time_Type_Code">
+                                        <label for="PM" class="ml10">오후</label>
+                                    </span>
+                                    <input type="text" class="inp w50 input_match" id="WeddingHour" maxlength="2" value="@ViewData["WeddingHour"]"> 시
+                                    <input type="text" class="inp w50 input_match" id="WeddingMin" maxlength="2" value="@ViewData["WeddingMin"]"> 분
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>예식장명</th>
+                            <td>
+                                <input type="text" idx="10" class="inp wp100 input_match" id="Weddinghall_Name" placeholder="바른웨딩홀" value="@ViewData["Weddinghall_Name"]" maxlength="100">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>층/홀/실</th>
+                            <td>
+                                <input type="text" idx="10" class="inp wp85 input_match" id="WeddingHallDetail" placeholder="3층 그랜드홀" value="@ViewData["WeddingHallDetail"]" maxlength="50">
+                                <input type="checkbox" id="DetailNewLineYN" style="margin-left:10px;" @(ViewData["DetailNewLineYN"] != null && ViewData["DetailNewLineYN"].ToString() == "Y" ? "checked='true'" : "") /><label for="DetailNewLineYN" style="margin-left:5px;">줄바꿈</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>예식장 연락처</th>
+                            <td>
+                                <input type="text" idx="10" class="inp wp100 input_match" id="Weddinghall_PhoneNumber" onkeyup="chkNumber(this);" placeholder="02-0000-0000" value="@ViewData["Weddinghall_PhoneNumber"]" maxlength="20">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>예식장 주소</th>
+                            <td>
+                                <div class="inp_wb btn_wrap">
+                                    <input type="text" idx="10" id="Weddinghall_Address" class="inp input_match" value="@ViewData["Weddinghall_Address"]" maxlength="500" >
+                                    <a href="#" class="btn type03" onclick="layerPopOpen('weddinghall_search_pop'); execDaumPostcode(); return false;">검색하기</a>
+                                    <!-- 예식장 주소 팝업 -->
+                                    <div class="pop_wrap pop_l weddinghall_search_pop">
+                                        <div class="layer_pop">
+                                            <div id="layerAddr" style="display:none;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
+                                            <div class="btn_wrap type01">
+                                                <a href="javascript:;" class="btn type03_1" onclick="popClose()">닫기</a>
+                                            </div>
+                                        </div>
+                                        <div class="pop_mask">
+                                            <div class="forErrorMsg"><div class="Weddinghall_Address"></div></div>
+                                        </div>
+                                    </div>
+                                    <!-- //예식장 주소 팝업 -->
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>약도 입력</th>
+                            <td>
+                                <div class="inp_wb btn_wrap type02">
+                                    <span class="radio_box">
+                                        <input type="radio" id="navermap" name="map" checked onclick="hiddenFile();">
+                                        <label for="navermap">네이버지도 사용</label>
+                                        <input type="radio" id="outlinemap" name="map" onclick="viewFile();">
+                                        <label for="outlinemap" class="ml10">직접등록</label>
+                                    </span>
+                                    <span id="viewfile" class="map_box" style="display:none;">
+                                        <input type="text" class="inp map_inp" placeholder="폭 360 px로 업로드해주세요.">
+                                        <a href="javascript:fn_add_Outline_Image();" class="btn type03">파일등록</a>
+
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>예식장 약도</th>
+                            <td>
+                                <!-- 파일 등록한 약도 노출  -->
+                                <div class="wedd_map wp100">
+                                    <div class="input_navermap">
+                                        <div id="map_canvas">
+                                            <iframe id="incNaverMap" src="/Invitation/NaverMap" width="600" height="320" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                        </div>
+                                        <div id="map_tip">TIP: 행사장 주소를 검색하신 후 실제 지도와 위치가 다를 경우 정확한 설정을 위해 위치를 클릭해주세요.</div>
+                                        <div class="forErrorMsg"><div class="lat"></div></div>
+                                    </div>
+                                    <div class="input_imgmap" style="display:none;"><img class="mapImg" id="Outline_Image" style="border:0px solid #ccc;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- //예식장 정보 -->
+                <!-- 기타 정보 -->
+                <div class="order_con etc_info">
+                    <div class="con_title">
+                        <h2>기타 정보</h2>
+                        <div class="radio_box">
+                            <input type="radio" id="Etc_Information_Use_Y" class="btn_use" name="Etc_Information_Use_YN" idx="3" checked>
+                            <label for="Etc_Information_Use_Y">사용함</label>
+                            <input type="radio" id="Etc_Information_Use_N" name="Etc_Information_Use_YN" idx="3" class="btn_unuse">
+                            <label for="Etc_Information_Use_N" class="ml25">사용안함</label>
+                        </div>
+                    </div>
+                    <div class="order_detail">
+                        <table class="order_table type01 info_reg_list">
+                            <caption>기타 정보</caption>
+                            <colgroup>
+                                <col style="width:145px;">
+                                <col style="width:615px">
+                            </colgroup>
+                            <tr>
+                                <th class="etc_title" id="etc_title_1">버스 안내</th>
+                                <td colspan="2">
+                                    <textarea cols="17" rows="1" class="etc_contents" id="etc_contents_1" maxlength="500" style="width:100%"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="etc_title" id="etc_title_2">자가용 안내</th>
+                                <td colspan="2">
+                                    <textarea cols="17" rows="1" class="etc_contents" id="etc_contents_2" maxlength="500" style="width:100%"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="btn_wrap add_btn_wrap" style="padding-top:15px;">
+                            <a href="javascript:;" class="btn type04_1 add_inp_btn etc_info" style="font-size:14px;">+ 항목 추가</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 축하 화환 선물 -->
+                <div class="order_con c_flowers" style="display:none">
+                    <div class="con_title">
+                        <h2>축하 화환 선물 <span class="ico notice" onclick="layerPopOpen('c_flowers_pop')">툴팁 아이콘</span></h2>
+                        <div class="radio_box">
+                            <input type="radio" id="Flower_gift_Y" class="btn_use" name="Flower_gift_YN" idx="8" checked>
+                            <label for="Flower_gift_Y">사용함</label>
+                            <input type="radio" id="Flower_gift_N" class="btn_unuse" name="Flower_gift_YN" idx="8">
+                            <label for="Flower_gift_N" class="ml25">사용안함</label>
+                        </div>
+                    </div>
+                    <div class="order_detail">
+                        <p class="order_info_text flower_gift">
+                            하객들이 손쉽게 축하 화환을 보낼 수 있는 버튼을 추가합니다.
+                        </p>
+                    </div>
+                    <!-- 축하 화환 안내 팝업 -->
+                    <div class="pop_wrap pop_l c_flowers_pop">
+                        <partial name="pop_flowerInfo.cshtml" />
+                    </div>
+                    <!-- //축하 화환 안내 팝업 -->
+                </div>
+                <!-- //축하 화환 선물 -->
+
+                <!-- //기타 정보 -->
+                <!-- 축의금(카카오페이) -->
+                <div class="order_con money_gift">
+                    <div class="con_title">
+                        <h2>축의금(카카오페이)</h2>
+                        <div class="radio_box">
+                            <input type="radio" id="MoneyGift_Remit_Use_Y" class="btn_use" name="MoneyGift_Remit_Use_YN" idx="4">
+                            <label for="MoneyGift_Remit_Use_Y">사용함</label>
+                            <input type="radio" id="MoneyGift_Remit_Use_N" class="btn_unuse" name="MoneyGift_Remit_Use_YN" idx="4" checked>
+                            <label for="MoneyGift_Remit_Use_N" class="ml25">사용안함</label>
+                        </div>
+                    </div>
+                    <div class="order_detail">
+                        <p class="account_guide kakao_text">
+                            계좌번호 안내 없이도 카카오페이를 통해 축의금을 받을 수 있는 부가서비스입니다.
+                        </p>
+                        <div class="btn_wrap" style="padding-top:30px">
+                            <a href="@(ViewData["KakaoBankingUrl"])" target="_blank" class="btn type07_1">지금 계좌설정 하기</a>
+                        </div>
+                        <div class="info_text">
+                            <p>
+                                ※ <strong>건 당 1,000원의 서비스 이용료(카카오페이 이용료 외)가 발생합니다.</strong> <br />
+                                ※ 축의금 내역은 마이페이지에서 엑셀다운로드 하셔서, 편리하게 관리할 수 있습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- //축의금(카카오페이) -->
+                <!-- 축의금(계좌번호분리) -->
+                <div class="order_con money_account div">
+                    <div class="con_title">
+                        <h2>축의금(계좌번호분리)</h2>
+                        <div class="radio_box">
+                            <input type="radio" id="MoneyAccount_Div_Use_Y" class="btn_use" name="MoneyAccount_Div_Use_YN" idx="4">
+                            <label for="MoneyAccount_Div_Use_Y">사용함</label>
+                            <input type="radio" id="MoneyAccount_Div_Use_N" class="btn_unuse" name="MoneyAccount_Div_Use_YN" idx="4" checked>
+                            <label for="MoneyAccount_Div_Use_N" class="ml25">사용안함</label>
+                        </div>
+                    </div>
+                    <div class="order_detail">
+                        <p class="account_guide">
+                            신랑측, 신부측 계좌번호를 분리하여 이용하실 수 있습니다.
+                        </p>
+                        <h3>신랑측</h3>
+                        <table class="order_table type01 account_groom_list">
+                            <caption>축의금(계좌번호) 정보입력</caption>
+                            <colgroup>
+                                <col style="width:145px;">
+                                <col style="width:615px">
+                            </colgroup>
+                            <tr>
+                                <th>
+                                    <div class="select_wrap type01 w128">
+                                        <select class="select sel_groom_sender" id="selGroomSender_1">
+                                        </select>
+                                    </div>
+                                </th>
+                                <td>
+                                    <input type="text" class="inp w74 input_groom_sender input_match_groom" style="display:none;" placeholder="관계" id="inputGroomSender_1" value="" idx="12" />
+                                    <span class="select_wrap type01 w100 ml10 mr5">
+                                        <select class="select sel_groom_bank " id="selGroomBank_1">
+                                        </select>
+                                        <input type="hidden" class="input_bank input_match_groom" id="inputGroomBank_1" idx="12" />
+                                    </span>
+                                    <input type="text" class="inp num_inp w230 mr5 input_groom_accountnumber input_match_groom " placeholder="계좌번호입력( - 없이 숫자만 입력)" id="inputGroomAccountNumber_1" idx="12" onkeyup="chkNumber(this);" maxlength="100" />
+                                    <input type="text" class="inp num_inp w100 input_groom_accountholder input_match_groom" placeholder="예금주 입력" id="inputGroomAccountHolder_1" idx="12" maxlength="50" />
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- 항목 추가 -->
+                        <div class="btn_wrap add_btn_wrap">
+                            <a href="javascript:;" class="btn type04_1 add_inp_btn account_groom" style="font-size:14px;">+ 항목 추가</a>
+                        </div>
+                        <h3>신부측</h3>
+                        <table class="order_table type01 account_bride_list">
+                            <caption>축의금(계좌번호) 정보입력</caption>
+                            <colgroup>
+                                <col style="width:145px;">
+                                <col style="width:615px">
+                            </colgroup>
+                            <tr>
+                                <th>
+                                    <div class="select_wrap type01 w128">
+                                        <select class="select sel_bride_sender" id="selBrideSender_1">
+                                        </select>
+                                    </div>
+                                </th>
+                                <td>
+                                    <input type="text" class="inp w74 input_bride_sender input_match_bride" style="display:none;" placeholder="관계" id="inputBrideSender_1" value="" idx="12" />
+                                    <span class="select_wrap type01 w100 ml10 mr5">
+                                        <select class="select sel_bride_bank " id="selBrideBank_1">
+                                        </select>
+                                        <input type="hidden" class="input_bank input_match_bride" id="inputBrideBank_1" idx="12" />
+                                    </span>
+                                    <input type="text" class="inp num_inp w230 mr5 input_bride_accountnumber input_match_bride " placeholder="계좌번호입력( - 없이 숫자만 입력)" id="inputBrideAccountNumber_1" onkeyup="chkNumber(this);" idx="12" maxlength="100" />
+                                    <input type="text" class="inp num_inp w100 input_bride_accountholder input_match_bride" placeholder="예금주 입력" id="inputBrideAccountHolder_1" idx="12" maxlength="50" />
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- 항목 추가 -->
+                        <div class="btn_wrap add_btn_wrap">
+                            <a href="javascript:;" class="btn type04_1 add_inp_btn account_bride" style="font-size:14px;">+ 항목 추가</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- //축의금(계좌번호분리) -->
+                <!-- 축의금(계좌번호통합) -->
+                <div class="order_con money_account all">
+                    <div class="con_title">
+                        <h2>축의금(계좌번호통합)</h2>
+                        <div class="radio_box">
+                            <input type="radio" id="MoneyAccount_Remit_Use_Y" class="btn_use" name="MoneyAccount_Remit_Use_YN" idx="4">
+                            <label for="MoneyAccount_Remit_Use_Y">사용함</label>
+                            <input type="radio" id="MoneyAccount_Remit_Use_N" class="btn_unuse" name="MoneyAccount_Remit_Use_YN" idx="4" checked>
+                            <label for="MoneyAccount_Remit_Use_N" class="ml25">사용안함</label>
+                        </div>
+                    </div>
+                    <div class="order_detail">
+                        <p class="account_guide">
+                            신랑측, 신부측 계좌번호를 통합하여 이용할 수 있습니다.
+                        </p>
+                        <table class="order_table type01 account_list">
+                            <caption>축의금(계좌번호) 정보입력</caption>
+                            <colgroup>
+                                <col style="width:145px;">
+                                <col style="width:615px">
+                            </colgroup>
+                            <tr>
+                                <th>
+                                    <div class="select_wrap type01 w128">
+                                        <select class="select sel_sender" id="selSender_1">
+                                        </select>
+                                    </div>
+                                </th>
+                                <td>
+                                    <input type="text" class="inp w74 input_sender input_match_ex2" style="display:none;" placeholder="관계" id="inputSender_1" value="" idx="12" />
+                                    <span class="select_wrap type01 w100 ml10 mr5">
+                                        <select class="select sel_bank " id="selBank_1">
+                                        </select>
+                                        <input type="hidden" class="input_bank input_match_ex2" id="inputBank_1" idx="12" />
+                                    </span>
+                                    <input type="text" class="inp num_inp w230 mr5 input_accountnumber input_match_ex2 " placeholder="계좌번호입력( - 없이 숫자만 입력)" id="inputAccountNumber_1" onkeyup="chkNumber(this);" idx="12" maxlength="100" />
+                                    <input type="text" class="inp num_inp w100 input_accountholder input_match_ex2" placeholder="예금주 입력" id="inputAccountHolder_1" idx="12" maxlength="50" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="select_wrap type01 w128">
+                                        <select class="select sel_sender" id="selSender_2">
+                                        </select>
+                                    </div>
+                                </th>
+                                <td>
+                                    <input type="text" class="inp w74 input_sender input_match_ex2" style="display:none;" placeholder="관계" id="inputSender_2" value="" idx="12" />
+                                    <span class="select_wrap type01 w100 ml10 mr5">
+                                        <select class="select sel_bank" id="selBank_2">
+                                        </select>
+                                        <input type="hidden" class="input_bank input_match_ex2" id="inputBank_2" idx="12" />
+                                    </span>
+                                    <input type="text" class="inp num_inp w230 mr5 input_accountnumber input_match_ex2" placeholder="계좌번호입력( - 없이 숫자만 입력)" id="inputAccountNumber_2" onkeyup="chkNumber(this);" idx="12" maxlength="100" />
+                                    <input type="text" class="inp num_inp w100 input_accountholder input_match_ex2" placeholder="예금주 입력" id="inputAccountHolder_2" idx="12" maxlength="50" />
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- 항목 추가 -->
+                        <div class="btn_wrap add_btn_wrap">
+                            <a href="javascript:;" class="btn type04_1 add_inp_btn account" style="font-size:14px;">+ 항목 추가</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- //축의금(계좌번호통합) -->
+                <!-- 다음 단계로 이동 버튼 -->
+                <div class="btn_wrap next_wrap">
+                    <a href="javascript:;" id="btn_next" class="btn type03 wp100">다음 단계로 이동</a>
+                </div>
+                <!-- 다음 단계로 이동 버튼 -->
+            </div>
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+    <div style="display:none" id="ETCs">@ViewData["ETCs"]</div>
+    <div style="display:none" id="Banks">@ViewData["Banks"]</div>
+    <div style="display:none" id="Sender">@ViewData["Sender"]</div>
+    <div style="display:none" id="Accounts">@ViewData["Accounts"]</div>
+    <div style="display:none" id="GroomSender">@ViewData["GroomSender"]</div>
+    <div style="display:none" id="BrideSender">@ViewData["BrideSender"]</div>
+    <div style="display:none" id="GroomAccounts">@ViewData["GroomAccounts"]</div>
+    <div style="display:none" id="BrideAccounts">@ViewData["BrideAccounts"]</div>
+
+
+</section>
+<form id="uploadFrm" enctype="multipart/form-data" method="post">
+    <div class="modal-body">
+        <input type="file" id="mapfile" name="files" accept=".jpg,.jpeg,.png" style="display:none" />
+        <input type="file" id="mainfile" name="files" accept=".jpg,.jpeg,.png" style="display:none">
+        <input type="file" id="snsfile" name="files" accept=".jpg,.jpeg,.png" style="display:none">
+    </div>
+</form>
+<input type="hidden" id="lat" value="@ViewData["Location_LAT"]" />
+<input type="hidden" id="lot" value="@ViewData["Location_LOT"]" />
+<input type="hidden" id="Invitation_Id" value="@ViewData["Invitation_Id"]" />
+<input type="hidden" id="Order_Id" value="@ViewData["Order_Id"]" />
+<input type="hidden" id="upload_path" value="@ViewData["upload_path"]" />
+<input type="hidden" id="Outline_Type_Code" value="@ViewData["Outline_Type_Code"]" />
+<input type="hidden" id="Outline_Image_URL" value="@ViewData["Outline_Image_URL"]" />
+
+<input type="hidden" id="GuestBook_Use_YN" value="@ViewData["GuestBook_Use_YN"]" />
+<input type="hidden" id="Etc_Information_Use_YN" value="@ViewData["Etc_Information_Use_YN"]" />
+<input type="hidden" id="Parents_Information_Use_YN" value="@ViewData["Parents_Information_Use_YN"]" />
+<input type="hidden" id="MoneyGift_Remit_Use_YN" value="@ViewData["MoneyGift_Remit_Use_YN"]" />
+<input type="hidden" id="MoneyAccount_Remit_Use_YN" value="@ViewData["MoneyAccount_Remit_Use_YN"]" />
+<input type="hidden" id="MoneyAccount_Div_Use_YN" value="@ViewData["MoneyAccount_Div_Use_YN"]" />
+<input type="hidden" id="Flower_gift_YN" value="@ViewData["Flower_gift_YN"]" />
+<input type="hidden" id="Invitation_Video_Use_YN" value="@ViewData["Invitation_Video_Use_YN"]" />
+<input type="hidden" id="Gallery_Use_YN" value="@ViewData["Gallery_Use_YN"]" />
+
+<input type="hidden" id="Gallery_Type_Code" value="@ViewData["Gallery_Type_Code"]" />
+<input type="hidden" id="Invitation_Video_Type_Code" value="@ViewData["Invitation_Video_Type_Code"]" />
+<input type="hidden" id="Photo_YN" value="@ViewData["Photo_YN"]" />
+
+
+<input type="hidden" id="SNS_Image_Height" value="@ViewData["SNS_Image_Height"]" />
+<input type="hidden" id="SNS_Image_Width" value="@ViewData["SNS_Image_Width"]" />
+<input type="hidden" id="Delegate_Image_Height" value="@ViewData["Delegate_Image_Height"]" />
+<input type="hidden" id="Delegate_Image_Width" value="@ViewData["Delegate_Image_Width"]" />
+<input type="hidden" id="Photo_Max_Width" value="@ViewData["Photo_Max_Width"]" />
+<input type="hidden" id="Photo_Max_Height" value="@ViewData["Photo_Max_Height"]" />
+
+<input type="hidden" id="Delegate_Image_URL" value="@ViewData["Delegate_Image_URL"]" />
+
+
+<input type="hidden" id="Groom_Parents1_Title" value="@ViewData["Groom_Parents1_Title"]" />
+<input type="hidden" id="Groom_Parents2_Title" value="@ViewData["Groom_Parents2_Title"]" />
+<input type="hidden" id="Bride_Parents1_Title" value="@ViewData["Bride_Parents1_Title"]" />
+<input type="hidden" id="Bride_Parents2_Title" value="@ViewData["Bride_Parents2_Title"]" />
+
+<input type="hidden" id="Invitation_Id" value="@ViewData["Invitation_Id"]" />
+<input type="hidden" id="Time_Type_Eng_YN" value="@ViewData["Time_Type_Eng_YN"]" />
+<input type="hidden" id="WeddingWeek_Eng_YN" value="@ViewData["WeddingWeek_Eng_YN"]" />
+
+<input type="hidden" id="photo_width" />
+<input type="hidden" id="photo_height" />
+
+<input type="hidden" id="User_ID" value="@ViewData["User_ID"]" />
+
+<input type="hidden" id="x1" />
+<input type="hidden" id="y1" />
+<input type="hidden" id="x2" />
+<input type="hidden" id="y2" />
+<!-- //sub contents -->
+
+@section Scripts
+{
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/common/datepicker_helper.js"></script>
+    <script src="/js/jquery.imgareaselect.pack.js"></script>
+    <script src="/js/cropper.min.js"></script>
+    <script src="/js/step/mcardstep1.js" asp-append-version="true" ></script>
+}
+

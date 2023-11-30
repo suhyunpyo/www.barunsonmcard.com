@@ -1,0 +1,193 @@
+﻿@using MobileInvitation.Models
+@using X.PagedList.Mvc.Core; @*페이징툴을 이용...*@
+@using X.PagedList.Mvc; @*페이징툴을 이용...*@
+@using X.PagedList; @*페이징툴을 이용...*@
+@{
+    X.PagedList.PagedList<TB_GuestBook > list = ViewBag.list;
+    int Page = ViewBag.Page;
+    int PageScale = ViewBag.PageScale;
+    int InvitationId = ViewBag.InvitationId;
+    int TotalCount = ViewBag.TotalCount;
+
+    int startIdx = TotalCount - ((Page - 1) * PageScale) ;    
+}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/manage.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>BarunsonMcard 모바일 초대장</title>
+</head>
+<body>
+    <div id="wrap" class="sub">
+        <section class="manage guest">
+            <!-- 관리 페이지 타이틀 -->
+            <div class="title_box top">
+                <div class="area">
+                    <h1>방명록 관리</h1>
+                </div>
+            </div>
+            <!-- //관리 페이지 타이틀 -->
+            <!-- 관리 페이지 컨텐츠 -->
+            <div class="manage_contents">
+                <div class="area">
+                    <!-- 방명록 리스트 -->
+                    <div class="manage_content manage_detail">
+                        <div class="table_wrap">
+                            <table class="table list">
+                                <caption>방명록 리스트 테이블</caption>
+                                <colgroup>
+                                    <col style="width:80px;">
+                                    <col style="width:300px;">
+                                    <col style="width:105px;">
+                                    <col style="width:115px;">
+                                    <col style="width:80px;">
+                                    <col style="width:131px;">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>메시지</th>
+                                        <th>작성자</th>
+                                        <th>작성일시</th>
+                                        <th>숨김/공개</th>
+                                        <th>삭제</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (list.Count() > 0)
+                                    {
+                                        foreach (TB_GuestBook gb in list)
+                                        {
+                                            DateTime regdate = (DateTime)gb.Regist_DateTime;
+                                            string regdateStr = regdate.ToString("yy.MM.dd");
+
+                                            <tr>
+                                                <td>@(startIdx--)</td>
+                                                <td class="tl">
+                                                    <p class="guest_text">@(gb.Message)</p>
+                                                </td>
+                                                <td>@(gb.Name)</td>
+                                                <td>@(regdateStr)</td>
+                                                <td>
+                                                    <div class="select_wrap type01 w80">
+                                                        <select name="display" class="select set_display" data-guestbook-id="@(gb.GuestBook_ID)">
+                                                            <option value="Y" @("Y".Equals(gb.Display_YN) ? "selected=selected" : "")>공개</option>
+                                                            <option value="N" @("N".Equals(gb.Display_YN) ? "selected=selected" : "")>숨김</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:;" class="ico delete" data-guestbook-id="@(gb.GuestBook_ID)">삭제하기</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" class="tdCenter">등록된 방명록이 없습니다.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 페이징 -->
+                        @if (TotalCount > 0)@Html.PagedListPager((IPagedList)list, Page => Url.Action("Guestbook", new { InvitationId = InvitationId, Page, PageScale = PageScale }))
+
+                        <!-- //페이징 -->
+                        <!-- 페이징 -->
+                        <!--
+
+                        <div class="paging_wrap">
+                            <ul>
+                                <li><a href="javascript:;" class="paging_prev">이전페이지 보기</a></li>
+                                <li><a href="javascript:;" class="on">1</a></li>
+                                <li><a href="javascript:;">2</a></li>
+                                <li><a href="javascript:;">3</a></li>
+                                <li><a href="javascript:;">4</a></li>
+                                <li><a href="javascript:;">5</a></li>
+                                <li><a href="javascript:;" class="paging_next">다음페이지 보기</a></li>
+                            </ul>
+                        </div>
+                        -->
+                        <!-- //페이징 -->
+                    </div>
+                    <!-- //방명록 리스트 -->
+                    <!-- 유의사항 -->
+                    <div class="manage_notice">
+                        <div class="area">
+                            <div class="notice_con">
+                                <p class="notice_text">
+                                    - 숨김 : 게시글이 ‘숨김’처리되며, 방명록 관리에서 고객님만 확인하실 수 있습니다. <br />
+                                    - 공개 : ‘숨김’상태가 해제되어 지인분들이 볼 수 있습니다. <br />
+                                    - 삭제 : 해당 게시글이 영구히 삭제되며 복구가 불가능합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //유의사항 -->
+                </div>
+            </div>
+            <!-- //관리 페이지 컨텐츠 -->
+        </section>
+    </div>
+    <script src="/js//common/common.js"></script>
+    <script src="/js/manage.js"></script>
+    <script src="/js/common/front_common_helper.js"></script>
+
+    <script>
+        $().ready(function (e) {
+            $('.set_display').change(function (e) {
+                // 숨김처리 ajax
+                $.ajax({
+                    url: '/Member/Guestbook/Display',
+                    data: {
+                        InvitationId: '@(InvitationId)',
+                        GuestbookId: $(this).data('guestbook-id'),
+                        DisplayYn: $(this).val()
+                    },
+                    method: 'post',
+                    success: function (e) {
+                        // 상태 변경 완료
+                    }
+                });
+            });
+
+            $('.delete').click(function (e) {
+                var check = confirm('해당글을 삭제하시겠습니까?');
+                if (check) {
+                    $.ajax({
+                        url: '/Member/Guestbook/Remove',
+                        data: {
+                            InvitationId: '@(InvitationId)',
+                            GuestbookId: $(this).data('guestbook-id')
+                        },
+                        method: 'post',
+                        success: function (e) {
+                            // 상태 변경 완료
+                            location.reload();
+                        }
+                    });
+                }
+
+            });
+
+        });
+
+        PagingNavigator();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,581 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/event.css">
+<!-- //header -->
+
+<section class="event allaboutmcard">
+
+        <!-- 배너 -->
+        <div class="event_banner">
+            <div class="area">
+                <div class="event_banner_text">
+                    <h1>A-Z : 모바일청첩장 만들기</h1>
+                    <p>
+                        무료 쿠폰 사용방법부터 자주 묻는 질문까지, <br>
+                        모바일청첩장의 모든 것을 알려드려요.
+                    </p>
+                </div>
+                <div class="event_m">
+                    <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/m_event_banner_obj.png" />
+                </div>
+            </div>
+        </div>
+        <!-- //배너 -->
+        <div class="event_contents">
+            <div class="event_con event_con01">
+                <div class="area">
+                    <h2>5분이면 충분해요!</h2>
+                    <p>
+                        초대장 제목, 인사말, 웨딩 사진까지 <br>
+                        쉽고 빠르게 완성하는 내 손안의 청첩장
+                    </p>
+                </div>
+            </div>
+            <div class="event_con event_con02">
+                <div class="area">
+                    <h2><strong>핵심 기능 맛보기</strong></h2>
+                    <div class="event_slide_wrap">
+                        <div class="event_slide swiper-container">
+                            <ul class="swiper-wrapper">
+                                <li class="swiper-slide">
+                                    <div class="imgage_box">
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/1_slide_01.png" alt="핵심 컨텐츠 이미지" />
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/slide_sub_01.gif" alt="핵심 컨텐츠 부가이미지" class="sub_image" />
+                                    </div>
+                                    <div class="text_box">
+                                        <h3>초대장 메인·공유 이미지 PICK!</h3>
+                                        <p>
+                                            <strong>청첩장 대표 사진</strong>부터 카톡, 문자에 보여지는 <br>
+                                            <strong>초대장 제목과 웨딩 사진을 직접 골라보세요.</strong>
+                                        </p>
+                                        <p class="sub_text">*초대장 URL도 설정 가능! 나만의 키워드도 녹여봐요</p>
+                                    </div>
+                                </li>
+                                <li class="swiper-slide">
+                                    <div class="imgage_box">
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/1_slide_02.png" alt="핵심 컨텐츠 이미지" />
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/slide_sub_02.gif" alt="핵심 컨텐츠 부가이미지" class="sub_image" />
+                                    </div>
+                                    <div class="text_box">
+                                        <h3>초대 문구 입력</h3>
+                                        <p>
+                                            다양한 <strong>청첩장 문구 샘플을 활용</strong>하세요. <br>
+                                            내 입맛에 맞춰 수정해도 좋아요!
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="swiper-slide">
+                                    <div class="imgage_box">
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/1_slide_03.png" alt="핵심 컨텐츠 이미지" />
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/slide_sub_03.png" alt="핵심 컨텐츠 부가이미지" class="sub_image" />
+                                    </div>
+                                    <div class="text_box">
+                                        <h3>예식장 위치 삽입</h3>
+                                        <p>
+                                            <strong>예식장명, 주소, 연락처</strong>까지 <br>
+                                            하객들을 위한 상세 주소를 입력하세요.
+                                        </p>
+                                        <p class="sub_text impt">건물정보와 교통정보는 수시 변경되니 <br> 꼭! 재확인을 해주세요</p>
+                                    </div>
+                                </li>
+                                <li class="swiper-slide">
+                                    <div class="imgage_box">
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/1_slide_04.png" alt="핵심 컨텐츠 이미지" />
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/slide_sub_04.png" alt="핵심 컨텐츠 부가이미지" class="sub_image" />
+                                    </div>
+                                    <div class="text_box">
+                                        <h3>웨딩 사진과 초대 영상 업로드</h3>
+                                        <p>
+                                            최대 18컷까지! <br>
+                                            우리만의 웨딩 사진과 <br>
+                                            영상으로 초대장을 장식하세요.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="swiper-slide">
+                                    <div class="imgage_box">
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/1_slide_05.png" alt="핵심 컨텐츠 이미지" />
+                                        <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/slide_sub_05.png" alt="핵심 컨텐츠 부가이미지" class="sub_image" />
+                                    </div>
+                                    <div class="text_box">
+                                        <h3>방명록 OPEN!</h3>
+                                        <p>
+                                            친구, 지인들의 덕담 한마디 <br>
+                                            우리의 행복을 모두와 공유하세요.
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="arrow_area">
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event_con event_con03">
+                <div class="area">
+                    <h2>
+                        바른손 모바일청첩장을 <br>
+                        <strong>만들어야 하는 이유</strong>
+                    </h2>
+                    <div class="event_pc">
+                        <ul>
+                            <li>
+                                <div class="image_box_1">
+                                    <h3>무료제작</h3>
+                                    <p>
+                                        종이 청첩장 구매 시 <br>
+                                        <strong>모바일청첩장 무료 쿠폰 발급</strong>
+                                    </p>
+                                </div>
+                                <div class="image_box_2">
+                                    <h3>바로사용</h3>
+                                    <p>
+                                        제작부터 결제, 전송까지 논스톱! <br>
+                                        <strong>가족, 친구에게 바로 전송 가능!</strong>
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="image_box_3">
+                                    <h3>입맛대로</h3>
+                                    <p>
+                                        <strong>원하는 카테고리만 픽!</strong> <br>
+                                        내 취향의 모바일청첩장 만들기
+                                    </p>
+                                </div>
+                                <div class="image_box_4">
+                                    <h3>색다르게</h3>
+                                    <p>
+                                        친구, 가족, 직장 동료를 위한 <br>
+                                        <strong>각각의 모바일청첩장 제작하기</strong>
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="image_box_5">
+                                    <h3>같은감동</h3>
+                                    <p>
+                                        종이의 감동을 그대로 담아낸 <br>
+                                        <strong>모바일청첩장</strong>
+                                    </p>
+                                </div>
+                                <div class="image_box_6">
+                                    <h3>화환선물</h3>
+                                    <p>
+                                        축하를 표현하는 또 하나의 선물,<br>
+                                        <strong>화환 선물 기능 서비스!</strong>
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="event_m">
+                        <ul>
+                            <li>
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/m_bg_01.png" />
+                                <h3>무료제작</h3>
+                                <p>
+                                    종이 청첩장 구매 시 <br>
+                                    <strong>모바일청첩장 무료 쿠폰 발급</strong>
+                                </p>
+                            </li>
+                            <li>
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/m_bg_02.png" />
+                                <h3>바로사용</h3>
+                                <p>
+                                    제작부터 결제, 전송까지 논스톱! <br>
+                                    <strong>가족, 친구에게 바로 전송 가능!</strong>
+                                </p>
+                            </li>
+                            <li>
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/m_bg_03.png" />
+                                <h3>입맛대로</h3>
+                                <p>
+                                    <strong>원하는 카테고리만 픽!</strong> <br>
+                                    내 취향의 모바일청첩장 만들기
+                                </p>
+                            </li>
+                            <li>
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/m_bg_04.png" />
+                                <h3>색다르게</h3>
+                                <p>
+                                    친구, 가족, 직장 동료를 위한 <br>
+                                    <strong>각각의 모바일청첩장 제작하기</strong>
+                                </p>
+                            </li>
+                            <li>
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/m_bg_05.png" />
+                                <h3>같은감동</h3>
+                                <p>
+                                    종이의 감동을 그대로 담아낸 <br>
+                                    <strong>모바일청첩장</strong>
+                                </p>
+                            </li>
+                            <li>
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/m_bg_06.png" />
+                                <h3>화환선물</h3>
+                                <p>
+                                    축하를 표현하는 또 하나의 선물,<br>
+                                    <strong>화환 선물 기능 서비스!</strong>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="event_con event_con04">
+                <h2>
+                    <strong>무료 서비스만 8개 이상!</strong> <br>
+                    내 마음대로 구성해요
+                </h2>
+                <div class="event_pc">
+                    <div class="area">
+                        <ul>
+                            <li class="obj01">
+                                <h3>전화 · 문자</h3>
+                            </li>
+                            <li class="obj02">
+                                <h3>갤러리 · 초대영상</h3>
+                            </li>
+                            <li class="obj03">
+                                <h3>미리보기 · 무제한 수정</h3>
+                            </li>
+                            <li class="obj04">
+                                <h3>축의금 · 화환</h3>
+                            </li>
+                            <li class="obj05">
+                                <h3>카카오톡 · 방명록</h3>
+                            </li>
+                            <li class="obj06">
+                                <h3>길찾기 · 달력</h3>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                </div>
+                <div class="event_m">
+                    <div class="function_slide swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <ul>
+                                    <li class="obj01">
+                                        <h3>전화 · 문자</h3>
+                                    </li>
+                                    <li class="obj02">
+                                        <h3>갤러리 · 초대영상</h3>
+                                    </li>
+                                    <li class="obj03">
+                                        <h3>미리보기 · 무제한 수정</h3>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="swiper-slide">
+                                <ul>
+                                    <li class="obj04">
+                                        <h3>축의금 · 화환</h3>
+                                    </li>
+                                    <li class="obj05">
+                                        <h3>카카오톡 · 방명록</h3>
+                                    </li>
+                                    <li class="obj06">
+                                        <h3>길찾기 · 달력</h3>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+            <div class="event_con event_con05">
+                <div class="area">
+                    <h2>
+                        퀵앤이지, <br>
+                        <strong class="point03">무료 쿠폰 사용하기</strong>
+                    </h2>
+                </div>
+                <div class="event_pc">
+                    <div class="quick_easy area">
+                        <div class="image_box">
+                            <ol>
+                                <li class="active">
+                                    <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/2_slide_01.png" alt="퀵앤이지 이미지" />
+                                </li>
+                                <li>
+                                    <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/2_slide_02.png" alt="퀵앤이지 이미지" />
+                                </li>
+                                <li>
+                                    <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/2_slide_03.png" alt="퀵앤이지 이미지" />
+                                </li>
+                                <li>
+                                    <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/2_slide_04.png" alt="퀵앤이지 이미지" />
+                                </li>
+                                <li>
+                                    <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/2_slide_05.png" alt="퀵앤이지 이미지" />
+                                </li>
+                                <li>
+                                    <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/pc/2_slide_06.png" alt="퀵앤이지 이미지" />
+                                </li>
+                            </ol>
+                        </div>
+                        <div class="contents_box">
+                            <ol>
+                                <li class="active">
+                                    <h3>STEP 01</h3>
+                                    <p>
+                                        종이 청첩장 결제 시, <strong>모바일청첩장 무료 쿠폰 발급!</strong> <br>
+                                        <a href="https://url.kr/cfibn2" target="_blank">청첩장 보러가기</a>
+                                    </p>
+                                </li>
+                                <li>
+                                    <h3>STEP 02</h3>
+                                    <p>
+                                        <strong>[barunsonmcard] > [마이페이지] > [쿠폰 보관함]</strong>에서 ‘무료 쿠폰’ 확인 <br>
+                                        <a href="https://url.kr/2y4i7c" target="_blank">마이페이지 바로가기</a>
+                                    </p>
+                                </li>
+                                <li>
+                                    <h3>STEP 03</h3>
+                                    <p>
+                                        <strong>무료 쿠폰 사용하여 모바일청첩장 스킨 주문!</strong> <br>
+                                        <a href="https://www.barunsonmcard.com/Product/List/1/18/1/2/0/0" target="_blank">스킨 보러가기</a>
+                                    </p>
+                                </li>
+                                <li>
+                                    <h3>STEP 04</h3>
+                                    <p>
+                                        기본 정보, 영상, 웨딩 사진을 넣은 <strong>나만의 초대장 완성!</strong>
+                                    </p>
+                                </li>
+                                <li>
+                                    <h3>STEP 05</h3>
+                                    <p>
+                                        마지막 결제정보 창에서 <strong>[무료 제작 쿠폰] 선택</strong>
+                                    </p>
+                                </li>
+                                <li>
+                                    <h3>기타</h3>
+                                    <p>
+                                        더욱 다양한 디자인을 찾고 싶다면? <br>
+                                        <strong>유료 스킨</strong>을 활용해 보세요 <br>
+                                        <a href="https://www.barunsonmcard.com/Product/List/1/18/1/0/10_/0" target="_blank">스킨 보러가기</a>
+                                    </p>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="event_m">
+                    <div class="quick_easy swiper-container">
+                        <ol class="swiper-wrapper">
+                            <li class="swiper-slide">
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/step1.png" alt="퀵앤이지 이미지" />
+                                <h3>STEP 01</h3>
+                                <p>
+                                    종이 청첩장 결제 시, <br> <strong>모바일청첩장 무료 쿠폰 발급!</strong> <br>
+                                    <a href="https://url.kr/cfibn2" target="_blank">청첩장 보러가기</a>
+                                </p>
+                            </li>
+                            <li class="swiper-slide">
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/step2.png" alt="퀵앤이지 이미지" />
+                                <h3>STEP 02</h3>
+                                <p>
+                                    <strong>[barunsonmcard] > [마이페이지] > [쿠폰 보관함]</strong> <br> ‘무료 쿠폰’ 확인 <br>
+                                    <a href="https://url.kr/2y4i7c" target="_blank">마이페이지 바로가기</a>
+                                </p>
+                            </li>
+                            <li class="swiper-slide">
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/step3.png" alt="퀵앤이지 이미지" />
+                                <h3>STEP 03</h3>
+                                <p>
+                                    <strong>무료 쿠폰 사용하여 <br> 모바일청첩장 스킨 주문!</strong> <br>
+                                    <a href="https://www.barunsonmcard.com/Product/List/1/18/1/2/0/0" target="_blank">스킨 보러가기</a>
+                                </p>
+                            </li>
+                            <li class="swiper-slide">
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/step4.png" alt="퀵앤이지 이미지" />
+                                <h3>STEP 04</h3>
+                                <p>
+                                    기본 정보, 영상, 웨딩 사진을 넣은 <br> <strong>나만의 초대장 완성!</strong>
+                                </p>
+                            </li>
+                            <li class="swiper-slide">
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/step5_v2.png" alt="퀵앤이지 이미지" />
+                                <h3>STEP 05</h3>
+                                <p>
+                                    마지막 결제정보 내 <strong>쿠폰 항목에서 <br> [무료 제작 쿠폰] 선택</strong>
+                                </p>
+                            </li>
+                            <li class="swiper-slide">
+                                <img src="https://static.barunsoncard.com/barunsonmcard/event/allaboutmcard/mo/step6_v2.png" alt="퀵앤이지 이미지" />
+                                <h3>기타</h3>
+                                <p>
+                                    더욱 다양한 디자인을 찾고 싶다면? <br>
+                                    <strong>유료 스킨</strong>을 활용해 보세요 <br>
+                                    <a href="https://www.barunsonmcard.com/Product/List/1/18/1/0/10_/0" target="_blank">스킨 보러가기</a>
+                                </p>
+                            </li>
+                        </ol>
+                        <div class="arrow_area">
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="event_faq">
+                <div class="area" itemscope itemtype="http://schema.org/FAQPage">
+                    <h2><strong>모바일청첩장 제작 FAQ</strong></h2>
+                    <ul>
+                        <li itemprop="mainEntity" itemscope itemtype="http://schema.org/Question">
+                            <h3 class="event_faq_title" itemprop="name">모바일청첩장은 무료인가요?</h3>
+                            <div class="event_faq_contents" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                                <p itemprop="text">
+                                    청첩장 구매 고객에 한 해 ID 당 1개의 무료 쿠폰이 발급되며, 함께 발급된 30% 할인 쿠폰으로 추가 구매도 가능합니다. <br>
+                                    (일부 스킨은 무료 쿠폰 적용이 불가할 수 있습니다.)
+                                </p>
+                            </div>
+                        </li>
+                        <li itemprop="mainEntity" itemscope itemtype="http://schema.org/Question">
+                            <h3 class="event_faq_title" itemprop="name">모바일청첩장 무료 쿠폰은 어디에 있나요?</h3>
+                            <div class="event_faq_contents" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                                <p itemprop="text">
+                                    청첩장 결제 후 [barunsonmcard] > [마이페이지] > [쿠폰 보관함]에서 확인 가능합니다. <br>
+                                    일부 스킨은 무료 쿠폰 적용이 불가할 수 있습니다.
+                                </p>
+                            </div>
+                        </li>
+                        <li itemprop="mainEntity" itemscope itemtype="http://schema.org/Question">
+                            <h3 class="event_faq_title" itemprop="name">모바일청첩장 이용은 언제까지 가능한가요?</h3>
+                            <div class="event_faq_contents" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                                <p itemprop="text">
+                                    예식일 기준으로 최대 3개월(90일)까지 보관되며, 이후 자동 삭제됩니다. 
+                                </p>
+                            </div>
+                        </li>
+                        <li itemprop="mainEntity" itemscope itemtype="http://schema.org/Question">
+                            <h3 class="event_faq_title" itemprop="name">제작기간은 며칠 소요되나요?</h3>
+                            <div class="event_faq_contents" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                                <p itemprop="text">
+                                    제작완료 버튼 클릭과 동시에 URL 주소가 생성되며, 바로 사용도 가능합니다.
+                                </p>
+                            </div>
+                        </li>
+                        <li itemprop="mainEntity" itemscope itemtype="http://schema.org/Question">
+                            <h3 class="event_faq_title" itemprop="name">모바일청첩장 완성 후 수정하고 싶다면 어떻게 해야 하나요?</h3>
+                            <div class="event_faq_contents" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                                <p itemprop="text">
+                                    [barunsonmcard] > [마이페이지] > [주문상세조회] > [제작완료] > [주문번호 클릭] > [청첩장 수정 버튼]을 누르시어 <br>
+                                    횟수 제한 없이 수정하세요.
+                                </p>
+                            </div>
+                        </li>
+                        <li itemprop="mainEntity" itemscope itemtype="http://schema.org/Question">
+                            <h3 class="event_faq_title" itemprop="name">웨딩 사진이 아직 안 나왔습니다. 언제까지 제작을 진행할 수 있나요? </h3>
+                            <div class="event_faq_contents" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                                <p itemprop="text">
+                                    예식일 전날까지 [barunsonmcard] 내에서 제작 가능합니다. <br>
+                                    사진이 나와 제작 준비가 되셨으면 원하시는 스킨을 고른 뒤 주문을 진행해 주세요.
+                                </p>
+                            </div>
+                        </li>
+                        <li itemprop="mainEntity" itemscope itemtype="http://schema.org/Question">
+                            <h3 class="event_faq_title" itemprop="name">지인들이 등록한 방명록 중 일부를 삭제하고 싶을 땐 어떻게 하나요?</h3>
+                            <div class="event_faq_contents" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                                <p itemprop="text">
+                                    [barunsonmcard] > [마이페이지] > [주문상세조회] > [제작완료] > [주문번호 클릭] > [방명록 관리] 
+                                    버튼을 누른 뒤 <br> 숨김 및 삭제를 눌러주세요. 
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //PC -->
+
+</section>
+
+<script>
+$(document).ready(function(){
+    //slide
+    var eventOptions = {};
+    eventOptions = {
+        effect: "creative",
+        creativeEffect: {
+            prev: {
+                opacity: 0,
+            },
+            next: {
+                opacity: 0,
+            },
+        },
+        slidesPerView : 1,
+        loop: true,
+        autoplay: {
+            delay: 6000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            prevEl: ".swiper-button-prev",
+            nextEl: ".swiper-button-next",
+        },
+    }
+
+    var functionOptions = {};
+    functionOptions = {
+            slidesPerView : 1,
+            loop: true,
+            spaceBetween:20,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+    }
+
+    var quickOptions = {};
+    quickOptions = {
+        slidesPerView : 1,
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            prevEl: ".swiper-button-prev",
+            nextEl: ".swiper-button-next",
+        },
+    }
+    
+    var setCardSlide = new Swiper('.event_slide', eventOptions);
+    var functionSlide = new Swiper('.function_slide', functionOptions);
+    var quickSlide = new Swiper('.event_m .quick_easy', quickOptions);
+
+
+    $('.event_con05 .event_pc .contents_box li').on('mouseenter',function(){
+        var idx = $(this).index();
+        var $imageBox = $('.image_box li');
+
+        $(this).addClass('active').siblings('li').removeClass("active");
+        $imageBox.eq(idx).addClass('active').siblings('li').removeClass("active");
+    });
+});
+
+</script>
+<script src="/js/event.js"></script>

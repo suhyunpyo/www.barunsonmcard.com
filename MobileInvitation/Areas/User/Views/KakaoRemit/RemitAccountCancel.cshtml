@@ -1,0 +1,30 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "RemitService_Layout";
+    ViewBag.Title = "축의금 송금";
+}
+<!-- 하객 송금페이지 컨텐츠 -->
+<div class="payment_contents result">
+    <div class="payment_result">
+        <div class="img_con">
+            <img src="~/img/common/fail_y.svg" alt="실패 이미지">
+        </div>
+        <p><strong>송금을 취소했습니다.</strong></p>
+    </div>
+</div>
+<!-- //하객 송금페이지 컨텐츠 -->
+<!-- 하단 버튼 -->
+<div class="btn_wrap bottom type01">
+    <a href="javascript:doOk();" class="btn type09">확인</a>
+</div>
+<!-- //하단 버튼 -->
+@section Scripts
+{
+    <script>
+        function doOk() {
+            window.close();
+        }
+    </script>
+}

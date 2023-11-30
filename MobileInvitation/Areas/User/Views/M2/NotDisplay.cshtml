@@ -1,0 +1,57 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>바른손M카드 안내 페이지</title>
+    <link rel="stylesheet" href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/css/reset.css" asp-append-version="true">
+    <style>
+		* {margin: 0; padding: 0;}
+		#wrap {position: relative; height: 100vh;}
+		#wrap header {height: 60px; line-height: 60px; border-bottom: 1px solid #ddd;}
+		#wrap header h1 {padding: 0 100px;}
+		#wrap .notice_area {position: absolute; top:50%; right:50%; width: 100%; transform: translate(50%, -50%); max-width:400px; text-align: center;}
+		#wrap .notice_area * {font-family: "Spoqa Han Sans Neo", sans-serif; letter-spacing: -0.25px;}
+		#wrap h2 {font-size: 30px; font-weight: bold; line-height: 45px; margin:25px 0 20px;}
+		#wrap p {font-size: 19px; font-weight: 400; line-height: 30px; color:#333;}
+		#wrap .notice_text {font-weight: 300; color: #757575; border-top: 1px solid #ccc; margin: 40px 0 15px; padding-top: 40px; word-break: keep-all;}
+		
+		@@ media screen and (max-width:400px){
+			#wrap {height: 100%;}
+			#wrap header h1 {height: 62px; line-height: 62px; padding: 0 28px;}
+			#wrap .notice_area {top: calc(50% + 30px);}
+
+			#wrap h2 {font-size: 28px; line-height: 41px; margin: 8px 0 15px;}
+			#wrap p {font-size: 18px; line-height: 27px;}
+			#wrap .notice_text {margin: 30px 28px 15px; padding-top:30px;}
+		}
+
+	</style>
+</head>
+<body>
+<div id="wrap">
+		<header>
+			<h1><img src="~/img/m2/logo.svg" alt="바른손M카드 로고" /></h1>
+		</header>
+		<div class="notice_area">
+			<img src="~/img/m2/ico_notice.svg" alt="느낌표 아이콘" />
+			<h2>바른손M카드 이용안내</h2>
+			<p>
+				지금 보고 계신 페이지는 <br/>
+				유효기간이 만료되었거나 <br/>
+				비공개로 전환된 모바일 초대장입니다.
+			</p>
+			<p class="notice_text">바른손M카드를 이용해주셔서 감사합니다.</p>
+			<img src="~/img/m2/logo.svg" alt="바른손M카드 로고" />
+		</div>
+	</div>
+</body>
+</html>

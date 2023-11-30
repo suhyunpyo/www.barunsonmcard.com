@@ -1,0 +1,54 @@
+@charset "utf-8";
+
+
+/***** 회원가입 *****/
+#wrap {background: #f7f8f9; height: 100vh;}
+#wrap .header {position: static; border-bottom: 1px solid #aaa; padding: 40px 0; background: #fff;}
+#wrap .header h1 {position: static; float: none; margin: 0 auto; text-align: center;}
+#wrap .header h1 a {background:url(../img/common/logo_b.svg) no-repeat center; }
+
+/** top title **/
+.title_box {text-align: center;}
+.register h2 {font-size:30px; line-height: 30px; color:#333; font-weight: bold; margin-bottom: 60px;}
+
+/** register contents **/
+.register {max-width: 1100px; margin: 0 auto; padding:60px 0 30px; transition: all 0.3s ease-in;}
+.register_box {background: #fff; border:1px solid #ebebeb; padding:54px 3.5%;}
+.register .step_view li {margin-right: 114px;}
+.register .step_view li:last-child{margin-right: 0;}
+.register .step_view li p {font-size: 15px;}
+
+.register_text_wrap {text-align: center; margin:90px 0 80px;}
+.register_text_wrap .register_text {font-size: 22px; line-height: 34px; color: #708bff;}
+.register_text_wrap .sub_text {font-size:16px; line-height: 24px; color:#757575; font-weight: 300; letter-spacing: -0; margin-top: 20px;}
+
+.register .btn_wrap.bottom {max-width: 400px; text-align: center; margin:  0 auto;}
+.register .btn_wrap.bottom .btn {font-size: 18px; height: 66px; line-height: 66px;}
+
+.register input[type="text"],
+.register input[type="password"] {display:block; height:64px; color:#333; padding-left: 28px; width:calc(100% - 32px);}
+.register input[type="text"] {margin-bottom: -1px;}
+.register input[type="text"]::placeholder {color:#aaa;}
+
+/* IE */
+.register input[type="text"]:-ms-input-placeholder {color:#aaa;}
+
+/* 아이디/비밀번호 찾기 */
+.register .find_text {font-size: 22px; color:#333; line-height: 34px;}
+
+@media screen and (max-width:1200px){
+	#wrap {background: #fff;}
+	#wrap .header {padding:20px 0;}
+	.register_box {padding:0 3%; border: 0;}
+}
+@media screen and (max-width:475px){
+	.register .step_view li {margin-right: 60px;}
+	.register_text_wrap .register_text,
+	.find_text {font-size: 20px; line-height: 30px;}
+}
+@media screen and (max-width:320px){
+	.register .step_view li {margin-right: 40px;}
+}
+@media screen and  (min-width:280px) and (max-width:320px){
+	.register_text_wrap .sub_text {font-size: 13px; letter-spacing: -1px;}
+}

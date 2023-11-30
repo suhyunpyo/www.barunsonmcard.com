@@ -1,0 +1,34 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+<link rel="stylesheet" href="/css/event.css">
+<section class="event list">
+    <div class="event_con event01">
+        <h2 class="mont">EVENT</h2>
+        <div class="area">
+            <ul>
+                @foreach (Dictionary<string, object> list in ViewBag.Event_Banner)
+                {
+                    var url = new Uri((Uri)ViewBag.CDNUrl, (string)list["Image_URL"]);
+                    <li>
+                            <a href="#" onclick="CountBanner(@list["Banner_Item_ID"],'@list["Link_URL"]','@list["NewPage_YN"]')" ;>
+                                <div class="img_con">
+                                <img src="@url" alt="이벤트 배너" />
+                                </div>
+                                <p class="event_info">
+                                    <strong>@Html.Raw(StringHelper.HtmlDecode(list["Banner_Main_Description"].ToString()))</strong>
+                                    @Html.Raw(StringHelper.HtmlDecode(list["Banner_Add_Description"].ToString()))
+                                </p>
+                            </a>
+</li>
+
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+<script src="/js/event.js?ver=5.1"></script>

@@ -1,0 +1,118 @@
+﻿@charset "utf-8";
+body {
+    user-select: none;
+}
+
+.category {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    height: 76px;
+}
+
+.category ul {
+    list-style: none;
+    margin: 0px;
+    padding-left: 0px;
+}
+
+.category ul li {
+    height: 20px
+}
+
+.category ul li:hover {
+    background: #f8f9fc;
+}
+
+.selected {
+    background: #f8f9fc;
+}
+
+.dvAdd {
+    margin-bottom: 10px;
+    text-align: right;
+    width: 100%;
+}
+
+.dvIcon {
+    margin: 0px;
+    padding: 0px;
+    float: left;
+    width: 95%;
+}
+
+.dvSetting {
+    text-align: right;
+    width: 5%;
+}
+
+.fa-cog {
+    font-size: 20px;
+}
+
+.popIconList {
+}
+
+.mainIconList {
+    width: 100%;
+    margin: 0px;
+    padding-left: 0px;
+}
+
+.popIconItem {
+    float: left;
+    width: 100px;
+}
+
+.pcImageItem {
+    float: left;
+}
+
+.pcImage {
+    width: 150px;
+    height: 150px;
+    margin: 5px;
+    box-shadow: -7px 15px 24px 0px rgba(0,0,0,0.1);
+}
+
+.mobileImageItem {
+    float: left;
+}
+
+.mobileImage {
+    width: 150px;
+    height: 150px;
+    margin: 5px;
+    box-shadow: -7px 15px 24px 0px rgba(0,0,0,0.1);
+}
+
+.mainIconItem {
+    float: left;
+    width: 60px;
+}
+
+.table-td-background {
+    width: 10%;
+}
+
+.table-td-content {
+    width: 40%;
+}
+
+#Main_Image_URL {
+    box-shadow: -7px 15px 24px 0px rgba(0,0,0,0.1);
+}
+
+#Preview_Image_URL {
+    box-shadow: -7px 15px 24px 0px rgba(0,0,0,0.1);
+}
+
+.adviceUl {
+    margin-left: -40px;
+    font-size: 0.9rem;
+}
+
+.adviceLi {
+    margin-left: 25px;
+    font-size: 0.9rem;
+}

@@ -1,0 +1,37 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model int
+@{
+	Layout = "Simple_Layout";
+	ViewBag.Title = "축의금 관리";
+}
+<div id="wrap" class="sub">
+	<section class="manage">
+		<!-- 관리 페이지 타이틀 -->
+		<div class="title_box top">
+			<div class="area">
+				<h1>@ViewBag.Title</h1>
+				<div class="manage_nav">
+					<ul>
+						<li><a asp-action="Calculate" asp-controller="KakaoRemit" asp-route-OrderId="@Model" >축의금 내역</a></li>
+						<li><a asp-action="Account" asp-controller="KakaoRemit" asp-route-OrderId="@Model">축의금 설정</a></li>
+						<li><a asp-action="Info" asp-controller="KakaoRemit" asp-route-OrderId="@Model" class="active">송금 서비스</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- //관리 페이지 타이틀 -->
+		<!-- 관리 페이지 컨텐츠 -->
+		<div class="manage_contents">
+			<div class="img_con mw100 mb100">
+				<img src="~/img/mypage/remittance_img02.png" alt="송금서비스 안내">
+			</div>
+		</div>
+		<!-- //관리 페이지 컨텐츠 -->
+	</section>
+</div>
+@section Scripts
+{
+
+}

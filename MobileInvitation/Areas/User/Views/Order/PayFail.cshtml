@@ -1,0 +1,33 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@model OrderPayFinalModel;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "User_Layout";
+}
+<link rel="stylesheet" href="/css/order.css" asp-append-version="true">
+<!-- sub contents -->
+<section class="sub_contents order">
+    <div class="sub_con_wrap">
+        <div class="order_result">
+            <p class="result_text">
+                @Html.Raw(Model.Message)
+            </p>
+            <p class="order_number">
+                <strong> @Model.UserName 님의 주문번호</strong>
+                <span class="point03">@Model.OrderCode</span>
+            </p>
+            <div class="btn_wrap bottom type02">
+                @if (Model.BackToUrl != null)
+                {
+                    <a href="@Model.BackToUrl" class="btn type03_1">결제 페이지로 이동</a>
+                }
+                <a asp-action="Mypage" asp-controller="Member" class="btn type03">주문내역 확인</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //sub contents -->
+@section Scripts
+{
+}

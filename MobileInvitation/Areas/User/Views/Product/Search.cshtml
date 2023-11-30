@@ -1,0 +1,417 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.FunctionHelper;
+
+@using X.PagedList.Mvc.Core; @*페이징툴을 이용...*@
+@using X.PagedList.Mvc; @*페이징툴을 이용...*@
+@using X.PagedList; @*페이징툴을 이용...*@
+
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/product.css?ver=5.1">
+<style type="text/css">
+    /*  상단 셀렉트박스 추가됨에 따른 위치 강제 조정*/
+    .category_wrap .select_wrap {
+        width: auto;
+        float: right;
+        border-bottom: 0;
+        padding-bottom: 0;
+        margin-top: 5px;
+    }
+
+</style>
+<section class="product product_li_section">
+    <div class="sub_con_wrap">
+        <!-- 우측 상품 미리보기 -->
+        <aside class="product_preview fixed">
+            <div class="sticky_box">
+                <p class="sub_text">
+                    <span class="ico notice"></span>
+                    이미지를 스크롤 하시면 자세히 보실 수 있습니다.
+                </p>
+                <div class="product_info">
+                    <!-- 미리보기 이미지 영역 -->
+                    <!-- 상품 이미지 영역 -->
+                    <div class="product_img">
+                        <!-- <img src="../img/product/phone.png" alt="최신 모바일초대장"> -->
+                        <div class="preview_box">
+                            <div class="preview_top">
+                                <span></span>
+                            </div>
+                            <div class="img_con">
+                                <iframe id="preview_frame" frameborder="0" width="100%" marginwidth="0" marginheight="0" onload="previewCalcHeight();"></iframe>
+                                @*<img alt="모바일초대장 미리보기">*@
+                            </div>
+                            <div class="preview_info_box">
+                                <div class="preview_mouse">
+                                    <div class="mousey">
+                                        <div class="scroller"></div>
+                                    </div>
+                                </div>
+                                <p>이미지를 스크롤하시면 <br /> 자세히 보실 수 있습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //상품 이미지 영역 -->
+                    <!-- //미리보기 이미지 영역 -->
+                    <!-- 미리보기 정보 -->
+                    <div class="product_info_box">
+                        <p class="product_location"></p>
+                        <p class="product_title"><strong class="mont"></strong></p>
+                        <div class="btn_wrap">
+                            <a href="#none" class="btn">주문하기</a>
+                        </div>
+                    </div>
+                    <!-- //미리보기 정보 -->
+                </div>
+            </div>
+        </aside>
+        <!-- //우측 상품 미리보기 -->
+        <!-- 우측 컨텐츠 영역 -->
+
+        <div class="sub_contents">
+            <!-- 카테고리 리스트 -->
+            <div class="category_wrap">
+                <!-- Slider main container -->
+                <div class="swiper-container category_button">
+                    <!-- Additional required wrapper -->
+                    <!-- Slides -->
+                    <ul class="swiper-wrapper">
+                        @{
+                            int TotalCount = ViewBag.SearchProduct.TotalItemCount;
+                            int pageno = (int)ViewData["Page"];
+                            int itemperpage = (int)ViewData["PageSize"];
+                            int currentno = TotalCount - ((pageno - 1) * itemperpage);
+
+                        }
+                        <li style="margin-top:10px;">총 @TotalCount 개의 상품이 검색되었습니다. </li>
+                    </ul>
+                </div>
+                <div class="select_wrap">
+                    <div class="select_list_w" style="display:none">
+                        @Html.DropDownList("Product_Brand_Code", ((List<TB_Common_Code>)ViewBag.Brandlist).Select(d => new SelectListItem { Text = d.Code_Name, Value = d.Code }),
+                            "브랜드 전체", new { @id = "Product_Brand_Code", @class = "select" })
+                    </div>
+                    <div class="select_list_w" style="padding:0 0 0 15px;">
+                        <select name="Sort_Gubun" id="Sort_Gubun" class="select">
+                            <option value="1">신상품 순</option>
+                            <option value="2">판매량 순</option>
+                            <option value="3">가격 낮은 순</option>
+                            <option value="4">가격 높은 순</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- //카테고리 리스트 -->
+            <!-- 상품 리스트 -->
+            <div class="list_wrap">
+                <ul>
+
+                    @if (TotalCount == 0)
+                    {
+                        <li style="width:100%">
+
+                            <div class="img_con" style="padding: 30% 20%;font-size:18px; ">
+                                리스트가 없습니다
+                            </div>
+                        </li>
+
+                    }
+                    else
+                    {
+                        @foreach (Dictionary<string, object> list in ViewBag.SearchProduct)
+                        {
+
+                            <li id="@list["Product_Id"]">
+                                <a href="javascript:;">
+                                    <div class="img_con">
+                                        <img src="@list["Main_Image_Url"]" alt="상품 이미지" onerror="this.src='/img/blank.jpg'" />
+                                    </div>
+                                    <div class="list_info">
+                                        <p class="product_title">
+                                            <strong>@list["Product_Name"]</strong>
+                                            <span class="line_l">@list["Product_Code"]</span>
+                                        </p>
+                                        <p class="product_price">@list["Price"] 원 @*<span class="product_sale">20%</span>*@</p>
+                                        <div class="badge_wrap">
+                                            @foreach (Dictionary<string, object> icon_list in ViewBag.Icon_List)
+                                            {
+
+                                                @if (list["Product_Id"].ToString().Equals(icon_list["Product_Id"].ToString()))
+                                                {
+
+                                                    <span style="background-size: 100%"><img src="@icon_list["Icon_Url"]" onerror="//resources.barunsonmcard.com//upload/icon/c6b6d208-921d-4341-9fff-f96013abe24d.jpg"></span>
+
+                                                }
+
+                                                <!-- 상태 badge -->
+                                                @*<div class="badge_wrap">
+                                                <span class="badge_new mont">NEW</span>
+                                                <span class="badge_best mont">BEST</span>
+                                            </div>*@
+                                                <!-- //상태 badge -->
+                                            }
+                                        </div>
+                                    </div>
+                                    <!-- span class active 추가 시 좋아요 아이콘 변경 -->
+                                    @*<span class="ico wish @(Convert.ToInt32(@list["Wishcnt"]) > 0 ? "active" : "")">찜하기 아이콘</span>*@
+                                </a>
+                            </li>
+
+                        }
+                    }
+
+                </ul>
+            </div>
+            @{
+                string Sort_Gubun = string.IsNullOrEmpty(ViewData["Sort_Gubun"].ToString()) ? "0" : ViewData["Sort_Gubun"].ToString();
+                string SearchCategoryList = string.IsNullOrEmpty(ViewData["SearchCategoryList"].ToString()) ? "0" : ViewData["SearchCategoryList"].ToString();
+            }
+            <!-- //상품 리스트 -->
+            <!-- 페이징 -->
+            @if (TotalCount > 0)@Html.PagedListPager((IPagedList)ViewBag.SearchProduct, page => "/Product/Search/" + page + "/18/" + @ViewData["Sort_Gubun"] + "/" + @ViewData["SearchKeyword"])
+            @*@if (TotalCount > 0)@Html.PagedListPager((IPagedList)ViewBag.SearchProduct, page => Url.Action("Search", new { page, SearchKeyword = ViewData["SearchKeyword"] }))*@
+
+
+            <!-- //페이징 -->
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+</section>
+@*@Html.Hidden("Page", ViewData["Page"]);*@
+<script type="text/javascript">
+    var page =  @ViewData["page"];
+    var pagesize = @ViewData["pageSize"];
+    var sort_gubun = @ViewData["Sort_Gubun"]
+    var searchKeyword = "@ViewData["SearchKeyword"]";
+
+    PagingNavigator();
+
+    $(".sub_con_wrap .list_wrap li").each(function (i) {
+        $(this).click(function (e) {
+
+            Product_PreView_Img($(this).attr("id"));
+        });
+    });
+
+    // 상품리스트에서 각 상품 클릭
+    $(".sub_con_wrap .list_wrap li").each(function (i) {
+
+
+        $(this).css("height", "673, 28px");
+
+        $(this).click(function (e) {
+
+            var target = $(e.target);
+
+            if (isMobile()) {
+                //mobile
+                //alert(!target.is("span"));
+                if (!target.is("span")) {  //모바일 위시 클릭이 아닌 경우만 상품 상세로 이동
+                    location.href = "/Product/Detail/" + $(this).closest("li").attr("id");
+                }
+            }
+            else {
+                //pc
+                Product_PreView_Img($(this).attr("id"));
+            }
+
+        });
+    });
+
+
+    //좋아요 버튼 클릭 이벤트
+    $(".wish").on('click', function (e) {
+        e.preventDefault();
+        //$(this).toggleClass('active');
+    });
+
+
+    function Product_PreView_Img(id) {
+
+        if (isEmpty(id)) {
+            $(".preview_box .img_con iframe").remove();
+            $(".preview_box .img_con").append("<img src=\"/img/blank.jpg\" height=\"100%\"/>");
+            $(".product_info_box").hide();
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/Product/PreView_Url/" + id, //상품ID
+                success: function (result) {
+                    // console.log(result);
+
+                    //Product_Info
+                    $(result.product_Info).each(function (index, list) {
+                        console.log(list.Brand_Name);
+                        //alert(location.protocol + "//" + location.host + list.PreView_Url)
+                        $(".sub_con_wrap .product_preview .product_location").html(list.Brand_Name);
+                        $(".product_info_box  .product_title strong").html(list.Product_Name);
+                        $(".sub_con_wrap .product_info .btn_wrap .btn").attr("href", "/Product/Detail/" + list.Product_Id);
+                        // $(".preview_box .img_con img").attr({ "src": location.protocol + "//" + location.host + list.PreView_Url });
+
+                        $(".preview_box .img_con iframe").attr({ "src": "/preview/" + id }).css("height", "548px");
+
+                        /*            $(".preview_box .img_con img").attr({ "src": location.protocol + "//" + location.host + list.PreView_Url, "onerror": "this.src='//upload/img/product_img.jpg'" });*/
+                        //  alert(list.PreView_Url);
+                    });
+                },
+                error: function (result) {
+                }
+            });
+        }
+
+
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Product/PreView_Url/" + id, //상품ID
+        //    success: function (result) {
+        //        // console.log(result);
+        //        //Product_Info
+        //        $(result.product_Info).each(function (index, list) {
+        //             console.log(list.Brand_Name);
+        //            $(".sub_con_wrap .product_preview .product_location").html(list.Brand_Name);
+        //            $(".product_info_box  .product_title strong").html(list.Product_Name);
+        //            $(".sub_con_wrap .product_info .btn_wrap .btn").attr("href", "/Product/Detail/" + list.Product_Id);
+        //            $(".preview_box .img_con img").attr({ "src": list.PreView_Url, "onerror": "this.src='/img/blank.jpg'" });
+        //        });
+        //    },
+        //    error: function (result) {
+        //    }
+        //});
+    }
+
+    // 상품리스트에서 제일 처음 나오는 상품ID의 미리보기 이미지를 노출
+    Product_PreView_Img($(".sub_con_wrap .list_wrap li:eq(0)").attr("id"));
+
+
+    //$(document).on("click", ".sub_con_wrap .list_wrap .wish, .category_wrap li", function () {
+
+    //    searchbrandlist = $("[name=Product_Brand_Code]").val().toUpperCase();
+    //    sort_gubun = $("[name=Sort_Gubun]").val().toUpperCase();
+
+    //    if ($(this).hasClass("swiper-slide")) //중분류명 클릭
+    //    {
+    //        // console.log($(this).find("a").html());
+    //        if ($(this).find("a").html().trim() == "전체") {
+
+    //            var AllObj = $(this).find("a");
+    //            $(AllObj).toggleClass("active");
+
+    //            $(".category_wrap li").each(function (i) {
+    //                //console.log($(this).attr("class"));
+
+    //                if ($(AllObj).hasClass("active")) { //전체 클릭
+    //                    if (!$(this).find("a").hasClass("active")) {
+    //                        $(this).find("a").addClass("active");
+    //                    }
+    //                }
+    //                else {
+    //                    $(this).find("a").removeClass("active");
+    //                }
+
+    //            });
+
+
+    //            GoSearch(page, pagesize, category_id, "0", "0", "0");
+    //            ///Product/List/1/0/1/0/0/0
+    //        }
+    //        else {
+    //            /*********중분류 카테고리 클릭************/
+
+    //            $(".category_wrap li:eq(0) a").removeClass("active"); //중분류 - 전체 영역 비활성화
+    //            $(this).find("a").toggleClass("active"); // 선택한 중분류 카
+
+    //            var AllCnt = $(".category_wrap li").length - 1;
+    //            var ActiveChkCnt = 0;
+    //            var NoActiveChkCnt = 0;
+    //            searchcategorylist = "";
+
+    //            $(".category_wrap li").each(function (i) {
+
+    //                if (i > 0) {
+    //                    // console.log($(this).find("a").hasClass("active"))
+    //                    if (!$(this).find("a").hasClass("active")) {
+    //                        NoActiveChkCnt++;
+    //                    }
+    //                    else {
+    //                        searchcategorylist += $(this).attr("id") + "_";
+    //                        ActiveChkCnt++;
+    //                    }
+
+    //                }
+
+    //            });
+    //          //  alert(searchcategorylist);
+    //           console.log("AllCnt:" + AllCnt + "/ActiveChkCnt:" + ActiveChkCnt + "NoActiveChkCnt:" + NoActiveChkCnt);
+
+
+    //            if (isEmpty(searchcategorylist)) searchcategorylist = "0";
+    //            if (isEmpty(searchbrandlist)) searchbrandlist = "0";
+
+    //            //console.log("ActiveChkCnt:" + ActiveChkCnt)
+    //            //console.log("NoActiveChkCnt:" + NoActiveChkCnt)
+    //            if (AllCnt == ActiveChkCnt) $(".category_wrap li:eq(0)").find("a").removeClass("active");//.addClass("active");
+    //            if (AllCnt == NoActiveChkCnt) $(".category_wrap li:eq(0)").find("a").removeClass("active");
+    //            //alert("page:" + page + "/pagesize=" + pagesize + "/category_id:" + category_id + "/sort_gubun:" + sort_gubun + "/searchcategorylist:" + searchcategorylist + "/searchbrandlist:" + searchbrandlist);
+    //            alert(category_id + "/" + searchcategorylist);
+    //            //return;
+    //           GoSearch(page, pagesize, category_id, sort_gubun, searchcategorylist, searchbrandlist);
+
+    //        }
+
+    //    }
+    //    else { // 찜 아이콘 클릭
+
+
+    //    }
+
+    //});
+
+
+
+    //정렬 선택 이벤트
+    $("#Sort_Gubun").change(function () {
+        sort_gubun = $("[name=Sort_Gubun]").val().toUpperCase();
+        
+        $("option:selected", this).each(function () {
+            page = 1;
+            GoSearch(page, pagesize, sort_gubun, searchKeyword);
+        });
+
+
+
+    });
+
+    function GoSearch(Page, Pagesize, sort_gubun, searchkeyword) {
+        var url = Page + "/" + Pagesize + "/" + sort_gubun + "/" + searchkeyword;
+        location.href = "/Product/Search/" + url;
+        /*location.href = "/Product/List/" + url;*/
+    }
+
+    function PagingNavigator() {
+
+        var obj = $(".pagination-container");
+        $(obj).attr("class", "paging_wrap").find(".pagination").removeClass();
+
+        $(obj).find("ul li").each(function () {
+            var classobj = $(this).attr("class");
+
+            if (classobj == "PagedList-skipToPrevious") $(this).find("a").addClass("paging_prev").html("이전페이지 보기");
+
+            else if (classobj == "PagedList-skipToNext") $(this).find("a").addClass("paging_next").html("다음페이지 보기");
+
+            else if (classobj == "active") {
+                var actNum = $(this).find("span").text();
+
+                $(this).find("span").replaceWith(function () {
+                    return $('<a>', { class: "on", text: actNum })
+                });
+            }
+        });
+
+    }
+
+    $("[name=Sort_Gubun]").val(sort_gubun);
+</script>

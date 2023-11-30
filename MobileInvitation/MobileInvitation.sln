@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileInvitation", "MobileInvitation\MobileInvitation.csproj", "{43458F0C-538C-46B4-B7F2-AEADEB25EECB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileInvitation.Helper", "MobileInvitation.Helper\MobileInvitation.Helper.csproj", "{015CB9CE-3372-42B6-A5E5-9595F69C4247}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43458F0C-538C-46B4-B7F2-AEADEB25EECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43458F0C-538C-46B4-B7F2-AEADEB25EECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43458F0C-538C-46B4-B7F2-AEADEB25EECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43458F0C-538C-46B4-B7F2-AEADEB25EECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{015CB9CE-3372-42B6-A5E5-9595F69C4247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{015CB9CE-3372-42B6-A5E5-9595F69C4247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{015CB9CE-3372-42B6-A5E5-9595F69C4247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{015CB9CE-3372-42B6-A5E5-9595F69C4247}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3DDFB937-25D5-4B91-8EC7-CD4D8435394D}
+	EndGlobalSection
+EndGlobal

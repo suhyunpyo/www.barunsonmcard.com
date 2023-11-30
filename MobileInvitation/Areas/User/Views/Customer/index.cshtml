@@ -1,0 +1,35 @@
+﻿@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.FunctionHelper;
+@{
+    Layout = "User_Layout_m";
+}
+<link rel="stylesheet" href="/css/m_customer.css">
+<section class="customer">
+    <div class="sub_con_wrap">
+        <aside class="mypage_list customer_main_box">
+            <div class="mypage_box mb0">
+                <p><strong>CS Center</strong></p>
+                <ul>
+                    <li>
+                        <a href="/Customer/Notice">공지사항</a>
+                    </li>
+                    <li>
+                        <a href="/Customer/Faq">FAQ</a>
+                    </li>
+                    <li>
+                        <a href="/Customer/Ask">1:1문의</a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</section>
+
+@section Scripts
+{
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.js"></script>
+    <script src="/js/common/customer.js"></script>
+}

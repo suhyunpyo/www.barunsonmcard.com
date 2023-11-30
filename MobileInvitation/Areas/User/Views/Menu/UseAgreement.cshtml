@@ -1,0 +1,23 @@
+﻿@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+
+<link href="./css/user.css" rel="stylesheet" />
+
+
+@*/*********************이용약관******************************/*@
+
+<div class="subContents">
+    <div class="privacyWrap">
+        <h2>이용약관</h2>
+       
+            <div class=WordSection1>
+                @Html.Raw(StringHelper.HtmlDecode(ViewBag.Policy_Contents))               
+
+            </div>
+            <a href="/PolicyHistory/service/0" class="policy_button" target="_blank">이전 약관 내용 보기</a>
+
+    </div>
+</div>

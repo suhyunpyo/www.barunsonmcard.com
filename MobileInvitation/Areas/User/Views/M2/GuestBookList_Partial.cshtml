@@ -1,0 +1,27 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<M2GuestBookListModel>
+@{
+    Layout = null;
+}
+@foreach (var gb in Model)
+{
+    <li class="guestbook_item" data-guestbook-id="@(gb.GuestBookID)">
+        <div class="message_top">
+            <span class="name">@(gb.Name)</span>
+            <div class="message_box">
+                <span class="date">@(gb.RegistDatetime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                <button type="button" class="message_del">방명록 삭제하기</button>
+            </div>
+        </div>
+        <div class="message_text">
+            <p>@Html.Raw(gb.Message)</p>
+        </div>
+        <div class="password_check">
+            <input type="password" name="password" maxlength="20" placeholder="비밀번호를 입력하세요.">
+            <a asp-action="GuestBookDelete" asp-controller="M2" asp-route-InvitationId="@ViewData["InvitationId"]" asp-route-idx="@gb.GuestBookID"
+                class="btn btn_delete_guestbook check_btn">확인</a>
+        </div>
+    </li>
+}

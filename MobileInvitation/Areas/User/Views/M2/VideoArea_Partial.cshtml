@@ -1,0 +1,26 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model M2VideoViewModel
+
+<section>
+    <!-- 동영상 타이틀 이미지 -->
+    @if (Model.VideoTitleArea != null)
+    {
+        var bgColor = (Model.VideoTitleArea.Color == null) ? "" : $"background-color: {Model.VideoTitleArea.Color};";
+        <div id="area7" idx="7" class="templatearea bindarea" style="height:@(Model.VideoTitleArea.Height)px; @(bgColor)">
+        @foreach (var item in Model.VideoTitleArea.Items)
+        {
+            <partial name="BaseAreaItem_Partial" model="item" />
+        }
+        </div>
+    }
+    <!-- 동영상 -->
+    <div id="area8" idx="8" class="movie line">
+        <div class="area">
+            <div class="iframe_wrap">
+                @Html.Raw(Model.VideoUri)
+            </div>
+        </div>
+    </div>
+</section>

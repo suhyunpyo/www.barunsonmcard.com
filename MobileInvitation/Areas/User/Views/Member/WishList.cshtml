@@ -1,0 +1,195 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyWishViewModel
+@{
+    Layout = "User_Layout";
+}
+
+@section Heads
+{
+    <link rel="stylesheet" href="/css/mypage.css" asp-append-version="true">
+    <style type="text/css">
+
+        .mypage .my_wish_list:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .mypage .my_wish_list li {
+            position: relative;
+            float: left;
+            width: 23.5%;
+            text-align: center;
+            margin: 0 2% 50px 0;
+        }
+
+            .mypage .my_wish_list li:nth-child(4n) {
+                margin-right: 0;
+            }
+
+            .mypage .my_wish_list li .img_con {
+                padding: 15% 20% 20%;
+                background: #f6f7f8;
+                border: 1px solid #fff;
+                transition: background-color 0.2s ease-in;
+                margin-bottom: 20px;
+                box-sizing: border-box;
+            }
+
+                .mypage .my_wish_list li .img_con img {
+                    max-width: 170px;
+                    max-height: 302px;
+                    width: 100%;
+                    box-shadow: -7px 15px 24px 0px rgba(0,0,0,0.1);
+                }
+
+            .mypage .my_wish_list li .product_title {
+                line-height: 26px;
+                margin-bottom: 4px;
+            }
+
+            .mypage .my_wish_list li .check_box {
+                display: none;
+                position: absolute;
+                top: 20px;
+                right: 14px;
+                z-index: 10;
+            }
+
+            .mypage .my_wish_list li.select .img_con {
+                border: 1px solid #6e7be8;
+            }
+
+            .mypage .my_wish_list li.select .check_box {
+                display: block;
+            }
+    </style>
+}
+
+<!-- sub contents -->
+<section class="mypage">
+    <div class="sub_con_wrap">
+        <aside class="mypage_list fixed">
+            @await Html.PartialAsync("MyPageMenuPartial", "wishList")
+        </aside>
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents">
+            <!-- 상품리스트 -->
+            <div class="list_wrap">
+                <div class="list_count_result">
+                    <p>위시리스트에 총 <span>@Model.Count.ToString("#,##0")</span>개의 상품이 있습니다.</p>
+                </div>
+                @if (Model.Count == 0)
+                {
+
+                    <ul class="wish_list">
+                        <li style="width:100%">
+                            <p class="empty_text">리스트가 없습니다</p>
+                        </li>
+                    </ul>
+
+                }
+                else
+                {
+                    <div class="wish_box">
+                        <div class="check_box type02 all_check">
+                            <input type="checkbox" id="cballCheck" name="check" class="cballcheck">
+                            <label for="cballCheck">전체선택</label>
+                        </div>
+                        <button class="select_del">선택 삭제</button>
+                    </div>
+                    <ul class="my_wish_list">
+                        <form asp-action="WishDelete" asp-controller="Member" method="post" id="frmWishDelete">
+                        @foreach (var item in Model.DataModel)
+                        {
+                            <li>
+                                <a href="#" class="btnselectcheck">
+                                    <div class="img_con">
+                                        <img src="@item.MainImageUrlFull" alt="상품 이미지">
+                                    </div>
+                                </a>
+                                <a asp-action="Detail" asp-controller="product" asp-route-id="@item.ProductId">
+                                    <div class="list_info">
+                                        <p class="product_title"><strong>@item.ProductName</strong></p>
+                                        <p class="product_price">@item.ProductPrice.ToString("#,##0원")</p>
+                                    </div>
+                                </a>
+                                <div class="check_box type02">
+                                    <input type="checkbox" id="check_@(item.WishID)" name="wishId" class="cbselectcheck" value="@item.WishID">
+                                    <label for="check_@(item.WishID)"></label>
+                                </div>
+                                
+                            </li>
+                        }
+                        </form>
+                    </ul>
+
+                }
+            </div>
+            <!-- //상품리스트 -->
+            <!-- 페이징 -->
+            @if (Model.Count > 0)
+            {
+                await Html.RenderPartialAsync("_PaginationPartial", Model);
+            }
+            <!-- //페이징 -->
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+</section>
+@section Scripts
+{
+    <script src="/js/member/mypage.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+       
+        $('.all_check').on('click', function (e) {
+            
+            var $allCheck = $(this).find('input[type="checkbox"]');
+            var $childCheck = $('.my_wish_list').find('input[type="checkbox"]');
+
+            if ($allCheck.prop('checked') == true) {
+
+                $childCheck.prop('checked', true).parents('li').addClass('select');
+
+            } else {
+                $childCheck.prop('checked', false).parents('li').removeClass('select');
+            }
+        });
+
+        //부분 선택
+        $('.img_con').on('click', function (e) {
+            e.preventDefault();
+            var $childCheck = $(this).parents('li').find('input[type="checkbox"]');
+
+            if ($childCheck.prop('checked') == false) {
+                $childCheck.prop('checked', true).parents('li').addClass('select');
+            } else {
+                $childCheck.prop('checked', false).parents('li').removeClass('select');
+            }
+        });
+
+        // 위시리스트 선택된 상품 삭제
+        $(".select_del").click(function (e) {
+            e.preventDefault();
+        
+            var bCheck = false;
+
+            $(".my_wish_list li").each(function (i) {
+                if ($(this).hasClass("select")) {
+                    bCheck = true;
+                }
+            });
+
+            if (!bCheck) {
+                alert("상품을 선택하세요.")
+                return;
+            }
+
+            $("#frmWishDelete").trigger('submit');
+        });
+
+
+    </script>
+}

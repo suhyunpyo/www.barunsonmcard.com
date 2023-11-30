@@ -1,0 +1,43 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model M2GuestBookViewModel
+
+@if (Model.GuestBookTitleArea != null)
+{
+    var bgColor = (Model.GuestBookTitleArea.Color == null) ? "" : $"background-color: {Model.GuestBookTitleArea.Color};";
+    <div id="area14" idx="14" class="templatearea bindarea" style="height:@(Model.GuestBookTitleArea.Height)px; @(bgColor)">
+    @foreach (var item in Model.GuestBookTitleArea.Items)
+    {
+        <partial name="BaseAreaItem_Partial" model="item" />
+    }
+    </div>
+}
+<!-- 방명록 -->
+<div id="area15" idx="15" class="guest_book line">
+    <div class="area">
+        <form id="frmGuestbook" asp-action="GuestBookSave" asp-controller="M2" asp-route-InvitationId="@Model.InvitaionId" method="post">
+            <div class="write_box">
+                <input type="text" name="Name" data-name="이름" placeholder="이름" maxlength="20">
+                <input type="password" name="Password" data-name="비밀번호" placeholder="비밀번호" maxlength="20">
+                <input type="text" name="Message" data-name="메세지" placeholder="축하메시지" maxlength="200">
+            </div>
+            <div class="btn_wrap">
+                <button type="submit" class="btn btn_save_guestbook guest_btn">축하메시지 남기기</button>
+            </div>
+        </form>
+        <!-- 방명록 글 리스트 -->
+        <div class="message_wrap">
+            <ul id="guestbook">
+            </ul>
+            <div class="btn_wrap">
+                <a asp-action="GuestBook" asp-controller="M2" class="btn btn_guestbook_more"
+                    asp-route-InvitationId="@Model.InvitaionId" asp-route-Type="next">더보기</a>
+                <a asp-action="GuestBook" asp-controller="M2" class="btn btn_guestbook_all"
+                   asp-route-InvitationId="@Model.InvitaionId" asp-route-Type="all" asp-route-idx="0">전체보기</a>
+            </div>
+        </div>
+        <!-- //방명록 글 리스트 -->
+    </div>
+</div>
+<!-- 방명록 -->

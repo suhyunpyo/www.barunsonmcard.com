@@ -1,0 +1,119 @@
+﻿@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model FindIdResponseViewModel
+@{
+    ViewData["Title"] = "BarunsonMcard 모바일 초대장 - 아이디/비밀번호 찾기";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+    <link rel="preconnect" href="//fonts.gstatic.com">
+    <link href="//fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/register.css">
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div id="wrap" class="sub">
+        <!-- header -->
+        <header class="header">
+            <div class="area">
+                <h1><a asp-action="Index" asp-controller="Main">barunsonMcard 로고</a></h1>
+            </div>
+        </header>
+        <!-- //header -->
+        <div class="sub_contents">
+            <!-- register -->
+            <section class="register">
+                <div class="register_box">
+                    <div class="title_box">
+                        <h2>아이디/비밀번호 찾기</h2>
+                    </div>
+                    <!-- 아이디/비밀번호 찾기 컨텐츠 -->
+                    <div class="register_contents">
+                        <!-- 안내 텍스트 -->
+                        <div class="register_text_wrap">
+                            @if (Model.SearchType == "id" && Model.IsSuccess)
+                            {
+                                <p class="find_text">
+                                    회원님은 <span class="register_text">@Model.UserID</span> 아이디로 <br />
+                                    가입되어 있습니다.
+                                </p>
+                                <p class="sub_text">
+                                    위의 아이디로 로그인 해주시기 바랍니다. <br />
+                                    비밀번호가 기억나지 않으시면 비밀번호 찾기를 클릭해 주세요.
+                                </p>
+                            }
+                            else if (Model.SearchType == "pwd" && Model.IsSuccess)
+                            {
+                                <p class="find_text">
+                                    바른 Family 통합 사이트에서 비밀번호를 변경하세요.
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="find_text">
+                                    아이디 또는 비밀번호가 조회되지 않습니다
+                                </p>
+                            }
+                        </div>
+                        <!-- //안내 텍스트 -->
+                    </div>
+                    <!-- //아이디/비밀번호 찾기 컨텐츠 -->
+                    <!-- 아이디/비밀번호 찾기 하단 버튼 -->
+                    <div class="btn_wrap bottom">
+                        @if (Model.SearchType == "id" && Model.IsSuccess)
+                        {
+                            <a asp-action="Login" asp-controller="Member" class="btn type01 wp100">로그인하기</a>
+                            <a id="findpw" asp-action="FindIdPwd" asp-controller="Member" asp-route-userID="@Model.UserID" class="btn type01_1 wp100 mt20">비밀번호 찾기</a>
+                        }
+                        else if (Model.SearchType == "pwd" && Model.IsSuccess)
+                        {
+                            <a asp-action="EditProfile" asp-controller="Member" asp-route-returnUrl="@Url.ActionLink("Index", "Main")" class="btn type01 wp100 EditProfile">변경하기</a>
+                            <a asp-action="Index" asp-controller="Main" class="btn type01_1 wp100 mt20">취소</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Index" asp-controller="Main" class="btn type01_1 wp100 mt20">Home</a>
+                        }
+                    </div>
+                    <!-- //아이디/비밀번호 찾기 하단 버튼 -->
+                </div>
+            </section>
+            <!-- //register -->
+        </div>
+    </div>
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        $("#findpw").on('click', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            window.open(url, 'popupCPClient', 'width=500, height=461, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+        });
+        $("a.EditProfile").on('click', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('href'),
+                method: 'GET'
+            }).done(function (data, textStatus, jqXHR) {
+                if (data.status == true) {
+                    var url = data.message;
+                    window.location.href = url;
+
+                } else {
+                    var errors = data.message;
+                    alert(errors);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

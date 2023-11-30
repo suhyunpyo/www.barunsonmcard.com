@@ -1,0 +1,113 @@
+﻿@@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyCouponViewModel
+@{
+    Layout = "User_Layout_m";
+}
+
+@section Heads
+{
+    <link rel="stylesheet" href="/css/m_mypage.css" asp-append-version="true">
+}
+
+<!-- sub contents -->
+<section class="mypage">
+    <div class="sub_con_wrap mypage_service">
+        <div class="sub_title_box">
+            <div class="area">
+                <h2><a asp-action="Mypage" asp-controller="Member">쿠폰 보관함</a></h2>
+            </div>
+        </div>
+        <!-- contents -->
+        <div class="mypage_con">
+            <div class="list_count_result">
+                <form asp-action="SetCouponProcess" asp-controller="Member" method="post" id="frmSetCouponProcess">
+                    <!--#7532-->
+                    <p>사용 가능한 쿠폰이 <br /> <span>@Model.UseCouponCount.ToString("#,##0")</span>개 있습니다.</p><br />
+                    <div class="list_coupon_search btn_wrap type03 mt25">
+                        <input type="text" class="inp type02" name="coupon_number" placeholder="쿠폰 번호 입력" />
+                        <button type="button" class="btn type03 w60 fr">확인</button>
+                    </div>
+                </form>
+            </div>
+            <div class="coupon_list_box area">
+                <ul class="coupon_list">
+
+                    @if (Model.Count == 0)
+                    {
+                        <li class="coupon_none">
+                            <p class="empty_text">할인 쿠폰이 없습니다</p>
+                        </li>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.DataModel)
+                        {
+                            <li>
+                                <div class="coupon_box">
+                                    <div class="box_top">
+                                        <p class="coupon_title">@item.CouponName</p>
+                                        <span class="coupon_price @(item.IsCopuponUsing ? "" : "off")">@item.DiscountViewText</span>
+                                    </div>
+                                    <p class="coupon_date">@item.DateViewText</p>
+                                    <div class="box_bottom tip_box">
+                                        <a href="javascript:;">사용조건 보기</a>
+                                        <div class="bn_tip"><pre>@item.Description</pre></div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        <!-- //contents -->
+    </div>
+</section>
+<!-- //sub contents -->
+@section Scripts
+{
+    <script src="/js/member/mypage.js" asp-append-version="true"></script>
+    <script>
+
+        $('.list_coupon_search button').on('click', function () {
+            var coupon_number = $('.list_coupon_search input').val();
+
+            if (coupon_number != "") {
+                var form = $("#frmSetCouponProcess");
+                var url = form.attr('action');
+                var formData = form.serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    async: false,
+                    data: formData,
+                    dataType: "json",
+                    success: function (result) {
+
+                        if (result.success == "Y") {
+                            alert("정상적으로 등록했습니다.");
+                            location.reload();
+                        } else {
+                            alert("쿠폰번호가 유효하지 않습니다.\n다시 확인해 주세요.");
+                            $('.list_coupon_search input').focus();
+                        }
+                    }
+                });
+            } else {
+                alert("쿠폰번호를 입력해주세요.");
+                $('.list_coupon_search input').focus();
+            }
+        });
+
+
+        $("[name=coupon_number]").keypress(function (event) {
+            if (event.which == 13) {
+                $('.list_coupon_search button').click();
+                return;
+            }
+        });
+    </script>
+}

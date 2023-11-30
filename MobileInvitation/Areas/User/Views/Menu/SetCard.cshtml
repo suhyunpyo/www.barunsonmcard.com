@@ -1,0 +1,189 @@
+﻿@using System.Text;
+@using System.Web;
+@using MobileInvitation.FunctionHelper;
+@using MobileInvitation.Models
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/event.css">
+<!-- //header -->
+<section class="event set_card">
+    <!-- 배너 -->
+    <div class="event_banner">
+        <!-- pc 배너 -->
+        <div class="event_pc">
+            <div class="set_banner"></div>
+        </div>
+        <!-- mobile 배너 -->
+        <div class="event_m">
+            <img src="/img/event/setCard/m_event_banner.jpg" alt="실물로 보아야 더 이쁘다 SET 카드 청첩장" />
+        </div>
+    </div>
+    <!-- //배너 -->
+    <!-- 같은 디자인, 다른 느낌 -->
+    <div class="event_con event01">
+        <h2>같은 디자인, 다른 느낌</h2>
+        <p class="info_text">
+            모바일 청첩장의 감성과 편의성은 담아내고 <br />
+            카드의 정교함과 스토리는 살렸습니다.
+        </p>
+        <p class="sub_text">(카드 청첩장 샘플 무료)</p>
+    </div>
+    <!-- //같은 디자인, 다른 느낌 -->
+    <!-- 인기 SET 청첩장 -->
+    <div class="event_con event02">
+        <h2>인기 SET 청첩장</h2>
+        <div class="area">
+            <!-- 슬라이드 -->
+            <!-- Slider main container -->
+            <div class="swiper-container set_slide">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                        <div class="img_con">
+                            <a href="https://www.barunsoncard.com/product/detail.asp?card_seq=37579" target="_blank">
+                                <img src="/img/event/setCard/set_slide01.png" alt="BH0204">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="img_con">
+                            <a href="https://www.barunsoncard.com/product/detail.asp?card_seq=37488" target="_blank">
+                                <img src="/img/event/setCard/set_slide02.png" alt="BH9259">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="img_con">
+                            <a href="https://www.barunsoncard.com/product/detail.asp?card_seq=37711" target="_blank">
+                                <img src="/img/event/setCard/set_slide03.png" alt="BH0223">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="img_con">
+                            <a href="https://www.barunsoncard.com/product/detail.asp?card_seq=37487" target="_blank">
+                                <img src="/img/event/setCard/set_slide04.png" alt="BH9258">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="img_con">
+                            <a href="https://www.barunsoncard.com/product/detail.asp?card_seq=37287" target="_blank">
+                                <img src="/img/event/setCard/set_slide05.png" alt="BH9235">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="img_con">
+                            <a href="https://www.barunsoncard.com/product/detail.asp?card_seq=37279" target="_blank">
+                                <img src="/img/event/setCard/set_slide06.png" alt="BH9228">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="img_con">
+                            <a href="https://www.thecard.co.kr/product/detail.asp?card_seq=37319" target="_blank">
+                                <img src="/img/event/setCard/set_slide07.png" alt="BH9442">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="img_con">
+                            <a href="https://www.thecard.co.kr/product/detail.asp?card_seq=37320" target="_blank">
+                                <img src="/img/event/setCard/set_slide08.png" alt="BH9443">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- //Additional required wrapper -->
+            </div>
+            <!-- 페이징 -->
+            <div class="swiper-pagination set_paging"></div>
+            <!-- //Slider main container -->
+            <div class="arrow_area">
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+            <!-- //슬라이드 -->
+        </div>
+    </div>
+    <!-- //인기 SET 청첩장 -->
+    <!-- 회원 추가 혜택 -->
+    <div class="event_con event03">
+        <h2>회원 추가 혜택</h2>
+        <div class="area">
+            <!-- pc 배너 -->
+            <div class="event_pc img_con">
+                <img src="/img/event/setCard/set_benefit.jpg" alt="회원 추가 혜택">
+            </div>
+            <!-- mobile 배너 -->
+            <div class="event_m">
+                <img src="/img/event/setCard/m_set_benefit.jpg" alt="회원 추가 혜택">
+            </div>
+        </div>
+    </div>
+    <!-- 회원 추가 혜택 -->
+    <div class="event_con event04">
+        <h2>
+            # 결혼준비의 마침표 <br />
+            <strong>청첩장 제작방법</strong>
+        </h2>
+        <div class="area">
+            <ol>
+                <li>
+                    <div>
+                        <h3>STEP 1</h3>
+                        <p class="info_text">
+                            사이트 내 다양한 청첩장 중 마음에 드는 <br />
+                            청첩장을 골라 <strong>샘플신청</strong>을 하세요.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>STEP 2</h3>
+                        <p class="info_text">
+                            직접 받아보신 다양한 샘플 중 <br />
+                            가장 마음에 드는 <strong>청첩장을 결정</strong>하세요.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>STEP 3</h3>
+                        <p class="info_text">
+                            신랑,신부님 그리고 부모님과 상의하여 <br />
+                            <strong>필요한 내용을 기입</strong> 하신 후 <strong>제작을 완료</strong>하세요.
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>STEP 4</h3>
+                        <p class="info_text">
+                            주문하신 청첩장을 수령하시면 봉투에 <br />
+                            잘 담으신 후 <strong>소중한 분들께 전달</strong>해주세요.
+                        </p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- //청첩장 제작방법 -->
+    <!-- 청첩장 랜딩 버튼 -->
+    <div class="event_con event05">
+        <h2 class="blind">각종 청첩장 보러가기</h2>
+        <div class="area">
+            <button type="button" onclick="window.open('https://www.barunsoncard.com/product/list_all.asp')"><i class="ico type01">바른손카드 BI</i>바른손카드</button>
+            <button type="button" onclick="window.open('https://www.premierpaper.co.kr/product/product_list_all.asp')"><i class="ico type02">프리미어페이퍼 BI</i>프리미어페이퍼</button>
+            <button type="button" onclick="window.open('https://deardeer.kr/category/67/order')"><i class="ico type03">디얼디어 BI</i>디얼디어</button>
+        </div>
+    </div>
+    <!-- //청첩장 랜딩 버튼 -->
+</section>
+
+
+<script src="/js/event.js"></script>

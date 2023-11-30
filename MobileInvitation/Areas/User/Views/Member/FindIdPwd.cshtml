@@ -1,0 +1,31 @@
+﻿@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model FindIdViewModel
+@{
+    ViewData["Title"] = "바른컴퍼니 모바일 초대장";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+    <div>
+        <form name="form" id="frmgonice" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/service.cb" method="post">
+            <input type="hidden" id="m" name="m" value="service" />
+            <input type="hidden" id="token_version_id" name="token_version_id" value="@Model.tokenVersionId" />
+            <input type="hidden" id="enc_data" name="enc_data" value="@Model.encData" />
+            <input type="hidden" id="integrity_value" name="integrity_value" value="@Model.integrityValue" />
+        </form>
+    </div>
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#frmgonice").submit();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+﻿@using MobileInvitation.Models
+@using X.PagedList.Mvc.Core; @*페이징툴을 이용...*@
+@using X.PagedList.Mvc; @*페이징툴을 이용...*@
+@using X.PagedList; @*페이징툴을 이용...*@
+@using MobileInvitation.FunctionHelper;
+@{
+    Layout = "User_Layout";
+}
+
+<link rel="stylesheet" href="/css/mypage.css">
+<link rel="stylesheet" href="/css/customer.css">
+<script src="/js/customer/customer.js"></script>
+<style type="text/css">
+    .trSize {
+        height: 58px;
+    }
+
+    .tdSize {
+        width: 8.5%;
+        background: #f8f8f8
+    }
+
+
+    .tdRight {
+        text-align: right;
+    }
+
+    .tdLeft {
+        text-align: left;
+    }
+
+    .tdCenter {
+        text-align: center;
+    }
+</style>
+<!-- sub contents -->
+<section class="customer">
+    <div class="sub_con_wrap">
+        <aside class="mypage_list">
+            <div class="mypage_box">
+                <p><strong>고객센터</strong></p>
+                <ul>
+                    <li><a href="/Customer/Notice">공지사항</a></li>
+                    <li><a href="/Customer/Faq">FAQ</a></li>
+                    <li><a href="/Customer/Ask" class="active">1:1 문의</a></li>
+                </ul>
+            </div>
+        </aside>
+        <!-- 우측 컨텐츠 영역 -->
+        <div class="sub_contents">
+            <!-- 고객센터 검색영역 -->
+            <div class="cs_center">
+                <div class="cs_top">
+                    <h2>CS Center</h2>
+                    <p>1644-0708 <span>평일 09:00 ~ 18:00 (점심 12:00 ~ 13:00)</span></p>
+                </div>
+
+                <!-- 고객센터 문의 리스트 -->
+                <div class="table_wrap cs_table_wrap mt30">
+                    <!-- 고객 1:1문의 테이블 -->
+                    <table class="table detail">
+                        <caption>고객센터 1:1 상세</caption>
+                        <colgroup>
+                            <col style="width:100px;">
+                            <col style="width:auto;">
+                            <col style="width:100px;">
+                            <col style="width:150px;">
+                            <col style="width:100px;">
+                            <col style="width:250px;">
+                        </colgroup>
+                        <thead>
+                            @{
+                                int QNA_ID = ViewBag.Qna_View.QNA_ID;
+                                string NAME = ViewBag.Qna_View.NAME;
+                                string TITLE = ViewBag.Qna_View.TITLE;
+                                string CONTENT =  ViewBag.Qna_View.CONTENT;
+                                string ANSWER_CONTENT = ViewBag.Qna_View.ANSWER_CONTENT;
+                                string REGIST_DATETIME = ViewBag.Qna_View.REGIST_DATETIME.ToString();
+                                string Order_ID = !string.IsNullOrEmpty(ViewBag.Qna_View.ORDER_ID.ToString()) ? "M" + ViewBag.Qna_View.ORDER_ID.ToString() : "";
+                                string File1 = !string.IsNullOrEmpty(ViewBag.Qna_View.UPFILE_1) ? ViewBag.Qna_View.UPFILE_1.Substring(ViewBag.Qna_View.UPFILE_1.LastIndexOf("/") + 1) : "";
+                                string File2 = !string.IsNullOrEmpty(ViewBag.Qna_View.UPFILE_2) ? ViewBag.Qna_View.UPFILE_2.Substring(ViewBag.Qna_View.UPFILE_2.LastIndexOf("/") + 1) : "";
+                                string FileA = ViewBag.Qna_View.ADMIN_UPFILE1;
+                                string ANSWER_DATETIME = ViewBag.Qna_View.ANSWER_DATETIME==null?"":ViewBag.Qna_View.ANSWER_DATETIME.ToString();
+                                string Q_KIND_NAME = ViewBag.Qna_View.Q_KIND_NAME;
+                                if (!string.IsNullOrEmpty(Q_KIND_NAME))
+                                {
+                                    Q_KIND_NAME = string.Format("( 모바일초대장 > {0} )", Q_KIND_NAME);
+                                }
+                            }
+
+
+                            <tr>
+                                <th rowspan="2">제목</th>
+                                <td rowspan="2" class="point03">@TITLE @Q_KIND_NAME</td>
+                                <th>작성자</th>
+                                <td>@NAME</td>
+                                <th>작성일</th>
+                                <td>@REGIST_DATETIME</td>
+                            </tr>
+                            <tr>
+                                <th>주문번호</th>
+                                <td>@Order_ID</td>
+                                <th>첨부파일</th>
+                                <td class="upfile_td">                                    
+                                    <a href="/Customer/Ask/Download/@QNA_ID/1" class="point03">@File1</a>
+                                    <a href="/Customer/Ask/Download/@QNA_ID/2" class="point03">@File2</a>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="tl">
+                                    <div class="detail_text">@CONTENT</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- //고객 1:1문의 테이블 -->
+                    @if (!string.IsNullOrEmpty(ANSWER_CONTENT))
+                    {
+                        <!-- 관리자 1:1문의 답변 테이블 -->
+                        <div class="admin_ask">
+                            <table class="table detail mt30">
+                                <caption>고객센터 관리자 답변 상세</caption>
+                                <colgroup>
+                                    <col style="width:100px;">
+                                    <col style="width:634px;">
+                                    <col style="width:100px;">
+                                    <col style="width:auto;">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>답변 등록일</th>
+                                        <td>@ANSWER_DATETIME</td>
+                                        <th>첨부파일</th>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(FileA))
+                                            {
+                                                <a href="/Customer/Ask/Download/@QNA_ID/3" class="file_link point03">다운로드</a>
+                                            }
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="6" class="tl">
+                                            <div class="detail_text" style="white-space: pre; width: 100%; float : left; word-break: break-all; word-wrap: break-word;">@ANSWER_CONTENT</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    }
+                    <!-- //관리자 1:1문의 답변 테이블 -->
+                <div class="btn_wrap ask_btn_wrap tr" style="margin-bottom:80px;">
+                    <a href="/Customer/Ask" class="btn list_btn spoq">목록으로</a>
+                    @if (string.IsNullOrEmpty(ANSWER_CONTENT))
+                    {
+                        <a href="/Customer/Ask_Reg/@QNA_ID" class="btn type02">수정하기</a>
+                    }
+                        <a href="/Customer/Ask_Del/@QNA_ID" class="btn type02_1 ml10">문의삭제</a>
+                    </div>
+
+                </div>
+                <!-- //고객센터 문의 리스트 -->
+            </div>
+
+        </div>
+        <!-- //우측 컨텐츠 영역 -->
+    </div>
+</section>
+<!-- //sub contents -->
+<script>
+    PagingNavigator();
+
+</script>

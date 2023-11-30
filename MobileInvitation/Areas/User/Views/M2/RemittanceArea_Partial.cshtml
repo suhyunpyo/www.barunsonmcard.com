@@ -1,0 +1,71 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model M2AccountViewModel
+@{
+    var groupAcounts = Model.Accounts.GroupBy(g => g.Category).Select(gr => new { idx = gr.Key, list = gr.OrderBy(i => i.Sort) });
+}
+@if (Model.UseAccountRemit || Model.UseAccountDiv || Model.UseGiftRemit)
+{
+    <!-- 신랑 & 신부에게 마음 전하기 -->
+    <div class="remittance">
+        @if (Model.AccountTitleArea != null)
+        {
+            var bgColor = (Model.AccountTitleArea.Color == null) ? "" : $"background-color: {Model.AccountTitleArea.Color};";
+            <div id="area12" idx="12" class="templatearea bindarea" style="height:@(Model.AccountTitleArea.Height)px; @(bgColor)">
+                @foreach (var item in Model.AccountTitleArea.Items)
+                {
+                    <partial name="BaseAreaItem_Partial" model="item" />
+                }
+            </div>
+        }
+        <div id="area13" idx="13" class="btn_wrap">
+            @if (Model.UseGiftRemit)
+            {
+                <a href="@Model.GiftRemitUrl" target="_blank" class="btn remittance_btn type03"><i class="ico kakaopay"></i> 축의금 송금하기</a>
+            }
+            @if (Model.UseAccountDiv)
+            {
+                <a href="#" class="btn an_btn type03 groom" data-idx="1">신랑 측 계좌번호</a>
+                <a href="#" class="btn an_btn type03 bride" data-idx="2">신부 측 계좌번호</a>
+            }
+            @if (Model.UseAccountRemit)
+            {
+                <a href="#" class="btn an_btn type03 account" data-idx="-1">계좌번호 보기</a>
+            }
+        </div>
+    </div>
+
+    <!-- 계좌번호 팝업 -->
+    @foreach (var group in groupAcounts)
+    {
+        <div class="account_pop" data-idx="@group.idx">
+            <div class="layer_pop">
+                <div class="account_list">
+                    @foreach (var acc in group.list)
+                    {
+                        <dl>
+                            <dt>
+                                <span>@Html.Raw(acc.Name)</span>&nbsp;&nbsp;계좌
+                                <a href="#" class="copy_account copy_btn" data-account="@(acc.AccountNumber)">복사하기</a>
+                            </dt>
+                            <dd>
+                                <span>
+                                    @Html.Raw(acc.BankName)
+                                </span>&nbsp;&nbsp;(예금주 : <span>@Html.Raw(acc.AccountHolder)</span>)
+                            </dd>
+                            <dd>
+                                <span>@(acc.AccountNumber)</span>
+                            </dd>
+                        </dl>
+                    }
+                </div>
+                <div class="btn_wrap type01">
+                    <a href="#" class="btn close">닫기</a>
+                </div>
+
+            </div>
+            <div class="pop_mask"></div>
+        </div>
+    }
+}

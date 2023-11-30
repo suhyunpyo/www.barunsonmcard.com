@@ -1,0 +1,55 @@
+﻿@using MobileInvitation.Models;
+@using MobileInvitation.Areas.User.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model PCC01ViewModel
+
+@if (Model.CoverArea != null)
+{
+    var bgColor = (Model.CoverArea.Color == null) ? "" : $"background-color: {Model.CoverArea.Color};";
+    <div id="area1" idx="1" class="templatearea bindarea" style="height:@(Model.CoverArea.Height)px; @(bgColor)">
+    @foreach (var item in Model.CoverArea.Items)
+    {
+        <partial name="BaseAreaItem_Partial" model="item" />
+    }
+    </div>
+}
+@if (Model.GreetingsArea != null)
+{
+    var bgColor = (Model.GreetingsArea.Color == null) ? "" : $"background-color: {Model.GreetingsArea.Color};";
+    <div id="area2" idx="2" class="templatearea bindarea" style="height:@(Model.GreetingsArea.Height)px; @(bgColor)">
+    @foreach (var item in Model.GreetingsArea.Items)
+    {
+        <partial name="BaseAreaItem_Partial" model="item" />
+    }
+    </div>
+}
+<partial name="ContactArea_Partial" model="Model.ContectArea" />
+
+@if (Model.GalleryArea != null)
+{
+    <partial name="GallerysArea_Partial" model="Model.GalleryArea" />
+}
+@if (Model.VideoArea != null)
+{
+    <partial name="VideoArea_Partial" model="Model.VideoArea" />
+}
+@if (Model.LocationArea != null)
+{
+    <partial name="LocationArea_Partial" model="Model.LocationArea" />
+}
+@if (Model.ETCs != null && Model.ETCs.Count > 0)
+{
+    <partial name="ETCArea_Partial" model="Model.ETCs" />
+}
+@if (Model.FlowerGiftUri != null)
+{
+    <partial name="FlowergiftArea_Partial" model="Model.FlowerGiftUri" />
+}
+@if (Model.AccountArea != null)
+{
+    <partial name="RemittanceArea_Partial" model="Model.AccountArea" />
+}
+@if (Model.GuestBookArea != null)
+{
+    <partial name="GuestBookArea_Partial" model="Model.GuestBookArea" />
+}

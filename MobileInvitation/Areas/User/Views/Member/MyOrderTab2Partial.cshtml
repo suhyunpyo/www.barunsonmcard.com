@@ -1,0 +1,110 @@
+﻿@using MobileInvitation.Models
+@using MobileInvitation.Areas.User.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MyPageOrderViewModel
+@{
+    Layout = null;
+}
+<div class="tab_con">
+    @if (Model.DataModels.Count == 0)
+    {
+        <p class="empty_text">취소/환불 내역이 없습니다.</p>
+    }
+    else if (Model.IsMobileView)
+    {
+        //Mobile
+        <ul class="order_check">
+            @foreach (var item in Model.DataModels)
+            {
+                <li>
+                    <div class="order_info">
+                        <!-- 상품 타이틀 및 주문번호 -->
+                        <div class="order_title">
+                            <p><strong>주문번호</strong>@item.OrderCode</p>
+                            <!-- 취소/환불 상태 값 -->
+                            <span class="point03 order_val">@item.RefundStatusName</span>
+                        </div>
+                        <!--// 상품 타이틀 및 주문번호 -->
+                        <!-- 상품 상세정보 -->
+                        <div class="order_detail">
+                            <div class="info_box type02">
+                                <dl>
+                                    <dt>주문 상품</dt>
+                                    <dd>@item.ProductName / @item.ProductCode</dd>
+                                </dl>
+                                <dl>
+                                    <dt>결제 일시</dt>
+                                    <dd>@item.PaymentDateTime?.ToString("yyyy-MM-dd HH:mm")</dd>
+                                </dl>
+                                <dl>
+                                    <dt>취소/환불접수 일시</dt>
+                                    <dd>@item.RefundDateTime?.ToString("yyyy-MM-dd HH:mm")</dd>
+                                </dl>
+                                <dl>
+                                    <dt>취소/환불 금액</dt>
+                                    <dd>@item.RefundPrice?.ToString("#,##0원")</dd>
+                                </dl>
+                                <dl>
+                                    <dt>결제 수단</dt>
+                                    <dd>@item.PayName</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <!-- //상품 상세정보 -->
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        //PC
+        <table class="table list">
+            <caption>취소 및 환불 내역</caption>
+            <colgroup>
+                <col style="width:14.2%">
+                <col style="width:14.2%">
+                <col style="width:14.2%">
+                <col style="width:14.2%">
+                <col style="width:14.2%">
+                <col style="width:14.2%">
+                <col style="width:14.2%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>주문번호</th>
+                    <th>주문상품</th>
+                    <th>결제일시</th>
+                    <th>취소/환불접수일시</th>
+                    <th>취소/환불금액</th>
+                    <th>결제수단</th>
+                    <th>상태</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DataModels)
+                {
+                    <tr>
+                        <td>@item.OrderCode</td>
+                        <td>@item.ProductName <br>@item.ProductCode</td>
+                        <td>@item.PaymentDateTime?.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@item.RefundDateTime?.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@item.RefundPrice?.ToString("#,##0원")</td>
+                        <td>
+                            @item.PayName
+                        </td>
+                        <td class="point03">@item.RefundStatusName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="table_info">
+            <dl>
+                <dt>※ 안내</dt>
+                <dd>- 환불 진행 중 : 환불 진행중이며, 평일 기준 7일 이내 완료됩니다.</dd>
+                <dd>- 취소/환불 완료 :  취소/환불이 완료된 상태입니다.  계좌이체, 카드결제의 경우 평일 기준 7일 이내 완료됩니다.</dd>
+            </dl>
+        </div>
+    }
+</div>
