@@ -424,12 +424,11 @@
                         <div class="skin_gallery">
                             @foreach (TB_Gallery item in ViewBag.Gallery)
                             {
-                                var url = new Uri((Uri)ViewBag.CDNUrl, item.Image_URL);
+                                var url = new Uri((Uri)ViewBag.CDNUrl, (string.IsNullOrEmpty(item.SmallImage_URL)) ? item.Image_URL : item.SmallImage_URL);
                                 <figure><a href="#" style="background: url(@url ) no-repeat center center" itemprop="contentUrl"><img src="/img/skin/img_frame.png" class="img_frame" itemprop="thumbnail" alt=""></a></figure>
                             }
                         </div>
                     </div>
-                    <!-- //갤러리 타입01 바둑판 -->
                     <!-- //갤러리 타입02 리스트 -->
                     <div class="gallery_type02">
                         <ul>
@@ -440,7 +439,6 @@
                             }
                         </ul>
                     </div>
-                    <!-- //갤러리 타입02 리스트 -->
                     <!-- //갤러리 타입03 슬라이드-->
                     <div class="gallery_type03">
                         <!-- Swiper -->
@@ -469,8 +467,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- //갤러리 타입03 슬라이드-->
-
                 </div>
             </section>
         </div>

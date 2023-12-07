@@ -6,7 +6,7 @@
     Layout = "User_Layout_m";
 }
 <link rel="stylesheet" href="/css/m_order.css" asp-append-version="true">
-<script src="/js/complete/complete.js"></script>
+@* <script src="/js/complete/complete.js"></script> *@
 
 <!-- sub contents -->
 <section class="sub_contents order">
@@ -30,7 +30,7 @@
                         <a href="/event/minvitation" target="_blank"><img src="/img/order/m_order_banner_01.png" alt="제작완료 배너이미지"></a>
                     </li>
                     <li class="swiper-slide">
-                        <a href="https://barunsongshop.com" target="_blank"><img src="/img/order/m_order_banner_02.png" alt="제작완료 배너이미지"></a>
+                        <a href="https://barunsongshop.com" target="_blank"><img src="https://static.barunsoncard.com/barunsonmcard/order/m_giftshop.jpg" alt="제작완료 배너이미지"></a>
                     </li>
                 </ul>
                 <div class="swiper-pagination"></div>
@@ -40,6 +40,35 @@
 </section>
 @section Scripts
 {
-    
+    <script>
+        $(function () {
+
+            if ($('.complate_banner').length > 0) {
+                new Swiper(".complate_banner", {
+                    spaceBetween: 0,
+                    slidesPerView: 1,
+                    centeredSlides: true,
+                    roundLengths: true,
+                    watchOverflow: true,
+                    loop: true,
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                    speed: 300,
+                    loopAdditionalSlides: 30,
+                    pagination: {
+                        el: '.complate_banner .swiper-pagination',
+                        type: 'custom',
+                        renderCustom: function (swiper, current, total) {
+                            return "<span class='swiper-pagination-current mont'>" + ('' + current).slice(-2) + "</span>" + ' / ' + "<span class='swiper-pagination-total mont'>" + ('' + total).slice(-2) + "</span>";
+                        },
+                    },
+
+                });
+            }
+        });
+    </script>
 }
+
 <!-- //sub contents -->

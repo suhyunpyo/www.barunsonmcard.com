@@ -28,8 +28,9 @@
                             {
                                 var w = 800;
                                 var h = (float)(gal.Value.Height ?? 1080) * (800 / (float)(gal.Value.Width ?? 1080));
+                                var smallUrl = (gal.Value.SmallImageUrl == null) ? gal.Value.ImageUrl : gal.Value.SmallImageUrl;
                                 <figure>
-                                    <a href="@(gal.Value.ImageUrl)" style="background: url(@(gal.Value.ImageUrl)) no-repeat center center" itemprop="contentUrl" data-size="@(w)x@(h)" class="setimgsize">
+                                    <a href="@(gal.Value.ImageUrl)" style="background: url(@(smallUrl)) no-repeat center center" itemprop="contentUrl" data-size="@(w)x@(h)" class="setimgsize">
                                         <img src="/img/skin/img_frame.png" class="img_frame" itemprop="thumbnail" alt="">
                                     </a> 
                                 </figure>

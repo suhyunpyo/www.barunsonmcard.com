@@ -6,6 +6,7 @@ $(function(){
 			slidesPerView: 1,
 			centeredSlides: true,
 			roundLengths: true,
+			watchOverflow: true,
 			loop: true,
 			autoplay: {
 				delay: 3000,

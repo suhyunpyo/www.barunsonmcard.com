@@ -638,10 +638,8 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
             bool auth = User.Identity.IsAuthenticated;
             string result = String.Empty;
             string message = String.Empty;
-            var filename = String.Empty;
+            
             var resource_url = String.Empty;
-            int width = 0;
-            int height = 0;
             int gallery_id = 0;
             int maxSize = _barunnConfig.MaxSize.Gallery;
 
@@ -657,7 +655,8 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
                     {
                         //파일은 한개만 전송됨.
                         var formFile = gallery_file.First();
-                        //"/upload/invitation/" + order.Order_Code.Substring(1, 6) + "/" + ViewData["Invitation_Id"];
+                       
+                        //파일 저장 위치
                         var path = Upload_Path() + upload_path.Replace("/upload", "").Replace("/", "\\");
 
                         if (!Directory.Exists(path))
@@ -667,15 +666,32 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
 
                         long size = formFile.Length;
                         var ext = Path.GetExtension(formFile.FileName).ToLower();
-                        filename = Guid.NewGuid().ToString() + ext;
+                        //고유 파일명 생성(원본)
+                        var filename = Guid.NewGuid().ToString() + ext;
+                        //고유 파일명 생성(축소)
+                        var smallFilename = Guid.NewGuid().ToString() + ext;
+
                         message = filename;
 
-                        string filePath = Path.Combine(path, filename);
-                        var outSize = ResizeAndSaveImage(formFile, maxSize, filePath);
-                        width = outSize.Item1;
-                        height = outSize.Item2;
+                        //Full FIle 경로(원본)
+                        var filePath = Path.Combine(path, filename);
+                        //Full FIle 경로(축소)
+                        var smallFilePath = Path.Combine(path, smallFilename);
 
+                        //상대 경로(원본)
                         resource_url = upload_path + "/" + filename;
+                        //상대 경로(축소)
+                        string smallresource_url = null;
+
+                        //원본 파일 저장
+                        var outSize = ResizeAndSaveImage(formFile, maxSize, filePath);
+                        var width = outSize.Item1;
+                        var height = outSize.Item2;
+
+                        //축소 파일 저장, 성공시 상대 경로 설정
+                        if (ResizeAndCropImage(244, 244, filePath, smallFilePath))
+                            smallresource_url = upload_path + "/" + smallFilename;
+
 
                         result = resource_url;
 
@@ -692,6 +708,7 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
                         gallery.Update_DateTime = DateTime.Now;
                         gallery.Update_IP = UrlHelper.GetIP(_httpContextAccessor.HttpContext.Connection.RemoteIpAddress);
                         gallery.FileSize = size;
+                        gallery.SmallImage_URL = smallresource_url;
 
                         gallery_id = _repository.TB_Gallery_Insert_Sql(gallery);
                     }
@@ -772,11 +789,13 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
                     int Invitation_Id = Int32.Parse(gallery.Invitation_ID.ToString());
 
                     int Sort = Int32.Parse(gallery.Sort.ToString());
-
-                    string Image_URL = gallery.Image_URL;
-
+                    
                     //파일삭제
-                    RemoveFIle(Image_URL);
+                    RemoveFIle(gallery.Image_URL);
+                    if (!string.IsNullOrEmpty(gallery.SmallImage_URL))
+                    {
+                        RemoveFIle(gallery.SmallImage_URL);
+                    }
 
                     //Sort 재배치
                     _repository.Gallery_Sort_Reset_Update_Sql(Invitation_Id, Sort);
@@ -915,24 +934,36 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
             string message = String.Empty;
             string path = String.Empty;
 
-
             if (auth)
             {
-                try { 
-                ImageFile imageFile = new ImageFile();
-
-                imageFile = ImageFileCrop(imageData, url);
-
-                path = imageFile.Url;
+                try 
+                { 
+                    var imageFile = ImageFileCrop(imageData, url);
+                    path = imageFile.Url;
 
                     switch (type)
                     {
                         case "gallery":
+                            //업로드된 이미지를 Crop 수정 후 저장시 동작
+
+                            //고유 파일명 생성(축소)
+                            var smallFilename = Guid.NewGuid().ToString() + ".jpg";
+                            //Full FIle 경로(원본)
+                            var filePath = imageFile.ImagePath;
+                            //Full FIle 경로(축소)
+                            var smallFilePath = filePath.Replace(imageFile.ImageName, smallFilename);
+                            //상대 경로(축소)
+                            string smallresource_url = null;
+                            //축소 파일 저장, 성공시 상대 경로 설정
+                            if (ResizeAndCropImage(244, 244, filePath, smallFilePath))
+                                smallresource_url = url.Substring(0, url.LastIndexOf("/", url.Length - 1, url.Length)) + "/" + smallFilename;
+                                                        
                             TB_Gallery gallery = new TB_Gallery();
                             gallery.Gallery_ID = id;
                             gallery.Image_URL = imageFile.Url;
                             gallery.Image_Height = imageFile.ImageHeight;
                             gallery.Image_Width = imageFile.ImageWidth;
+                            gallery.SmallImage_URL = smallresource_url;
                             gallery.Regist_User_ID = User.FindFirst("Id") != null ? User.FindFirst("Id").Value : "";
                             gallery.Regist_DateTime = DateTime.Now;
                             gallery.Regist_IP = UrlHelper.GetIP(_httpContextAccessor.HttpContext.Connection.RemoteIpAddress);
@@ -941,8 +972,6 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
                             gallery.Update_IP = UrlHelper.GetIP(_httpContextAccessor.HttpContext.Connection.RemoteIpAddress);
 
                             result = _repository.Gallery_Image_Update_Sql(gallery).ToString();
-
-                            
 
                             break;
                         case "main":
@@ -1164,6 +1193,55 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
             }
             return returnSize;
         }
+        /// <summary>
+        /// 사이즈 변경 및 Crop
+        /// </summary>
+        /// <param name="width">변경할 폭</param>
+        /// <param name="height">변경할 높이</param>
+        /// <param name="sourceFilePath"></param>
+        /// <param name="writeFilePath"></param>
+        /// <returns></returns>
+        private bool ResizeAndCropImage(int width, int height, string sourceFilePath, string writeFilePath)
+        {
+            var result = false;
+            try
+            {
+                using (var img = new MagickImage(sourceFilePath))
+                {
+                    if (img.Height != height || img.Width != width)
+                    {
+                        decimal result_ratio = (decimal)height / (decimal)width;
+                        decimal current_ratio = (decimal)img.Height / (decimal)img.Width;
+
+                        bool preserve_width = false;
+                        if (current_ratio > result_ratio)
+                        {
+                            preserve_width = true;
+                        }
+                        int new_width = 0;
+                        int new_height = 0;
+                        if (preserve_width)
+                        {
+                            new_width = width;
+                            new_height = (int)Math.Round((decimal)(current_ratio * new_width));
+                        }
+                        else
+                        {
+                            new_height = height;
+                            new_width = (int)Math.Round((decimal)(new_height / current_ratio));
+                        }
+
+                        img.Resize(new_width, new_height);
+                        img.Crop(width, height, Gravity.Center);
+                        img.Write(writeFilePath);
+                        result = true;
+                    }
+                }
+            }
+            catch
+            { }
+            return result;
+        }
 
         /// <summary>
         /// 크롭 이미지 저장
@@ -1173,7 +1251,7 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
         /// <returns></returns>
         public ImageFile ImageFileCrop(string imageData, string url)
         {
-            ImageFile imageFile = new ImageFile();
+            var imageFile = new ImageFile();
             try
             {
                 var crop_file_name = Guid.NewGuid().ToString() + ".jpg";
@@ -1192,10 +1270,11 @@ namespace MobileInvitation.Areas.User.Controllers.Invitaion
                     imageFile.ImageHeight = image.Height;
                     image.Format = MagickFormat.Jpeg;
                     image.Write(path);
-
-                    imageFile.Url = new_url;
-                    imageFile.returnCode = "OK";
                 }
+                imageFile.Url = new_url;
+                imageFile.ImagePath = path;
+                imageFile.ImageName = crop_file_name;
+                imageFile.returnCode = "OK";
             }
             catch (Exception ex)
             {

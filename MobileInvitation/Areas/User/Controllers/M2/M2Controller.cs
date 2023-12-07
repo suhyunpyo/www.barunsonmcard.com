@@ -713,7 +713,8 @@ namespace MobileInvitation.Areas.User.Controllers.M2
                             a.Sort,
                             a.Image_URL,
                             a.Image_Height,
-                            a.Image_Width
+                            a.Image_Width,
+                            a.SmallImage_URL
                         };
             var items = await query.ToListAsync();
 
@@ -722,9 +723,12 @@ namespace MobileInvitation.Areas.User.Controllers.M2
                 var image = new M2ImageInfoViewModel
                 {
                     Width = item.Image_Width,
-                    Height = item.Image_Height
+                    Height = item.Image_Height,
+                    SmallImageUrl = null
                 };
                 image.ImageUrl = GetResourceAbsoluteUrl(item.Image_URL);
+                if (!string.IsNullOrEmpty(item.SmallImage_URL))
+                    image.SmallImageUrl = GetResourceAbsoluteUrl(item.SmallImage_URL);
 
                 result.GalleryItems.Add(sortid, image);
 

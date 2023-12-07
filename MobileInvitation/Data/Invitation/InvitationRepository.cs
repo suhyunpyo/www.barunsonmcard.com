@@ -546,7 +546,8 @@ namespace MobileInvitation.Data.Invitation
                     Sort = item.gallery.Sort,
                     Image_URL = item.gallery.Image_URL,
                     Image_Height = item.gallery.Image_Height,
-                    Image_Width = item.gallery.Image_Width
+                    Image_Width = item.gallery.Image_Width,
+                    SmallImage_URL = item.gallery.SmallImage_URL,
 
                 });
             }
@@ -665,6 +666,7 @@ namespace MobileInvitation.Data.Invitation
             entity.Image_URL = gallery.Image_URL;
             entity.Image_Width = gallery.Image_Width;
             entity.Image_Height = gallery.Image_Height;
+            entity.SmallImage_URL = gallery.SmallImage_URL;
 
             entity.Update_User_ID = gallery.Update_User_ID;
             entity.Update_DateTime = gallery.Update_DateTime;

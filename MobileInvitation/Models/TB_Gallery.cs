@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -20,6 +21,8 @@ namespace MobileInvitation.Models
         public DateTime? Update_DateTime { get; set; }
         public string Update_IP { get; set; }
         public long? FileSize { get; set; }
+        [StringLength(1000)]
+        public string SmallImage_URL { get; set; }
         public virtual TB_Invitation Invitation { get; set; }
     }
 }
