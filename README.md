@@ -6,3 +6,5 @@
 * ASP.NET CORE 6.0, Visual Stdio 2022, JQuery, Linq
 
 * 아이디 / 비번찾기시 Nice Api 연동으로 구현
+
+* 테스트 계정 : s4guest / ysmguest1
