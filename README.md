@@ -3,7 +3,7 @@
 
 * 사용자가 직접 모바일청첩장을 제작할수 있는 사이트
 
-* ASP.NET CORE 6.0, Visual Stdio 2022, JQuery, Linq
+* ASP.NET CORE 6.0, Visual Stdio 2022, JQuery, Linq, MS-SQL 2022
 
 * 아이디 / 비번찾기시 Nice Api 연동으로 구현
 
